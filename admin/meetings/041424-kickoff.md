@@ -1,27 +1,35 @@
 # Meeting Minutes
 ## Meeting Information
-**Meeting Date/Time:** meeting_date, meeting_time  
-**Meeting Purpose:** meeting_purpose  
-**Meeting Location:** meeting_location  
-**Note Taker:** note_taker  
+**Meeting Date/Time:** 04/14/2024, 5pm  
+**Meeting Purpose:** Kickoff Meeting  
+**Meeting Location:** Geisel Library  
+**Note Taker:** Anthony Gonzalez  
 
 ## Attendees
 People who attended:
-- Person A
-- Person B
-- Person C
+- Anthony Gonzalez
+- Altair Aguelo
+- Amey Kapare
+- Anish Devineni
+- Asher Pothen James
+- Daris Chen
+- Jonghun Lee
+- Karinna Monzon
+- Michael Chen
+- Mingyang Sun
+- Pranav Prabu
 
 ## Agenda Items
 
 Item | Description
 ---- | ----
-Agenda Item 1 | • <br>• <br>• <br>• <br>• 
-Agenda Item 2 | • <br>• <br>• <br>• <br>• 
+Get Repo Set up | • <br>• <br>• <br>• <br>• 
+Team Branding | • <br>• <br>• <br>• <br>• 
 
 ## Discussion Items
-Item | Who | Notes |
----- | ---- | ---- |
-item | who | notes |
+
+- Team Branding (want to keep team 10)
+- [Anish] Want to take Team 10 logos and coloring
 
 
 ## Action Items
