@@ -12,4 +12,4 @@
 - [Jonghun](https://github.com/UCSDJonghun)
 - [Michael](https://github.com/mic051)
 - [Daris](https://github.com/darischen)
-- [Altair](https://github.com/alaguelo)
+- [Altair](https://github.com/alaguelo) - Hello, I am a second year CS Major. Other than coding, I like playing Fortnite.
