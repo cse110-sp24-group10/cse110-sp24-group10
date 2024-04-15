@@ -1,7 +1,7 @@
-Team Name: Team 10
-Brand: Idk man we just study here
-Team Values: (add one of your favorite values here)
-Team Roster: (after your name, add a short bio)
+# Team Name: Team 10
+## Brand: Idk man we just study here
+## Team Values: (add one of your favorite values here)
+## Team Roster: (after your name, add a short bio)
 - [Anish](https://github.com/anishcd)
 - [Ash](https://github.com/ashjam2005?tab=repositories)
 - [Pranav](https://github.com/pprabu-ucsd)
