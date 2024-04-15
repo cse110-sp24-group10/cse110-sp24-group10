@@ -1,7 +1,7 @@
 # Meeting Minutes For Team 10
 ## Meeting Information
-**Meeting Date/Time:** 04/14/2024, 5pm  
-**Meeting End Time:**
+**Meeting Date/Time:** 04/14/2024, 5:00pm  
+**Meeting End Time:** 6:06pm
 **Meeting Purpose:** Kickoff Meeting  
 **Meeting Location:** Geisel Library  
 **Note Taker:** Anthony Gonzalez  
@@ -41,6 +41,7 @@ Video | • Set up: Altair <br> • Everyone Add own info
 - Markdown File made for branding
 - Team Colors of Red, White, and Blue
 - Added bio to team page
+- Made signs for video
 ### Possible Video Ideas
 - Mug Shots
 - Tiktok type video
