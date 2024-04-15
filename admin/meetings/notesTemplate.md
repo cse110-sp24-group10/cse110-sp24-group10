@@ -33,8 +33,8 @@ Agenda Item 2 | • <br>• <br>• <br>• <br>•
 
 ## Decisions Made
 | Reasoning | Item | Responsible |
-| ---- | ---- | ---- | ---- |
-| | item | who | due_date |
+| ---- | ---- | ---- |
+| | item | who | 
 
 ## To Do Later
 | Done? | Item | Responsible | Due Date |
