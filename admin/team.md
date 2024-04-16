@@ -1,6 +1,8 @@
 # Team Name: Team 10
 ## Brand: Idk man we just study here
 ## Team Values: (add one of your favorite values here)
+Collaborative Innovation: We encourage all ideas and will provide each other with constructive feedback, while levaraging our unique perspectives to enhance innovation.
+
 ## Team Roster: (after your name, add a short bio)
 - [Anish](https://github.com/anishcd) - Hi, I'm a third year Math and CS major. In my freetime, I like playing basketball, rock climbing, and watching the Cowboys disappoint me every year.
 - [Ash](https://github.com/ashjam2005?tab=repositories) - This is James, Ash James. Second year CS student who loves to lift heavy ass weight. (YEAH BUDDY, LIGHTWEIGHT!!!!!)
