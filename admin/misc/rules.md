@@ -19,21 +19,21 @@ Team member info:
 - [Michael](https://github.com/mic051) Hello. I'm a third year CS major. I enjoy listening to music in my free time.
 - [Daris](https://github.com/darischen) Hello, I'm a second year CE major. I self-taught golf over the summer.
 - [Altair](https://github.com/alaguelo) - Hello, I am a second year CS Major. Other than coding, I like playing Fortnite.		
-2) Primary Means of Communication and Expectations:
+### 2) Primary Means of Communication and Expectations:
 All team members will be expected to regularly check both the slack and their email at least once per day. Responses to messages should be provided within 24 hours, unless otherwise specified by the urgency of the communication.
-3) Scheduling Meetings:
+### 3) Scheduling Meetings:
 Meetings will be scheduled weekly using when2meet or lettucemeet, with availability inputted by all team members at the beginning of each week. Meetings will be scheduled for a time when the majority of team members are available, and agendas will be circulated at least 24 hours in advance. In the event of urgent meetings, team members will be notified through both the messaging platform and email at least 12 hours prior to the meeting.
-4) General Responsibilities for All Team Members:
+### 4) General Responsibilities for All Team Members:
 - Respect: All team members will treat each other with respect, valuing diverse opinions and constructive criticism.
 - Accountability: Each team member is responsible for completing their assigned tasks on time and to the best of their ability.
 - Communication: Open and transparent communication is encouraged, with any issues or concerns raised promptly and respectfully.
 - Collaboration: Team members are expected to actively participate in group discussions, contributing ideas and feedback to achieve the project's goals.
 - Professionalism: Professional behavior is expected at all times, including punctuality for meetings and adherence to deadlines.
-5) Specific Team Member Responsibilities/Deadlines (Optional):
+### 5) Specific Team Member Responsibilities/Deadlines (Optional):
 Each team member will document their individual tasks and deadlines on a shared project management tool(GitHub and slack), ensuring visibility and accountability among the group. Regular progress updates will be provided during meetings and through the messaging platform.
-6) Conflict Resolution:
+### 6) Conflict Resolution:
 If conflicts arise, team members will attempt to resolve them through open dialogue and compromise. If a resolution cannot be reached internally, a designated mediator from within the team will assist in finding a solution. Only after exhausting internal avenues will the issue be escalated to a TA or professor.
-7) Expectations of Faculty and GTA’s:
+### 7) Expectations of Faculty and GTA’s:
 Faculty and GTAs will provide guidance and support as needed throughout the project, including clarification of requirements and assistance with technical challenges. In the event of a team member failing to adhere to the agreed-upon terms, faculty and GTAs will be available to mediate and provide guidance on resolving the issue while ensuring that the project can progress smoothly.
-8) Team Signatures
+### 8) Team Signatures
   Include signature for each student.
