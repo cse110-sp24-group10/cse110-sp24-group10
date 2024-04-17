@@ -4,6 +4,7 @@ Creation 04/14/24; Revised N/A
 1) Group Identification
 Instructor – Powell
 Team Name: Team 10
+TA: Jash Makhija
 
 Team member info:
 
