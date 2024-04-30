@@ -1,7 +1,7 @@
 # Meeting Minutes For Team 10
 ## Meeting Information
 **Meeting Date/Start Time:** 04/29/24, 7:00pm  
-**Meeting End Time:** 
+**Meeting End Time:** 7:25pm
 **Meeting Purpose:** Sprint Meeting  
 **Meeting Location:** Zoom
 **Note Taker:** Anthony Gonzalez 
@@ -16,9 +16,9 @@ People who attended:
 - Michael Chen
 - Mingyang Sun
 - Karinna Monzon
+- Pranav Prabu
 
 ## Absent
-- Pranav Prabu
 - Amey Kapare
 - Jonghun Lee
   
@@ -64,7 +64,7 @@ People who attended:
   - Had a handful Code reviews
   - Initial Dark mode
   - Helped with ideas and reviewing SWOT
--[Mingyang]
+- [Mingyang]
   - Made emoji icons
   - Features with emojis
   - Show responding message when clicked
@@ -78,7 +78,6 @@ People who attended:
   - User stories
   - Worked on css file with visibility in dark mode for better contrast
   - Helped with SWOT Analysis
-
 - [Anthony]
   - Initial HTML
   - Feedback form when hitting icon
