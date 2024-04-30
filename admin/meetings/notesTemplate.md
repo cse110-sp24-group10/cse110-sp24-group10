@@ -8,7 +8,7 @@
 
 ## Attendees
 People who attended:
-(Move to Absent if thye did not show up)
+(Move to Absent if they did not show up)
 - Anthony Gonzalez
 - Altair Aguelo
 - Amey Kapare
