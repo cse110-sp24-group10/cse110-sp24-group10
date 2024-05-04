@@ -1,10 +1,10 @@
 # Meeting Minutes For Team 10
 ## Meeting Information
-**Meeting Date/Start Time:** 5/3/2024
-**Meeting End Time:**  
-**Meeting Purpose:** Brainstorm activity and starting pitch
-**Meeting Location:** Geisel 1st Floor Service Desk
-**Note Taker:** Michael Chen
+**Meeting Date/Start Time:** 5/3/2024 3:00 PM <br>
+**Meeting End Time:**  5:30 PM <br>
+**Meeting Purpose:** Brainstorm activity and starting pitch <br>
+**Meeting Location:** Geisel 1st Floor Service Desk <br>
+**Note Taker:** Michael Chen <br>
 
 ## Attendees
 People who attended:
