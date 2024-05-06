@@ -2,13 +2,13 @@
 ## Team 10
 ---
 ## Table of Contents
-1) Problem
-2) Solution
-3) Statement of Purpose
-4) User Personas
-5) Risks & Rabbit Holes
-6) Feature Ideas
-7) Initial Design
+1) [Problem](#problem)
+2) [Solution](#solution)
+3) [Statement of Purpose](#statement-of-purpose)
+4) [User Personas](#user-personas)
+5) [Risks & Rabbit Holes](#risks-and-rabbit-holes)
+6) [Feature Ideas](#feature-ideas-and-initial-design)
+7) [Initial Design](#feature-ideas-and-initial-design)
 
 ### Problem
 ----
@@ -51,7 +51,8 @@ As a *developer* who is part of a *working team* I would like to keep track of m
 
 As an *independent freelance programmer* I would like to have documentation for the process and work that I myself have done.
 
-### Risks & Rabbit Holes
+### Risks and Rabbit Holes
+---
 **Scope:**
 - Our target audience is large, so it may be hard trying to make the features usable for many different types of programmers
 - We have a lot of features planned, and we may be too ambitious with them
@@ -71,6 +72,6 @@ As an *independent freelance programmer* I would like to have documentation for 
 - We struggled with the git process in general for the warm up, so we are worried about the process again
 - We are worried about merge conflicts during team processes
 
-### Feature Ideas/ Initial Design
+### Feature Ideas and Initial Design
 ---
 Look at the Pitch PDF for Feature Ideas and Initial Designs
