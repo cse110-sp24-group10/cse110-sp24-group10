@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "test": "mocha source/test/test.js"
+    }
+}
