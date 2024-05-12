@@ -4,7 +4,7 @@
         "mocha": "^10.4.0"
     },
     "scripts": {
-        "test": "node --experimental-vm-modules ./node_modules/mocha/bin/mocha.js"
+        "test": "node ./node_modules/mocha/bin/mocha.js"
     },
     "type": "module",
     "mocha": {
