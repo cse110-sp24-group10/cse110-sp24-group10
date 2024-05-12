@@ -1,5 +1,14 @@
 {
+    "devDependencies": {
+      "mocha": "^10.4.0"
+    },
     "scripts": {
-        "test": "mocha source/test/test.js"
+      "test": "node --experimental-vm-modules ./node_modules/mocha/bin/mocha.js"
+    },
+    "type": "module",
+    "mocha": {
+      "require": "esm",
+      "timeout": 5000,
+      "reporter": "spec"
     }
-}
+  }
