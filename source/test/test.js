@@ -1,5 +1,5 @@
 const assert = require('assert');
-import { addNums } from './sample.js';
+import { addNums } from 'source/sample.js';
 
 describe('Sample.js Tests', function() {
     describe('add()', function() {
