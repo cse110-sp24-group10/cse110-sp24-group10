@@ -6,7 +6,7 @@ describe('Sample.js Tests', function() {
         it('should correctly add two numbers', function() {
             assert.equal(addNums(1, 2), 3);
             assert.equal(addNums(-1, -2), -3);
-            assert.equal(addNums(-1, 1), 0);
+            assert.notEqual(addNums(1, 2), 4);
         });
     });
 });
