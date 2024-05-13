@@ -1,4 +1,4 @@
-const assert = require('assert');
+import assert from 'assert';
 import { addNums } from '../sample.js';
 
 describe('Sample.js Tests', function() {
