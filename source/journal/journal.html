@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Journal</title>
+    <link rel="stylesheet" href="journal.css">
+</head>
+<script src="journal.js" defer></script>
+<body>
+    <h1>May 16, 2024</h1>
+
+    <div class="top-bar">
+        <span id="left-arrow"> < </span>
+        <span id="right-arrow"> > </span>     
+        <span id="settings"> ⚙️ </span>
+    </div>
+
+    <section id="tags-section">
+        <h2>Tags:</h2>
+        <span class="tag tag1">Tag1</span>
+        <span class="tag tag2">Tag2</span>
+    </section>
+    <!-- Once done put the task list here -->
+    <section id="tasks-section">
+        <h2>Task Overview:</h2>
+        <div class="task">
+            <input type="checkbox" id="task1">
+            <label for="task1">First Task</label>
+        </div>
+        <div class="task">
+            <input type="checkbox" id="task2">
+            <label for="task2">Second Task</label>
+        </div>
+        <div class="task">
+            <input type="checkbox" id="task3">
+            <label for="task3">Third Task</label>
+        </div>
+    </section>
+        
+    <!-- Journal section which we are working on below-->
+    <section id="notes-section">
+    <div class="tabs">
+        <button id="textButton">Text</button>
+        <button id="codeButton">Code</button>
+    </div>
+    
+    <!-- Active property switches textarea from display none to display inline-->
+    <textarea id="textBox" class="textarea active" placeholder="Text Area"></textarea>
+    <textarea id="codeBox" class="textarea" placeholder="Code Area"></textarea>
+    </section>
+</body>
+
+<!-- Buttons at the bottom to switch views -->
+<footer>
+    <div class="bottom-bar  ">
+        <button id="calendar-button"> Calendar </button>
+        <button id="task-list-button"> Task List </button>
+        <button id="journal-button"> Journal </button>
+    </div>
+</footer>
+<script src="journal.js"></script>
