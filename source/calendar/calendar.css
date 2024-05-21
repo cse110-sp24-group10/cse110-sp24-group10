@@ -14,3 +14,91 @@ body {
     min-height: 100vh;
     background: #dbc2a0;
 }
+
+.container {
+    width: 450px;
+    background: #f6eee3;
+    border-radius: 15px;
+}
+
+.container header {
+    display: flex;
+    align-items: center;
+    padding: 25px 30px 10px;
+    justify-content: space-between;
+}
+
+header .monthANDyear{
+    font-size: 1.45rem;
+    font-weight: 500;
+}
+
+header .icons span {
+    height: 40px;
+    width: 50px;
+    margin: 0 1px;
+    background:#e5decf;
+    text-align: center;
+    cursor: pointer;
+    line-height: 40px;
+    border-radius: 50%;
+    font-size: 1.45rem;
+}
+
+.calendar {
+    padding: 20px;
+}
+
+.calendar ul {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.calendar ul li {
+    width: calc(100%/7);
+    position: relative;
+}
+
+.calendar .week li{
+    font-weight: bold;
+}
+
+.calendar .day {
+    margin-bottom: 20px;
+}
+
+.calendar .day li {
+    cursor: pointer;
+    margin-top: 30px;
+    z-index: 1;
+}
+
+.calendar .day li::before {
+    position: absolute;
+    content: "";
+    height: 40px;
+    width: 40px;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.day li:hover::before {
+    background: #e5decf;
+}
+
+.day .faded {
+    color: #aaa;
+}
+
+.day li.highlighted::before {
+    background: #654321;
+}
+
+.day li.highlighted {
+    color: #f6eee3;
+}
