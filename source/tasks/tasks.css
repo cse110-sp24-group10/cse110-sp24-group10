@@ -1,5 +1,7 @@
 body {
     font-family: Arial, sans-serif;
+    padding-bottom: 80px;
+    background-color: #fdf6e3;
 }
 
 .task-list-container {
@@ -10,22 +12,62 @@ body {
 
 .top-bar {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
     margin-bottom: 10px;
 }
 
-#filter-btn, #settings-btn {
+#filter-btn.styled-btn,
+#settings-btn.styled-btn {
     font-size: 16px;
-    padding: 5px 10px;
+    padding: 10px 20px;
     margin-left: 10px;
     cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-#add-task-btn {
+#filter-btn.styled-btn:hover,
+#settings-btn.styled-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+#filter-btn.styled-btn:active,
+#settings-btn.styled-btn:active {
+    background-color: #003d80;
+    transform: translateY(0);
+}
+
+#add-task-btn.circle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    border: none;
     font-size: 24px;
-    padding: 10px;
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#add-task-btn.circle-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+#add-task-btn.circle-btn:active {
+    background-color: #003d80;
+    transform: translateY(0);
 }
 
 .task-item {
@@ -34,7 +76,7 @@ body {
     margin-bottom: 10px;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 25px;  /* Change this to give circular ends */
     background-color: #f9f9f9;
 }
 
@@ -51,9 +93,8 @@ body {
     cursor: pointer;
 }
 
+.task-date-time,
 .task-category,
-.task-difficulty,
-.task-date,
 .reorder-btn,
 .delete-btn,
 .color-tag-btn {
@@ -61,9 +102,9 @@ body {
     cursor: pointer;
 }
 
+
 .task-category select,
-.task-difficulty select,
-.task-date input {
+.task-date-time input {
     display: none;
 }
 
@@ -75,9 +116,126 @@ body {
     display: block;
 }
 
+.task-item.red {
+    background-color: #FFCCCC; /* Added color classes for each tag color */
+}
+
+.task-item.yellow {
+    background-color: #FFFF99;
+}
+
+.task-item.green {
+    background-color: #CCFFCC;
+}
+
+.task-item.blue {
+    background-color: #99CCFF;
+}
+
+.task-item.purple {
+    background-color: #CC99FF;
+}
+
 .task-color {
     width: 10px;
     height: 10px;
     border-radius: 50%;
     margin-right: 10px;
+}
+
+li {
+    cursor: grab;
+}
+
+.task-item.completed {
+    background-color: #d3d3d3; /* Light gray background */
+}
+
+.task-item.completed .task-name {
+    text-decoration: line-through; /* Cross out text */
+    color: #999; /* Change text color */
+}
+
+
+.bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding-bottom: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-grow: 4;
+    flex-shrink: 4;
+    padding: 20px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.9);
+    
+}
+.bottom-bar button {
+    padding: 10px 40px;
+    font-size: 1em;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #e1e1e1;
+}
+
+/* date and time picker */
+.task-date-time input[type="date"],
+.task-date-time input[type="time"] {
+    display: block;
+}
+
+/* Update sidebar styles */
+.sidebar {
+    position: fixed;
+    top: 50%;
+    left: -200px; /* Adjust the width as needed */
+    width: 180px; /* Adjust the width as needed */
+    transform: translateY(-50%);
+    height: auto;
+    background-color: #f4f4f4;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: left 0.3s ease;
+    z-index: 999;
+    border-radius: 15px; /* Add rounded corners */
+}
+
+.show-sidebar {
+    left: 2em;
+}
+
+.sidebar button.active {
+    background-color: #ddd; /* Change the background color when clicked */
+}
+
+/* Position the close button */
+#close-sidebar {
+    position: absolute;
+    top: 5px; /* Adjust top position */
+    right: 5px; /* Adjust right position */
+    width: 30px; /* Adjust width */
+    height: 30px; /* Adjust height */
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.sidebar button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.sidebar button:hover {
+    background-color: #ddd;
 }
