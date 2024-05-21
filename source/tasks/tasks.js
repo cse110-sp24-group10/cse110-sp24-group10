@@ -5,7 +5,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.querySelector('.sidebar');
     const closeBtn = document.getElementById('close-sidebar');
 
-    //storage
+    /**
+     * Saves tasks to local storage.
+     * Each task is an object with a name and a completed status.
+     */
+    function saveTasksToLocalStorage() {
+        const tasks = Array.from(taskList.children).map(task => {
+            return {
+                name: task.querySelector('.task-name').textContent,
+                completed: task.querySelector('input[type="checkbox"]').checked,
+                date: task.querySelector('.task-date-input').value,
+                time: task.querySelector('.task-time-input').value,
+                tag: task.querySelector('.task-category select').value
+
+            };
+        });
+    
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    /**
+     * Loads tasks from local storage and adds them to the task list.
+     * Each task is an object with a name and a completed status.
+     */
+    function loadTasksFromLocalStorage() {
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    
+        tasks.forEach(task => {
+            const taskElement = createTaskElement(task.name, task.completed, task.date, task.time, task.tag);
+            taskElement.classList.add(task.tag);
+            taskList.insertBefore(taskElement, taskList.firstChild);
+        });
+    }
+    
     loadTasksFromLocalStorage();
     
     filterBtn.addEventListener('click', () => {
@@ -16,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebar.classList.remove('show-sidebar');
     });
     
-    //Button to add task
+    // Button to add task
     addTaskBtn.addEventListener('click', () => {
         const newTask = createTaskElement();
         taskList.insertBefore(newTask, taskList.firstChild);
@@ -26,12 +58,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     //Task element
-    function createTaskElement() {
+    function createTaskElement(name = 'New Task', completed = false, date = '', time = '', tag = '') {
         const li = document.createElement('li');
         li.className = 'task-item';
         li.draggable = "true";
 
         const checkbox = document.createElement('input');
+        checkbox.checked = completed;
         checkbox.type = 'checkbox';
         checkbox.addEventListener('change', () => {
             li.classList.toggle('completed');
@@ -42,11 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const taskColor = document.createElement('div');
         taskColor.className = 'task-color';
+        taskColor.style.backgroundColor = tag;
 
         const taskName = document.createElement('span');
         taskName.className = 'task-name';
         taskName.contentEditable = true;
         taskName.textContent = 'New Task';
+        taskName.textContent = name;
 
         taskName.addEventListener('mouseover', () => {
             taskName.style.color = '#333';
@@ -73,7 +108,12 @@ document.addEventListener('DOMContentLoaded', () => {
             li.classList.remove('red', 'yellow', 'green', 'blue', 'purple'); // Remove existing color class
             li.classList.add(categorySelect.value); // Add color class to task item
             categorySelect.style.display = 'none';
+
+            // Save tasks to local storage after updating the select element's value
+            saveTasksToLocalStorage();
         });
+
+        categorySelect.value = tag;
 
         taskCategory.addEventListener('click', () => {
             categorySelect.style.display = 'block';
@@ -97,6 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const timeInput = document.createElement('input');
         timeInput.type = 'time';
         timeInput.className = 'task-time-input';
+
+        dateInput.value = date;
+        timeInput.value = time;
 
         taskDateTime.appendChild(dateInput);
         taskDateTime.appendChild(timeInput);
@@ -244,3 +287,40 @@ function sortTasksByName() {
     const taskList = document.getElementById('task-list');
     tasksArray.forEach(task => taskList.appendChild(task));
 }
+
+function sortTasksByDate() {
+    // Get all tasks
+    const tasks = document.querySelectorAll('.task-item');
+    const tasksArray = Array.from(tasks);
+
+    // Sort array based on the dates of the tasks
+    tasksArray.sort((a, b) => {
+        const dateA = new Date(a.querySelector('.task-date-input').value);
+        const dateB = new Date(b.querySelector('.task-date-input').value);
+
+        // If the dates are the same, sort by time
+        if (dateA.getTime() === dateB.getTime()) {
+            const timeA = a.querySelector('.task-time-input').value;
+            const timeB = b.querySelector('.task-time-input').value;
+
+            return timeA < timeB ? -1 : (timeA > timeB ? 1 : 0);
+        }
+
+        return dateA - dateB;
+    });
+
+    // Remove all tasks from the DOM
+    tasks.forEach(task => task.parentNode.removeChild(task));
+
+    // Append sorted tasks back to the DOM
+    const taskList = document.getElementById('task-list');
+    tasksArray.forEach(task => taskList.appendChild(task));
+}
+
+// Get the buttons
+const dateFilterBtn = document.getElementById('date-filter');
+const nameFilterBtn = document.getElementById('name-filter');
+
+// Add event listeners
+dateFilterBtn.addEventListener('click', sortTasksByDate);
+nameFilterBtn.addEventListener('click', sortTasksByName);
