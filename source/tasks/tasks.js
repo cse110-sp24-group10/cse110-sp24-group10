@@ -56,6 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
             taskName.style.color = '';
         });
 
+        
+
         //Add color category
         const taskCategory = document.createElement('div');
         taskCategory.className = 'task-category';
