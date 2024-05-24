@@ -6,7 +6,7 @@
     box-sizing: border-box;
     font-family: 'Courier Prime';
 }
-
+/* Overall styling for whole calendar */
 body {
     display: flex;
     align-items: center;
@@ -14,25 +14,25 @@ body {
     min-height: 100vh;
     background: #dbc2a0;
 }
-
+/* Styles container/background */
 .container {
     width: 450px;
     background: #f6eee3;
     border-radius: 15px;
 }
-
+/* Styles header/icon bar */
 .container header {
     display: flex;
     align-items: center;
     padding: 25px 30px 10px;
     justify-content: space-between;
 }
-
+/* Style text inside header */
 header .monthANDyear{
     font-size: 1.45rem;
     font-weight: 500;
 }
-
+/* Styling icons */
 header .icons span {
     height: 40px;
     width: 50px;
@@ -44,37 +44,37 @@ header .icons span {
     border-radius: 50%;
     font-size: 1.45rem;
 }
-
+/* Add padding to inside calendar */
 .calendar {
     padding: 20px;
 }
-
+/* Style list/take out bullets */
 .calendar ul {
     display: flex;
     list-style: none;
     flex-wrap: wrap;
     text-align: center;
 }
-
+/* Style/place items in calendar */
 .calendar ul li {
     width: calc(100%/7);
     position: relative;
 }
-
+/* bold days in calendar */
 .calendar .week li{
     font-weight: bold;
 }
-
+/* margin to space days in month from days in week */
 .calendar .day {
     margin-bottom: 20px;
 }
-
+/* hover effect for going over days */
 .calendar .day li {
     cursor: pointer;
     margin-top: 30px;
     z-index: 1;
 }
-
+/* places circle highlight under day when hovering */
 .calendar .day li::before {
     position: absolute;
     content: "";
@@ -86,19 +86,19 @@ header .icons span {
     transform: translate(-50%, -50%);
     z-index: -1;
 }
-
+/* changes color when highlighted */
 .day li:hover::before {
     background: #e5decf;
 }
-
+/* change day to light gray when not part of month */
 .day .faded {
     color: #aaa;
 }
-
+/* current day highlight */
 .day li.highlighted::before {
     background: #654321;
 }
-
+/* invert day color when highlighted (since brown is dark */
 .day li.highlighted {
     color: #f6eee3;
 }
