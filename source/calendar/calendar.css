@@ -16,37 +16,45 @@ body {
 }
 /* Styles container/background */
 .container {
-    width: 450px;
+    width: 70%; /* Increased width */
     background: #f6eee3;
     border-radius: 15px;
+    min-height: 80vh; /* Increased min-height */
+    padding: 20px; /* Added padding */
+    display: flex;
+    flex-direction: column;
 }
 /* Styles header/icon bar */
 .container header {
     display: flex;
     align-items: center;
-    padding: 25px 30px 10px;
+    padding: 35px 40px 15px; /* Increased padding */
     justify-content: space-between;
 }
 /* Style text inside header */
 header .monthANDyear{
-    font-size: 1.45rem;
+    font-size: 3rem; /* Increased font size */
     font-weight: 500;
 }
 /* Styling icons */
 header .icons span {
-    height: 40px;
-    width: 50px;
+    height: 50px; /* Increased height */
+    width: 60px; /* Increased width */
     margin: 0 1px;
-    background:#e5decf;
+    background: #e5decf;
     text-align: center;
     cursor: pointer;
-    line-height: 40px;
+    line-height: 50px; /* Updated line-height */
     border-radius: 50%;
-    font-size: 1.45rem;
+    font-size: 1.75rem; /* Increased font size */
 }
 /* Add padding to inside calendar */
 .calendar {
-    padding: 20px;
+    padding: 30px; /* Increased padding */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 /* Style list/take out bullets */
 .calendar ul {
@@ -59,27 +67,36 @@ header .icons span {
 .calendar ul li {
     width: calc(100%/7);
     position: relative;
+    font-size: 1.5rem; /* Increased font size */
 }
 /* bold days in calendar */
 .calendar .week li{
     font-weight: bold;
+    font-size: 2rem; /* Increased font size */
 }
 /* margin to space days in month from days in week */
 .calendar .day {
-    margin-bottom: 20px;
+    margin-bottom: 25px; /* Increased margin-bottom */
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+    margin-bottom: 25px; /* Removed margin-bottom */
 }
 /* hover effect for going over days */
 .calendar .day li {
     cursor: pointer;
-    margin-top: 30px;
+    margin-top: 60px; /* Increased margin-top */
     z-index: 1;
+    font-size: 1.8rem;
 }
 /* places circle highlight under day when hovering */
 .calendar .day li::before {
     position: absolute;
     content: "";
-    height: 40px;
-    width: 40px;
+    height: 70px; /* Increased height */
+    width: 70px; /* Increased width */
     top: 50%;
     left: 50%;
     border-radius: 50%;

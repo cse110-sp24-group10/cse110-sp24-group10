@@ -52,6 +52,15 @@ toggleIcons.forEach(icon => {
         else{
             currMonth += 1;
         }
+        //update year if scroll past/before current year
+        if(currMonth < 0 || currMonth > 11){
+            date = new Date(currYear, currMonth);
+            currYear = date.getFullYear();
+            currMonth = date.getMonth();
+        }
+        else{
+            date = new Date();
+        }
         createCalendar();
     });
 });
