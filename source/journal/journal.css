@@ -1,31 +1,69 @@
+/* Basic variables used for design*/
 :root{
-    --arrow-font-size: 1.1em;
+    --arrow-font-size: 1.45em;
+    --top-bar-size: 2em;
+    --palette-off-white: #F6EEE3;
+    --palette-light-tan: #EEE7D7;
+    --palette-light-grey: #E5DECF;
+    --palette-pink: #E5CBBA;
+    --palette-brown: #D9BDA5;
+    --palette-background: #dbc2a0;
 }
 
+/* Adding typewriter font */
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier Prime';
+}
+
+/* Overall styling for the page */
 body {
-    font-family: Arial, sans-serif;
     margin: 20px;
-    background-color: #fdf6e3;
+    background-color: var(--palette-background);
 }
 
+/* Header design */
 h1 {
     font-size: 3em;
     display: inline;
 }
 
+/* Design for 'Tags:' and 'Task overview:' */
 h2 {
     font-size: 1.5em;
     margin-top: 20px;
 }
 
+/* The top bar for arrows and settings */
 .top-bar {
     display: inline-flex;
     align-items: flex-end;
     float: right;
-    font-size: 2em;
+    font-size: var(--top-bar-size);
     gap: 40px
 }
 
+/* turn cursor to pointer for all top bar elements */
+.top-bar span {
+    cursor: pointer;
+}
+
+/* styling for top bar icons */
+.top-bar .nav-arrows{
+    height: 50px;
+    width: 60px;
+    margin: 0 1px;
+    background: var(--palette-light-grey);
+    text-align: center;
+    line-height: 50px;
+    border-radius: 50%;
+}
+
+
+/* Sizing and spacing for the arrows in the top */
 .top-bar #right-arrow {
     margin-right: 60px;
     font-size: var(--arrow-font-size);
@@ -44,45 +82,57 @@ h2 {
     color: white;
 }
 
+/* temp tags */
 .tag1 {
     background-color: #e74c3c;
 }
 
+/* temp tags */
 .tag2 {
     background-color: #3498db;
 }
 
+/* temp tasks */
 .task {
     display: flex;
     align-items: center;
 }
 
+/* temp task */
 .task input[type="checkbox"] {
     margin-right: 10px;
 }
 
+/* temp task */
 .task-completed {
     text-decoration: line-through;
 }
 
+
+/* Overall background of the notes not including text area */
 #notes-section {
     border: 1px solid #ccc;
     padding: 10px;
     margin-top: 20px;
     border-radius: 10px;
-    background-color: #fff;
+    background-color: var(--palette-off-white);
 }
+
+/* Textarea box for the notes and code */
 .textarea {
     width: 100%;
+    background-color: var(--palette-off-white);
     height: 200px;
-    border: 1psxs solid black;
+    border: 1px solid black;
     resize: none;
     display: none;
 }
 
+/* make current textbox active and visible*/
 .active {
     display: block;
 }
+
 .tabs {
     display: flex;
     justify-content: left;
