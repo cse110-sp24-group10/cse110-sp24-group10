@@ -1,0 +1,121 @@
+/* Typewriter Font */
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier Prime';
+}
+/* Overall styling for whole calendar */
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #dbc2a0;
+}
+/* Styles container/background */
+.container {
+    width: 70%; /* Increased width */
+    background: #f6eee3;
+    border-radius: 15px;
+    min-height: 80vh; /* Increased min-height */
+    padding: 20px; /* Added padding */
+    display: flex;
+    flex-direction: column;
+}
+/* Styles header/icon bar */
+.container header {
+    display: flex;
+    align-items: center;
+    padding: 35px 40px 15px; /* Increased padding */
+    justify-content: space-between;
+}
+/* Style text inside header */
+header .monthANDyear{
+    font-size: 3rem; /* Increased font size */
+    font-weight: 500;
+}
+/* Styling icons */
+header .icons span {
+    height: 50px; /* Increased height */
+    width: 60px; /* Increased width */
+    margin: 0 1px;
+    background: #e5decf;
+    text-align: center;
+    cursor: pointer;
+    line-height: 50px; /* Updated line-height */
+    border-radius: 50%;
+    font-size: 1.75rem; /* Increased font size */
+}
+/* Add padding to inside calendar */
+.calendar {
+    padding: 30px; /* Increased padding */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+/* Style list/take out bullets */
+.calendar ul {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    text-align: center;
+}
+/* Style/place items in calendar */
+.calendar ul li {
+    width: calc(100%/7);
+    position: relative;
+    font-size: 1.5rem; /* Increased font size */
+}
+/* bold days in calendar */
+.calendar .week li{
+    font-weight: bold;
+    font-size: 2rem; /* Increased font size */
+}
+/* margin to space days in month from days in week */
+.calendar .day {
+    margin-bottom: 25px; /* Increased margin-bottom */
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+    margin-bottom: 25px; /* Removed margin-bottom */
+}
+/* hover effect for going over days */
+.calendar .day li {
+    cursor: pointer;
+    margin-top: 60px; /* Increased margin-top */
+    z-index: 1;
+    font-size: 1.8rem;
+}
+/* places circle highlight under day when hovering */
+.calendar .day li::before {
+    position: absolute;
+    content: "";
+    height: 70px; /* Increased height */
+    width: 70px; /* Increased width */
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+/* changes color when highlighted */
+.day li:hover::before {
+    background: #e5decf;
+}
+/* change day to light gray when not part of month */
+.day .faded {
+    color: #aaa;
+}
+/* current day highlight */
+.day li.highlighted::before {
+    background: #654321;
+}
+/* invert day color when highlighted (since brown is dark */
+.day li.highlighted {
+    color: #f6eee3;
+}
