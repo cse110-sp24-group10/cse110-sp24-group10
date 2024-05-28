@@ -45,6 +45,10 @@ Agenda Item 2 | • <br>• <br>• <br>• <br>•
   
 - Have decided to update calendar look by incorporating element of today to-do list and having different colors for how busy that day is intended to be
 
+- Developing user stories for each feature to be more in depth
+
+- Added further user stories to address for Sprint 2
+
 ## Decisions Made
 | Reasoning | Item | Responsible |
 | ---- | ---- | ---- |
