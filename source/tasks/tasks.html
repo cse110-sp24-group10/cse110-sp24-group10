@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+    <link rel="stylesheet" href="tasks.css">
+</head>
+<body>
+    <div class="sidebar">
+        <button id="close-sidebar">&times;</button>
+        <button id="date-filter">Date</button>
+        <button id="tag-filter">Tag</button>
+        <button id="name-filter">Name</button>
+        <button id="difficulty-filter">Difficulty</button>
+    </div>
+    <div class="task-list-container">
+        <div class="top-bar">
+            <button id="add-task-btn" class="circle-btn">+</button>
+            <button id="filter-btn" class="styled-btn">Filter</button>
+            <button id="settings-btn" class="styled-btn">Settings</button>
+        </div>
+        <div class="sortable-list">
+            <ul id="task-list">
+                <!-- Task items will be appended here -->
+            </ul>
+        </div>
+    </div>
+    <script src="tasks.js"></script>
+</body>
+<footer>
+    <div class="bottom-bar">
+        <button id="calendar-button"> Calendar </button>
+        <button id="task-list-button"> Task List </button>
+        <button id="journal-button"> Journal </button>
+    </div>
+</footer>
+</html>
