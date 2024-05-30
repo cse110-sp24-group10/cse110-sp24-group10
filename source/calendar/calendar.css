@@ -154,8 +154,8 @@ header .icons span {
 
 .popup-content {
     background-color: #f6eee3;
-    padding: 20px;
     border: 1px solid #888;
+    padding: 20px;
     width: 80%;
     max-width: 600px;
     border-radius: 15px;
