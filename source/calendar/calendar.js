@@ -18,7 +18,7 @@ const loadTasksForDate = (date) => {
     if (tasksForTheDay.length > 0) {
         taskList.innerHTML = tasksForTheDay.map(task => {
             const taskDate = new Date(task.date);
-            const formattedDate = `${taskDate.getMonth() + 1}/${taskDate.getDate()}/${taskDate.getFullYear()}`;
+            const formattedDate = `${taskDate.getMonth() + 1}/${taskDate.getDate() + 1}/${taskDate.getFullYear()}`;
             return `<li>${task.name} - ${task.time} (${formattedDate})</li>`;
         }).join('');
     } else {
