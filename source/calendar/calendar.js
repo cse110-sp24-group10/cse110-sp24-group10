@@ -13,7 +13,16 @@ const addDayClickEvent = () => {
             const selectedDay = day.innerText;
             const selectedDate = new Date(currYear, currMonth, selectedDay);
             popupDate.innerText = `${months[selectedDate.getMonth()]} ${selectedDay}, ${selectedDate.getFullYear()}`;
-            taskList.innerHTML = '<li>No tasks for today.</li>';
+            
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            const tasksForTheDay = tasks.filter(task => new Date(task.date).toDateString() === selectedDate.toDateString());
+
+            if (tasksForTheDay.length > 0) {
+                taskList.innerHTML = tasksForTheDay.map(task => `<li>${task.name} - ${task.time}</li>`).join('');
+            } else {
+                taskList.innerHTML = '<li>No tasks for today.</li>';
+            }
+            
             popup.style.display = "";
         });
     });
