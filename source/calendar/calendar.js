@@ -6,6 +6,32 @@ const popupDate = document.getElementById("popup-date");
 const taskList = document.getElementById("task-list");
 const closeBtn = document.querySelector(".popup .close");
 
+const loadTasksForDate = (date) => {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const tasksForTheDay = tasks.filter(task => {
+        const taskDate = new Date(task.date);
+        // Adjust for timezone offset
+        const adjustedTaskDate = new Date(taskDate.getTime() + taskDate.getTimezoneOffset() * 60000);
+        return adjustedTaskDate.toDateString() === date.toDateString();
+    });
+
+    if (tasksForTheDay.length > 0) {
+        taskList.innerHTML = tasksForTheDay.map(task => {
+            const taskDate = new Date(task.date);
+            const formattedDate = `${taskDate.getMonth() + 1}/${taskDate.getDate()}/${taskDate.getFullYear()}`;
+            return `<li>${task.name} - ${task.time} (${formattedDate})</li>`;
+        }).join('');
+    } else {
+        taskList.innerHTML = '<li>No tasks for today.</li>';
+    }
+};
+
+window.addEventListener("load", () => {
+    const today = new Date();
+    popupDate.innerText = `${months[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
+    loadTasksForDate(today);
+    popup.style.display = "flex";
+});
 
 const addDayClickEvent = () => {
     document.querySelectorAll(".day li").forEach(day => {
@@ -13,16 +39,7 @@ const addDayClickEvent = () => {
             const selectedDay = day.innerText;
             const selectedDate = new Date(currYear, currMonth, selectedDay);
             popupDate.innerText = `${months[selectedDate.getMonth()]} ${selectedDay}, ${selectedDate.getFullYear()}`;
-            
-            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-            const tasksForTheDay = tasks.filter(task => new Date(task.date).toDateString() === selectedDate.toDateString());
-
-            if (tasksForTheDay.length > 0) {
-                taskList.innerHTML = tasksForTheDay.map(task => `<li>${task.name} - ${task.time}</li>`).join('');
-            } else {
-                taskList.innerHTML = '<li>No tasks for today.</li>';
-            }
-            
+            loadTasksForDate(selectedDate);
             popup.style.display = "";
         });
     });
