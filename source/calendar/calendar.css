@@ -199,3 +199,28 @@ header .icons span {
     margin-bottom: 10px;
     font-size: 1.5rem;
 }
+
+/* Styles for Add Task and Journal Link buttons */
+.styled-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.styled-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.styled-btn:active {
+    background-color: #003d80;
+    transform: translateY(0);
+}

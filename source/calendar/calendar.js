@@ -19,7 +19,7 @@ const loadTasksForDate = (date) => {
         taskList.innerHTML = tasksForTheDay.map(task => {
             const taskDate = new Date(task.date);
             const formattedDate = `${taskDate.getMonth() + 1}/${taskDate.getDate() + 1}/${taskDate.getFullYear()}`;
-            return `<li>${task.name} - ${task.time} (${formattedDate})</li>`;
+            return `<li>${task.name}: ${task.tag} - (${formattedDate})</li>`;
         }).join('');
     } else {
         taskList.innerHTML = '<li>No tasks for today.</li>';
@@ -113,4 +113,12 @@ toggleIcons.forEach(icon => {
         }
         createCalendar();
     });
+});
+
+addTaskBtn.addEventListener("click", () => {
+    window.location.href = "../tasks/tasks.html"; // Redirect to the tasks page to add a new task
+});
+
+journalLinkBtn.addEventListener("click", () => {
+    window.location.href = "../journal/journal.html"; // Redirect to the journal page
 });
