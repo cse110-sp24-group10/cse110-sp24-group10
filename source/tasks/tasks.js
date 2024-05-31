@@ -320,7 +320,11 @@ function sortTasksByDate() {
 // Get the buttons
 const dateFilterBtn = document.getElementById('date-filter');
 const nameFilterBtn = document.getElementById('name-filter');
-
-// Add event listeners
 dateFilterBtn.addEventListener('click', sortTasksByDate);
 nameFilterBtn.addEventListener('click', sortTasksByName);
+
+let calendarButton = document.getElementById('calendarButton');
+console.log(calendarButton);
+calendarButton.addEventListener('click', () => {
+    window.location.href = "../calendar/calendar.html";
+});

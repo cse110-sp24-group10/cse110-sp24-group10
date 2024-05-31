@@ -19,7 +19,8 @@ const loadTasksForDate = (date) => {
         taskList.innerHTML = tasksForTheDay.map(task => {
             const taskDate = new Date(task.date);
             const formattedDate = `${taskDate.getMonth() + 1}/${taskDate.getDate() + 1}/${taskDate.getFullYear()}`;
-            return `<li>${task.name}: ${task.tag} - (${formattedDate})</li>`;
+            const completed = task.completed ? 'Completed' : 'Not Completed';
+            return `<div class="task">${task.name}: ${task.tag} - (${formattedDate} - (${completed}))</div>`;
         }).join('');
     } else {
         taskList.innerHTML = '<li>No tasks for today.</li>';

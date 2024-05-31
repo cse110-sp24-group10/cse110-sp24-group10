@@ -157,7 +157,7 @@ header .icons span {
     border: 1px solid #888;
     padding: 20px;
     width: 80%;
-    max-width: 600px;
+    max-width: 640px;
     border-radius: 15px;
     position: relative;
     display: flex;
@@ -225,4 +225,17 @@ header .icons span {
     background-color: #dbc2a0;
     transform: translateY(0);
     color: #654321;
+}
+
+.task {
+    background-color: #e5decf;
+    border: 1px solid #888;
+    padding: 10px;
+    margin: 5px 0;
+    width: 100%;
+    max-width: 550px;
+    border-radius: 15px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    box-sizing: border-box;
 }
