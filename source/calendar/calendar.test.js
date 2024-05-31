@@ -51,7 +51,10 @@ describe('Calendar Tests', () => {
 
     it('should display the correct month and year', () => {
         const monthYearElement = document.querySelector('.monthANDyear');
-        expect(monthYearElement.textContent).toMatch(/May 2024/);
+        const months = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
+        const date = new Date();
+        expect(monthYearElement.textContent).toMatch(`${months[date.getMonth()]} ${date.getFullYear()}`);
     });
 
     it('should highlight today\'s date', () => {
