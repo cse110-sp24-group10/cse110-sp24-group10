@@ -199,3 +199,16 @@ footer {
     border-radius: 10px;
     background-color: #e1e1e1;
 }
+
+.textarea {
+    display: none;
+}
+
+#editor {
+    display: none;
+    height: 300px; /* Adjust height as needed */
+}
+
+.textarea.active, #editor.active {
+    display: block;
+}

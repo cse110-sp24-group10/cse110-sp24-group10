@@ -1,25 +1,39 @@
-// When click the text button, switches to the text textarea
-document.getElementById('textButton').addEventListener('click', function() {
-    document.getElementById('textBox').classList.add('active');
-    document.getElementById('codeBox').classList.remove('active');
-    console.log('textButton clicked');
-  });
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Create a CodeMirror instance with additional features
+    const editor = CodeMirror(document.getElementById('editor'), {
+        value: "function myScript(){return 100;}\n",
+        mode: "javascript",
+        lineNumbers: true,
+        theme: "default",
+        autofocus: true,
+        autoCloseBrackets: true,
+        autoCloseTags: true,
+        matchBrackets: true,
+        scrollbarStyle: "native"
+    });
+    
+    // Event listener for codeButton to switch to code editor
+    document.getElementById('codeButton').addEventListener('click', function() {
+        document.getElementById('editor').classList.add('active');
+        editor.refresh(); // Refresh CodeMirror when it becomes visible
+        document.getElementById('textBox').classList.remove('active');
+    });
 
-  // When click the code button, switches to the code textarea
-document.getElementById('codeButton').addEventListener('click', function() {
-    document.getElementById('codeBox').classList.add('active');
-    document.getElementById('textBox').classList.remove('active');
-  });
+    // Event listener for textButton to switch to text textarea
+    document.getElementById('textButton').addEventListener('click', function() {
+        document.getElementById('textBox').classList.add('active');
+        document.getElementById('editor').classList.remove('active');
+    });
 
-/* temporary code for moving onto previous and next journal pages */
-document.getElementById('left-arrow').addEventListener('click', function () {
-    console.log('LEFT ARROW CLICKED');
-  });
+    document.getElementById('left-arrow').addEventListener('click', function () {
+        console.log('LEFT ARROW CLICKED');
+    });
 
-document.getElementById('right-arrow').addEventListener('click', function () {
-    console.log('RIGHT ARROW CLICKED');
-  });
+    document.getElementById('right-arrow').addEventListener('click', function () {
+        console.log('RIGHT ARROW CLICKED');
+    });
 
-document.getElementById('settings').addEventListener('click', function () {
-    console.log('SETTINGS CLICKED');
-  });
+    document.getElementById('settings').addEventListener('click', function () {
+        console.log('SETTINGS CLICKED');
+    });
+});
