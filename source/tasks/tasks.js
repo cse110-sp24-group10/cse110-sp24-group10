@@ -4,6 +4,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterBtn = document.getElementById('filter-btn');
     const sidebar = document.querySelector('.sidebar');
     const closeBtn = document.getElementById('close-sidebar');
+    const openSettingsBtn = document.getElementById('open-settings-sidebar');
+    const closeSettingsBtn = document.getElementById('close-settings-sidebar');
+    const settingsSidebar = document.querySelector('.settings-sidebar');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const fontSizeSlider = document.getElementById('font-size-slider');
+
+    openSettingsBtn.addEventListener('click', () => {
+        settingsSidebar.classList.add('show-settings-sidebar');
+    });
+
+    closeSettingsBtn.addEventListener('click', () => {
+        settingsSidebar.classList.remove('show-settings-sidebar');
+    });
+
+    darkModeToggle.addEventListener('change', (event) => {
+        if (event.target.checked) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
+    });
+
+    fontSizeSlider.addEventListener('input', (event) => {
+        document.body.style.fontSize = event.target.value + 'px';
+    });
 
     /**
      * Saves tasks to local storage.

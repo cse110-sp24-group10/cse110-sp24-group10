@@ -14,11 +14,23 @@
         <button id="name-filter">Name</button>
         <button id="difficulty-filter">Difficulty</button>
     </div>
+    <div class="settings-sidebar">
+        <button id="close-settings-sidebar">&times;</button>
+        <h3>Settings</h3>
+        <div class="setting-item">
+            <label for="dark-mode-toggle">Dark Mode</label>
+            <input type="checkbox" id="dark-mode-toggle">
+        </div>
+        <div class="setting-item">
+            <label for="font-size-slider">Font Size</label>
+            <input type="range" id="font-size-slider" min="12" max="24" value="16">
+        </div>
+    </div>
     <div class="task-list-container">
         <div class="top-bar">
             <button id="add-task-btn" class="circle-btn">+</button>
             <button id="filter-btn" class="styled-btn">Filter</button>
-            <button id="settings-btn" class="styled-btn">Settings</button>
+            <button id="open-settings-sidebar" class="styled-btn">Settings</button>
         </div>
         <div class="sortable-list">
             <ul id="task-list">

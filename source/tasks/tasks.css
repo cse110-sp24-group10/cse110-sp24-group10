@@ -239,3 +239,83 @@ li {
 .sidebar button:hover {
     background-color: #ddd;
 }
+
+.settings-sidebar {
+    position: fixed;
+    top: 50%;
+    right: -200px; /* Adjust the width as needed */
+    width: 180px; /* Adjust the width as needed */
+    transform: translateY(-50%);
+    height: auto;
+    background-color: #f4f4f4;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease;
+    z-index: 999;
+    border-radius: 15px; /* Add rounded corners */
+    padding: 20px;
+}
+
+.show-settings-sidebar {
+    right: 2em;
+}
+
+.settings-sidebar button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#close-settings-sidebar {
+    position: absolute;
+    top: 5px; /* Adjust top position */
+    right: 5px; /* Adjust right position */
+    width: 30px; /* Adjust width */
+    height: 30px; /* Adjust height */
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.setting-item {
+    margin-bottom: 15px;
+}
+
+.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.dark-mode .task-item {
+    background-color: #333333;
+    border-color: #555555;
+}
+
+.dark-mode .task-item.completed {
+    background-color: #444444;
+    color: #bbbbbb;
+}
+
+.dark-mode .task-name:hover {
+    color: #cccccc;
+}
+
+.dark-mode .settings-sidebar {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+.dark-mode .bottom-bar {
+    background-color: rgba(34, 34, 34, 0.9);
+}
+
+.dark-mode .sidebar {
+    background-color: #444444;
+    color: #ffffff;
+}
