@@ -207,7 +207,7 @@ header .icons span {
     padding: 10px 20px;
     font-size: 1.2rem;
     color: #fff;
-    background-color: #007bff;
+    background-color: #654321;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -216,11 +216,11 @@ header .icons span {
 }
 
 .styled-btn:hover {
-    background-color: #0056b3;
+    background-color: #dbc2a0;
     transform: translateY(-2px);
 }
 
 .styled-btn:active {
-    background-color: #003d80;
+    background-color: #dbc2a0;
     transform: translateY(0);
 }
