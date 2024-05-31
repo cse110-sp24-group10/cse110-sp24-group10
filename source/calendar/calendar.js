@@ -39,7 +39,7 @@ const createCalendar = () => {
     }
 
     dayTag.innerHTML = liTag;
-}
+};
 createCalendar();
 
 toggleIcons.forEach(icon => {
