@@ -218,9 +218,11 @@ header .icons span {
 .styled-btn:hover {
     background-color: #dbc2a0;
     transform: translateY(-2px);
+    color: #654321;
 }
 
 .styled-btn:active {
     background-color: #dbc2a0;
     transform: translateY(0);
+    color: #654321;
 }
