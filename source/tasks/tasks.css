@@ -1,7 +1,31 @@
+/* Basic variables used for design*/
+:root {
+    --arrow-font-size: 1.5em;
+    --top-bar-size: 2em;
+    --palette-off-white: #F6EEE3;
+    --palette-light-tan: #EEE7D7;
+    --palette-light-grey: #E5DECF;
+    --palette-pink: #E5CBBA;
+    --palette-brown: #D9BDA5;
+    --palette-background: #dbc2a0;
+    --palette-dark-brown: #c9a36f;
+    --header-margin-spacing: 40px;
+    /* Some math shit to get here i.e. -5/90 to get back to 100 but need to multiply by 100 to get -500%/90) */
+    --undo-margin: calc(-500%/90)
+}
+
+/* Adding typewriter font */
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+* {
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier Prime';
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Courier Prime';
     padding-bottom: 80px;
-    background-color: #fdf6e3;
+    background-color: var(--palette-background);
 }
 
 .task-list-container {
@@ -23,7 +47,7 @@ body {
     padding: 10px 20px;
     margin-left: 10px;
     cursor: pointer;
-    background-color: #007bff;
+    background: #654321;
     color: white;
     border: none;
     border-radius: 5px;
@@ -33,13 +57,13 @@ body {
 
 #filter-btn.styled-btn:hover,
 #settings-btn.styled-btn:hover {
-    background-color: #0056b3;
+    background-color: #a37433;
     transform: translateY(-2px);
 }
 
 #filter-btn.styled-btn:active,
 #settings-btn.styled-btn:active {
-    background-color: #003d80;
+    background-color: #a37433;
     transform: translateY(0);
 }
 
@@ -47,7 +71,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #007bff;
+    background-color: #654321;
     color: white;
     border: none;
     font-size: 24px;
@@ -61,12 +85,12 @@ body {
 }
 
 #add-task-btn.circle-btn:hover {
-    background-color: #0056b3;
+    background-color: #a37433;
     transform: translateY(-2px);
 }
 
 #add-task-btn.circle-btn:active {
-    background-color: #003d80;
+    background-color: #a37433;
     transform: translateY(0);
 }
 
@@ -93,11 +117,11 @@ body {
     cursor: pointer;
 }
 
-.task-date-time,
 .task-category,
+.task-date-time,
 .reorder-btn,
 .delete-btn,
-.color-tag-btn {
+.priority-dropdown {
     margin-left: 10px;
     cursor: pointer;
 }
@@ -169,11 +193,14 @@ li {
     flex-shrink: 4;
     padding: 20px 0;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--palette-dark-brown);
     
 }
+.bottom-bar a {
+    text-decoration: none;
+}
 .bottom-bar button {
-    padding: 10px 40px;
+    padding: 10px 5%;
     font-size: 1em;
     cursor: pointer;
     border: 1px solid #ccc;
@@ -235,87 +262,33 @@ li {
     transition: background-color 0.3s ease;
 }
 
-
 .sidebar button:hover {
     background-color: #ddd;
 }
 
-.settings-sidebar {
-    position: fixed;
-    top: 50%;
-    right: -200px; /* Adjust the width as needed */
-    width: 180px; /* Adjust the width as needed */
-    transform: translateY(-50%);
-    height: auto;
-    background-color: #f4f4f4;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transition: right 0.3s ease;
-    z-index: 999;
-    border-radius: 15px; /* Add rounded corners */
-    padding: 20px;
-}
-
-.show-settings-sidebar {
-    right: 2em;
-}
-
-.settings-sidebar button {
-    display: block;
-    width: 100%;
-    padding: 10px;
+.delete-btn, .reorder-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #654321;
+    color: white;
     border: none;
-    background-color: transparent;
-    text-align: left;
-    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    margin-left: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 16px; /* Adjust font size as needed */
 }
 
-#close-settings-sidebar {
-    position: absolute;
-    top: 5px; /* Adjust top position */
-    right: 5px; /* Adjust right position */
-    width: 30px; /* Adjust width */
-    height: 30px; /* Adjust height */
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
+.delete-btn:hover, .reorder-btn:hover {
+    background-color: #a37433;
+    transform: translateY(-2px);
 }
 
-.setting-item {
-    margin-bottom: 15px;
-}
-
-.dark-mode {
-    background-color: #121212;
-    color: #ffffff;
-}
-
-.dark-mode .task-item {
-    background-color: #333333;
-    border-color: #555555;
-}
-
-.dark-mode .task-item.completed {
-    background-color: #444444;
-    color: #bbbbbb;
-}
-
-.dark-mode .task-name:hover {
-    color: #cccccc;
-}
-
-.dark-mode .settings-sidebar {
-    background-color: #333333;
-    color: #ffffff;
-}
-
-.dark-mode .bottom-bar {
-    background-color: rgba(34, 34, 34, 0.9);
-}
-
-.dark-mode .sidebar {
-    background-color: #444444;
-    color: #ffffff;
+.delete-btn:active, .reorder-btn:active {
+    background-color: #a37433;
+    transform: translateY(0);
 }

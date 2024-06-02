@@ -4,31 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterBtn = document.getElementById('filter-btn');
     const sidebar = document.querySelector('.sidebar');
     const closeBtn = document.getElementById('close-sidebar');
-    const openSettingsBtn = document.getElementById('open-settings-sidebar');
-    const closeSettingsBtn = document.getElementById('close-settings-sidebar');
-    const settingsSidebar = document.querySelector('.settings-sidebar');
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
-    const fontSizeSlider = document.getElementById('font-size-slider');
-
-    openSettingsBtn.addEventListener('click', () => {
-        settingsSidebar.classList.add('show-settings-sidebar');
-    });
-
-    closeSettingsBtn.addEventListener('click', () => {
-        settingsSidebar.classList.remove('show-settings-sidebar');
-    });
-
-    darkModeToggle.addEventListener('change', (event) => {
-        if (event.target.checked) {
-            document.body.classList.add('dark-mode');
-        } else {
-            document.body.classList.remove('dark-mode');
-        }
-    });
-
-    fontSizeSlider.addEventListener('input', (event) => {
-        document.body.style.fontSize = event.target.value + 'px';
-    });
 
     /**
      * Saves tasks to local storage.
@@ -58,13 +33,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
         tasks.forEach(task => {
             const taskElement = createTaskElement(task.name, task.completed, task.date, task.time, task.tag);
-            taskElement.classList.add(task.tag);
+            taskElement.classList.add(task.tag.toLowerCase());
+            if (task.completed) {
+                taskElement.classList.add('completed');
+            }
             taskList.insertBefore(taskElement, taskList.firstChild);
         });
     }
     
     loadTasksFromLocalStorage();
-    
+
+
     filterBtn.addEventListener('click', () => {
         sidebar.classList.toggle('show-sidebar');
     });
@@ -87,6 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const li = document.createElement('li');
         li.className = 'task-item';
         li.draggable = "true";
+
+        if (completed) {
+            li.classList.add('completed');
+        }
 
         const checkbox = document.createElement('input');
         checkbox.checked = completed;
