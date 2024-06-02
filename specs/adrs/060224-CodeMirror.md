@@ -35,7 +35,7 @@ to no avail. Switching to Version 5.65.16 proved to be a good decision due to th
 * Neutral, because the CodeMirror's purpose is to just store code and show it in a presentable manner. 
 * Bad, because it is not the latest version available meaning that certain useful features in the latest version would not exist in this version
 
-### When2Meet or LettuceMeet
+### Version 6
 
 * Good, because it is the latest version
 * Neutral, because the CodeMirror's purpose is to just store code and show it in a presentable manner. 
