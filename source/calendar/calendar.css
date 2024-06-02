@@ -23,7 +23,7 @@ body {
     background: #f6eee3;
     border-radius: 15px;
     min-height: 80vh; /* Increased min-height */
-    padding: 20px; /* Added padding */
+    padding: 0px; /* No padding */
     display: flex;
     flex-direction: column;
 }
@@ -124,6 +124,14 @@ header .icons span {
 
 /* Change day to light gray when not part of month */
 .day .faded {
+    color: #aaa;
+}
+
+.day .faded-past {
+    color: #aaa;
+}
+
+.day .faded-future {
     color: #aaa;
 }
 

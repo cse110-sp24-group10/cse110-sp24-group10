@@ -38,7 +38,13 @@ const addDayClickEvent = () => {
     document.querySelectorAll(".day li").forEach(day => {
         day.addEventListener("click", () => {
             const selectedDay = day.innerText;
-            const selectedDate = new Date(currYear, currMonth, selectedDay);
+            let selectedDate = new Date(currYear, currMonth, selectedDay);
+            if (day.classList.contains("faded-past")){
+                selectedDate = new Date(currYear, currMonth - 1, selectedDay)
+            }
+            else if (day.classList.contains("faded-future")){
+                selectedDate = new Date(currYear, currMonth + 1, selectedDay)
+            }
             popupDate.innerText = `${months[selectedDate.getMonth()]} ${selectedDay}, ${selectedDate.getFullYear()}`;
             loadTasksForDate(selectedDate);
             popup.style.display = "";
@@ -75,7 +81,7 @@ const createCalendar = () => {
 
     // List dates of last month
     for (let i = firstDayOfMonth; i > 0; i--) {
-        liTag += `<li class="faded">${prevLastDateOfMonth - i + 1}</li>`;
+        liTag += `<li class="faded-past">${prevLastDateOfMonth - i + 1}</li>`;
     }
     // List dates of current month
     for (let i = 1; i <= lastDateOfMonth; i++) {
@@ -88,7 +94,7 @@ const createCalendar = () => {
     }
     // List dates of next month (first few days)
     for (let i = lastDayOfMonth; i < 6; i++) {
-        liTag += `<li class="faded">${i - lastDayOfMonth + 1}</li>`;
+        liTag += `<li class="faded-future">${i - lastDayOfMonth + 1}</li>`;
     }
 
     dayTag.innerHTML = liTag;
