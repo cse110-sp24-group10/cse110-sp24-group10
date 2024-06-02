@@ -23,7 +23,7 @@ const loadTasksForDate = (date) => {
             return `<div class="task">${task.name}: ${task.tag} - (${formattedDate} - (${completed}))</div>`;
         }).join('');
     } else {
-        taskList.innerHTML = '<li>No tasks for today.</li>';
+        taskList.innerHTML = '<li class="noTask">No tasks for today.</li>';
     }
 };
 
@@ -37,6 +37,7 @@ window.addEventListener("load", () => {
 const addDayClickEvent = () => {
     document.querySelectorAll(".day li").forEach(day => {
         day.addEventListener("click", () => {
+            //change month num displayed if faded
             const selectedDay = day.innerText;
             let selectedDate = new Date(currYear, currMonth, selectedDay);
             if (day.classList.contains("faded-past")){
