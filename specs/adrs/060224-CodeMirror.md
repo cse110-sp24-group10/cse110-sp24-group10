@@ -43,5 +43,4 @@ to no avail. Switching to Version 5.65.16 proved to be a good decision due to th
 
 
 ## More Information
-
-We will continue to monitor the implementation of When2Meet/LettuceMeet and gather feedback from group members to ensure it continues to meet our scheduling and productivity needs effectively. 
+NA
