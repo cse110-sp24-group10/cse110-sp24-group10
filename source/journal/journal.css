@@ -11,7 +11,12 @@
     --palette-dark-brown: #c9a36f;
     --header-margin-spacing: 40px;
     /* Some math shit to get here i.e. -5/90 to get back to 100 but need to multiply by 100 to get -500%/90) */
-    --undo-margin: calc(-500%/90)
+    --undo-margin: calc(-500%/90);
+    --tag-red: #FFCCCC;
+    --tag-yellow: #FFFF99;
+    --tag-green: #CCFFCC;
+    --tag-blue: #99CCFF;
+    --tag-purple: #CC99FF;
 }
 
 /* Adding typewriter font */
@@ -90,35 +95,36 @@ h2 {
     padding: 5px 2%;
     border-radius: 5px;
     margin-right: 5px;
-    color: white;
+    color: black;
 }
 
-/* temp tags */
-.tag1 {
-    background-color: #e74c3c;
+.red {
+    background-color: var(--tag-red)
 }
 
-/* temp tags */
-.tag2 {
-    background-color: #3498db;
+.yellow {
+    background-color: var(--tag-yellow)
 }
 
-/* temp tasks */
+.green {
+    background-color: var(--tag-green)
+}
+
+.blue {
+    background-color: var(--tag-blue)
+}
+
+.purple {
+    background-color: var(--tag-purple)
+}
+
 .task {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
 }
-
-/* temp task */
-.task input[type="checkbox"] {
-    margin-right: 10px;
-}
-
-/* temp task */
-.task-completed {
-    text-decoration: line-through;
-}
-
 
 /* Overall background of the notes not including text area */
 #notes-section {

@@ -1,4 +1,30 @@
 document.addEventListener('DOMContentLoaded', (event) => {
+    function loadTags() {
+        const localStorageData = localStorage.getItem('tasks');
+        const parsedData = JSON.parse(localStorageData);
+        
+        parsedData.forEach(item => {
+            const currTag = document.createElement('span');
+            currTag.className = 'tag ' + item.tag;
+            currTag.textContent = item.tag;
+            document.getElementById('tags').appendChild(currTag);
+        });
+    }
+
+    loadTags();
+    
+    function loadTasks() {
+        let localStorageData = localStorage.getItem('tasks');
+        let parsedData = JSON.parse(localStorageData);
+        console.log(parsedData);
+        parsedData.forEach(item => {
+            const currTask = document.createElement('div');
+            currTask.className = 'task';
+            currTask.textContet = item.task;
+        });
+    }
+
+    loadTasks();
     // Create a CodeMirror instance with additional features
     const editor = CodeMirror(document.getElementById('editor'), {
         value: "function myScript(){return 100;}\n",

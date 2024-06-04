@@ -11,5 +11,8 @@
         "require": "esm",
         "timeout": 5000,
         "reporter": "spec"
+    },
+    "dependencies": {
+        "eslint": "^9.4.0"
     }
 }
