@@ -1,4 +1,5 @@
 // calendar.test.js
+jest.useFakeTimers();
 const { JSDOM } = require('jsdom');
 const fs = require('fs');
 const path = require('path');
@@ -85,28 +86,28 @@ describe('Calendar Tests', () => {
      expect(document.querySelector('.monthANDyear').innerText).not.toBe(monthYearInitial);
    });
 
-  //  it('should load tasks for the selected date', () => {
-  //      // Assuming tasks are stored with dates as keys
-  //      const sampleTasks = [
-  //          { date: new Date().toISOString(), name: 'Task 1', time: '10:00 AM' }
-  //      ];
-  //      localStorage.setItem('tasks', JSON.stringify(sampleTasks));
+   it('should load tasks for the selected date', () => {
+       // Assuming tasks are stored with dates as keys
+       const sampleTasks = [
+           { date: new Date().toISOString(), name: 'Task 1', time: '10:00 AM' }
+       ];
+       localStorage.setItem('tasks', JSON.stringify(sampleTasks));
 
-  //      const today = new Date().getDate();
-  //      const dayElement = document.querySelector(`.day li:not(.faded):nth-child(${today + 4})`);
-  //      dayElement.click();
+       const today = new Date().getDate();
+       const dayElement = document.querySelector(`.day li:not(.faded):nth-child(${today + 4})`);
+       dayElement.click();
 
-  //      const taskList = document.getElementById('task-list');
-  //      expect(taskList.innerHTML).toContain('Task 1');
-  //  });
+       const taskList = document.getElementById('task-list');
+       expect(taskList.innerHTML).toContain('Task 1');
+   });
 
-  //  it('should display no tasks message if no tasks are available for a selected day', () => {
-  //      const dayElement = document.querySelector('.day li:not(.highlighted):not(.faded)');
-  //      dayElement.click();
-  //      const taskMessageElem = document.getElementById('task-list').querySelector('.noTask');
-  //      expect(taskMessageElem).toBeTruthy();
-  //      expect(taskMessageElem.textContent).toBe('No tasks for today.');
-  //  });
+   it('should display no tasks message if no tasks are available for a selected day', () => {
+       const dayElement = document.querySelector('.day li:not(.highlighted):not(.faded)');
+       dayElement.click();
+       const taskMessageElem = document.getElementById('task-list').querySelector('.noTask');
+       expect(taskMessageElem).toBeTruthy();
+       expect(taskMessageElem.textContent).toBe('No tasks for today.');
+   });
 
    it('should handle edge cases for month and year transitions', () => {
        const prevIcon = document.getElementById('prev');
@@ -130,7 +131,4 @@ describe('Calendar Tests', () => {
        }
        expect(document.querySelector('.monthANDyear').innerText).toContain((currYear + 1).toString());
    });
-
-   // Additional tests to verify interactions and edge cases
-   // ...
 });
