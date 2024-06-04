@@ -226,7 +226,6 @@ li {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     transition: left 0.3s ease;
     z-index: 999;
-    border-radius: 15px; /* Add rounded corners */
 }
 
 .show-sidebar {
@@ -291,4 +290,12 @@ li {
 .delete-btn:active, .reorder-btn:active {
     background-color: #a37433;
     transform: translateY(0);
+}
+
+.task-item {
+    transition: all 0.3s ease;
+}
+
+.task-item.dragging {
+    opacity: 0.5;
 }
