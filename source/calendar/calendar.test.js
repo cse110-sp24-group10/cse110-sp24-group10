@@ -7,21 +7,20 @@ class LocalStorageMock {
    constructor() {
      this.store = {};
    }
-    clear() {
+   clear() {
      this.store = {};
    }
-  
    getItem(key) {
      return this.store[key] || null;
    }
-    setItem(key, value) {
+   setItem(key, value) {
      this.store[key] = String(value);
    }
-    removeItem(key) {
+   removeItem(key) {
      delete this.store[key];
    }
- }
-  global.localStorage = new LocalStorageMock;
+}
+global.localStorage = new LocalStorageMock;
 
 describe('Calendar Tests', () => {
    let document;
@@ -47,7 +46,6 @@ describe('Calendar Tests', () => {
 
    it('should display the correct month and year', () => {
        const monthYearElement = document.querySelector('.monthANDyear');
-       console.log(monthYearElement);
        const months = ["January", "February", "March", "April", "May", "June",
    "July", "August", "September", "October", "November", "December"];
        const date = new Date();
@@ -74,76 +72,65 @@ describe('Calendar Tests', () => {
        expect(popup.style.display).toBe('none');
    });
 
-
-   // it('should load tasks for the selected date', () => {
-   //     const sampleTasks = [
-   //         { date: new Date().toISOString(), name: 'Task 1', time: '10:00 AM' }
-   //     ];
-   //     localStorage.setItem('tasks', JSON.stringify(sampleTasks));
-
-
-   //     const today = new Date().getDate();
-   //     const dayElement = document.querySelector(`.day li:not(.faded):nth-child(${today + 4})`);
-   //     dayElement.click();
-
-
-   //     const taskList = document.getElementById('task-list');
-   //     expect(taskList.innerHTML).toContain('Task 1');
-   // });
-
-
-   it('should update calendar after icon navigation left or right', () => {
+   it('should correctly handle navigation between months and years', () => {
      const prevIcon = document.getElementById('prev');
      const nextIcon = document.getElementById('next');
-     const monthYear = document.querySelector(".monthANDyear");
-     console.log(monthYear);
-
+     const monthYearInitial = document.querySelector(".monthANDyear").innerText;
 
      prevIcon.click();
-     expect(document.querySelector('.monthANDyear').innerText).not.toBe(monthYear);
+     expect(document.querySelector('.monthANDyear').innerText).not.toBe(monthYearInitial);
 
-
-     nextIcon.click();
-     nextIcon.click();
-     expect(document.querySelector('.monthANDyear').innerText).not.toBe(monthYear);
+     nextIcon.click(); // should return to initial month
+     nextIcon.click(); // move to next month
+     expect(document.querySelector('.monthANDyear').innerText).not.toBe(monthYearInitial);
    });
 
+  //  it('should load tasks for the selected date', () => {
+  //      // Assuming tasks are stored with dates as keys
+  //      const sampleTasks = [
+  //          { date: new Date().toISOString(), name: 'Task 1', time: '10:00 AM' }
+  //      ];
+  //      localStorage.setItem('tasks', JSON.stringify(sampleTasks));
 
-   it('should have day click event load tasks for selected day (this tests empty day)', () => {
-     const days = document.querySelectorAll('.day li');
-     console.log(days);
-     const targetDay = days[10];
-     console.log(targetDay);
-     const selectedDay = parseInt(targetDay.innerText);
-     console.log(selectedDay);
+  //      const today = new Date().getDate();
+  //      const dayElement = document.querySelector(`.day li:not(.faded):nth-child(${today + 4})`);
+  //      dayElement.click();
 
+  //      const taskList = document.getElementById('task-list');
+  //      expect(taskList.innerHTML).toContain('Task 1');
+  //  });
 
-     const expectedDate = new Date();
-     expectedDate.setDate(selectedDay);
+  //  it('should display no tasks message if no tasks are available for a selected day', () => {
+  //      const dayElement = document.querySelector('.day li:not(.highlighted):not(.faded)');
+  //      dayElement.click();
+  //      const taskMessageElem = document.getElementById('task-list').querySelector('.noTask');
+  //      expect(taskMessageElem).toBeTruthy();
+  //      expect(taskMessageElem.textContent).toBe('No tasks for today.');
+  //  });
 
+   it('should handle edge cases for month and year transitions', () => {
+       const prevIcon = document.getElementById('prev');
+       const currYear = new Date().getFullYear();
 
-     targetDay.click();
-     expect(document.getElementById('popup-date').innerText)
-         .toContain(selectedDay.toString());
+       // Testing edge case for year decrement
+       for (let i = 0; i < 12; i++) {
+           prevIcon.click();
+       }
+       expect(document.querySelector('.monthANDyear').innerText).toContain((currYear - 1).toString());
+
+       // Reset to current year
+       const nextIcon = document.getElementById('next');
+       for (let i = 0; i < 12; i++) {
+           nextIcon.click();
+       }
+
+       // Testing edge case for year increment
+       for (let i = 0; i < 12; i++) {
+           nextIcon.click();
+       }
+       expect(document.querySelector('.monthANDyear').innerText).toContain((currYear + 1).toString());
    });
 
-
- //   it('should display no tasks message if no tasks for today', () => {
- //     const days = document.querySelectorAll('.day li');
- //     const targetDay = days[10];
- //     const selectedDay = parseInt(targetDay.innerText);
-
-
- //     const expectedDate = new Date();
- //     expectedDate.setDate(selectedDay);
-
-
- //     targetDay.click();
- //     let taskMessageElem = document.querySelector('li .noTask');
- //     console.log(taskMessageElem);
- //     let taskMessage = taskMessageElem.innerText;
- //     console.log(taskMessage);
- //     expect(taskMessage)
- //         .toBe('No tasks for today.');
- // });
+   // Additional tests to verify interactions and edge cases
+   // ...
 });

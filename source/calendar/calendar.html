@@ -3,26 +3,33 @@
 <head>
     <meta charset="utf-8">
     <title>Dev Log Calendar</title>
+    <!-- Link to external CSS file for styling -->
     <link rel="stylesheet" href="calendar.css">
+    <!-- Preconnect to Google Fonts for faster loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Link to Google Fonts - Courier Prime and Material Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Link to external JavaScript file, deferred for faster page load -->
     <script src="calendar.js" defer></script>
 </head>
 <body>
     <div class="container">
-        <!-- Month and Year Bar with Toggles-->
+        <!-- Month and Year Bar with Toggles -->
         <header>
-          <p class="monthANDyear">May 2024</p>
-          <div class="icons">
-            <span id="prev" class="toggle-symbols">&nbsp;&lt;&nbsp;</span>
-            <span id="next" class="toggle-symbols">&nbsp;&gt;&nbsp;</span>
-          </div>
+            <!-- Display current month and year -->
+            <p class="monthANDyear">May 2024</p>
+            <div class="icons">
+                <!-- Previous and Next month toggles -->
+                <span id="prev" class="toggle-symbols">&nbsp;&lt;&nbsp;</span>
+                <span id="next" class="toggle-symbols">&nbsp;&gt;&nbsp;</span>
+            </div>
         </header>
-        <!-- Calendar Week/Days-->
+        <!-- Calendar Week/Days -->
         <div class="calendar">
             <ul class="week">
+                <!-- Weekdays labels -->
                 <li>Sun</li>
                 <li>Mon</li>
                 <li>Tue</li>
@@ -32,6 +39,7 @@
                 <li>Sat</li>
             </ul>
             <ul class="day">
+                <!-- Days of the current month with some days faded (previous/next month) and one highlighted (current day) -->
                 <li class="faded">28</li>
                 <li class="faded">29</li>
                 <li class="faded">30</li>
@@ -70,11 +78,14 @@
             </ul>
         </div>
     </div>
-    <!-- Pop-up window -->
+    <!-- Pop-up window for tasks and journal links -->
     <div class="popup" id="popup">
         <div class="popup-content">
+            <!-- Close button for the pop-up window -->
             <span class="close">&times;</span>
+            <!-- Date display in the pop-up window -->
             <h2 id="popup-date"></h2>
+            <!-- Task list for the selected date -->
             <ul id="task-list">
                 <li>No tasks for today.</li>
             </ul>
