@@ -26,6 +26,7 @@ body {
     padding: 20px; /* Added padding */
     display: flex;
     flex-direction: column;
+    margin-bottom: 100px;
 }
 
 /* Styles header/icon bar */
@@ -238,4 +239,19 @@ header .icons span {
     word-wrap: break-word;
     white-space: pre-wrap;
     box-sizing: border-box;
+}
+
+:root{
+    --arrow-font-size: 1.5em;
+    --top-bar-size: 2em;
+    --palette-off-white: #F6EEE3;
+    --palette-light-tan: #EEE7D7;
+    --palette-light-grey: #E5DECF;
+    --palette-pink: #E5CBBA;
+    --palette-brown: #D9BDA5;
+    --palette-background: #dbc2a0;
+    --palette-dark-brown: #c9a36f;
+    --header-margin-spacing: 40px;
+    /* Some math shit to get here i.e. -5/90 to get back to 100 but need to multiply by 100 to get -500%/90) */
+    --undo-margin: calc(-500%/90)
 }
