@@ -4,6 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterBtn = document.getElementById('filter-btn');
     const sidebar = document.querySelector('.sidebar');
     const closeBtn = document.getElementById('close-sidebar');
+    const darkModeToggle = document.getElementById("dark-mode-toggle");
+    const body = document.body;
+
+    darkModeToggle.addEventListener("change", function() {
+        if (darkModeToggle.checked) {
+            body.classList.add("dark-mode");
+            localStorage.setItem("darkMode", "enabled");
+        } else {
+            body.classList.remove("dark-mode");
+            localStorage.setItem("darkMode", "disabled");
+        }
+    });
+
+    // Check local storage to keep the dark mode setting consistent across sessions
+    if (localStorage.getItem("darkMode") === "enabled") {
+        darkModeToggle.checked = true;
+        body.classList.add("dark-mode");
+    }
 
     function saveTasksToLocalStorage() {
         const tasks = Array.from(taskList.children).map(task => {
@@ -22,7 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         tasks.forEach(task => {
             const taskElement = createTaskElement(task.name, task.completed, task.date, task.time, task.tag);
-            taskElement.classList.add(task.tag.toLowerCase());
+            if (task.tag !== '') {
+                taskElement.classList.add(task.tag.toLowerCase());
+            }
             if (task.completed) {
                 taskElement.classList.add('completed');
             }
@@ -283,11 +303,7 @@ function filterTasksByTag(tag) {
 // Get the buttons
 const dateFilterBtn = document.getElementById('date-filter');
 const nameFilterBtn = document.getElementById('name-filter');
+const tagFilterBtn = document.getElementById('tag-filter');
 dateFilterBtn.addEventListener('click', sortTasksByDate);
 nameFilterBtn.addEventListener('click', sortTasksByName);
-
-let calendarButton = document.getElementById('calendarButton');
-console.log(calendarButton);
-calendarButton.addEventListener('click', () => {
-    window.location.href = "../calendar/calendar.html";
-});
+tagFilterBtn.addEventListener('click', sortTasksByTag);
