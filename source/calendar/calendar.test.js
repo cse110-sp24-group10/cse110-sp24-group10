@@ -1,7 +1,6 @@
 // calendar.test.js
-jest.useFakeTimers();
-const { JSDOM } = require('jsdom');
-const fs = require('fs');
+const puppeteer = require('puppeteer');
+const { readFileSync } = require('fs');
 const path = require('path');
 
 class LocalStorageMock {
@@ -21,245 +20,243 @@ class LocalStorageMock {
         delete this.store[key];
     }
 }
-global.localStorage = new LocalStorageMock;
 
 describe('Calendar Tests', () => {
-    let document;
-    let window;
-    let calendarScript;
-    let originalAssign;
+    let browser;
+    let page;
 
-    beforeAll(() => {
-        const html = fs.readFileSync(path.resolve(__dirname, 'calendar.html'), 'utf8');
-        const css = fs.readFileSync(path.resolve(__dirname, 'calendar.css'), 'utf8');
-        const dom = new JSDOM(html, {
-            runScripts: 'dangerously',
-            resources: 'usable'
+    beforeAll(async () => {
+        browser = await puppeteer.launch();
+        page = await browser.newPage();
+
+        // Set up local storage mock
+        await page.evaluateOnNewDocument(() => {
+            global.localStorage = new LocalStorageMock();
         });
 
-        document = dom.window.document;
-        window = dom.window;
+        // Navigate to the calendar page
+        const htmlPath = `file:${path.resolve(__dirname, 'calendar.html')}`;
+        await page.goto(htmlPath);
 
-        calendarScript = fs.readFileSync(path.resolve(__dirname, 'calendar.js'), 'utf8');
-        const scriptElement = document.createElement('script');
-        scriptElement.textContent = calendarScript;
-        document.head.appendChild(scriptElement);
+        // Inject CSS and JS
+        const cssContent = readFileSync(path.resolve(__dirname, 'calendar.css'), 'utf8');
+        const jsContent = readFileSync(path.resolve(__dirname, 'calendar.js'), 'utf8');
+        await page.addStyleTag({ content: cssContent });
+        await page.addScriptTag({ content: jsContent });
     });
 
-    it('should display the correct month and year', () => {
-        const monthYearElement = document.querySelector('.monthANDyear');
+    afterAll(async () => {
+        await browser.close();
+    });
+
+    it('should display the correct month and year', async () => {
+        const monthYearElement = await page.$eval('.monthANDyear', el => el.innerText);
         const months = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"];
         const date = new Date();
-        expect(monthYearElement.innerText).toBe(`${months[date.getMonth()]} ${date.getFullYear()}`);
+        expect(monthYearElement).toBe(`${months[date.getMonth()]} ${date.getFullYear()}`);
     });
 
-    it('should highlight today\'s date', () => {
+    it('should highlight today\'s date', async () => {
         const today = new Date().getDate();
-        const highlightedDay = document.querySelector('.highlighted');
-        expect(highlightedDay.textContent).toBe(today.toString());
+        const highlightedDay = await page.$eval('.highlighted', el => el.textContent);
+        expect(highlightedDay).toBe(today.toString());
     });
 
-    it('should open the popup when a day is clicked', () => {
-        const firstDay = document.querySelector('.day li:not(.faded)');
-        firstDay.click();
-        const popup = document.getElementById('popup');
-        expect(popup.style.display).toBe('');
+    it('should open the popup when a day is clicked', async () => {
+        await page.click('.day li:not(.faded)');
+        const popupDisplay = await page.$eval('#popup', el => el.style.display);
+        expect(popupDisplay).toBe('');
     });
 
-    it('should close the popup when the close button is clicked', () => {
-        const closeBtn = document.querySelector('.popup .close');
-        closeBtn.click();
-        const popup = document.getElementById('popup');
-        expect(popup.style.display).toBe('none');
+    it('should close the popup when the close button is clicked', async () => {
+        await page.click('.popup .close');
+        const popupDisplay = await page.$eval('#popup', el => el.style.display);
+        expect(popupDisplay).toBe('none');
     });
 
-    it('should correctly handle navigation between months and years', () => {
-        const prevIcon = document.getElementById('prev');
-        const nextIcon = document.getElementById('next');
-        const monthYearInitial = document.querySelector(".monthANDyear").innerText;
+    it('should correctly handle navigation between months and years', async () => {
+        const initialMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
 
-        prevIcon.click();
-        expect(document.querySelector('.monthANDyear').innerText).not.toBe(monthYearInitial);
+        await page.click('#prev');
+        const prevMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
+        expect(prevMonthYear).not.toBe(initialMonthYear);
 
-        nextIcon.click(); // should return to initial month
-        nextIcon.click(); // move to next month
-        expect(document.querySelector('.monthANDyear').innerText).not.toBe(monthYearInitial);
+        await page.click('#next');
+        const nextMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
+        expect(nextMonthYear).toBe(initialMonthYear);
+
+        await page.click('#next');
+        const nextNextMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
+        expect(nextNextMonthYear).not.toBe(initialMonthYear);
     });
 
-    it('should load tasks for the selected date', () => {
+    it('should load tasks for the selected date', async () => {
         const sampleTasks = [
             { date: new Date().toISOString(), name: 'Task 1', time: '10:00 AM', tag: 'Work', completed: false }
         ];
-        localStorage.setItem('tasks', JSON.stringify(sampleTasks));
+        await page.evaluate((tasks) => {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }, sampleTasks);
 
         const today = new Date().getDate();
-        const dayElement = document.querySelector(`.day li:not(.faded):nth-child(${today + 4})`);
-        dayElement.click();
+        await page.click(`.day li:not(.faded):nth-child(${today + 4})`);
 
-        const taskList = document.getElementById('task-list');
-        expect(taskList.innerHTML).toContain('Task 1');
+        const taskListContent = await page.$eval('#task-list', el => el.innerHTML);
+        expect(taskListContent).toContain('Task 1');
     });
 
-    it('should display no tasks message if no tasks are available for a selected day', () => {
-        const dayElement = document.querySelector('.day li:not(.highlighted):not(.faded)');
-        dayElement.click();
-        const taskMessageElem = document.getElementById('task-list').querySelector('.noTask');
-        expect(taskMessageElem).toBeTruthy();
-        expect(taskMessageElem.textContent).toBe('No tasks for today.');
+    it('should display no tasks message if no tasks are available for a selected day', async () => {
+        await page.click('.day li:not(.highlighted):not(.faded)');
+        const taskMessageElem = await page.$eval('#task-list .noTask', el => el.textContent);
+        expect(taskMessageElem).toBe('No tasks for today.');
     });
 
-    it('should handle edge cases for month and year transitions', () => {
-        const prevIcon = document.getElementById('prev');
+    it('should handle edge cases for month and year transitions', async () => {
         const currYear = new Date().getFullYear();
 
-        // Testing edge case for year decrement
         for (let i = 0; i < 12; i++) {
-            prevIcon.click();
+            await page.click('#prev');
         }
-        expect(document.querySelector('.monthANDyear').innerText).toContain((currYear - 1).toString());
+        let displayedYear = await page.$eval('.monthANDyear', el => el.innerText);
+        expect(displayedYear).toContain((currYear - 1).toString());
 
-        // Reset to current year
-        const nextIcon = document.getElementById('next');
         for (let i = 0; i < 12; i++) {
-            nextIcon.click();
+            await page.click('#next');
         }
 
-        // Testing edge case for year increment
         for (let i = 0; i < 12; i++) {
-            nextIcon.click();
+            await page.click('#next');
         }
-        expect(document.querySelector('.monthANDyear').innerText).toContain((currYear + 1).toString());
+        displayedYear = await page.$eval('.monthANDyear', el => el.innerText);
+        expect(displayedYear).toContain((currYear + 1).toString());
     });
 
-    // New Test Cases
-
-    it('should load tasks on page load', () => {
+    it('should load tasks on page load', async () => {
         const sampleTasks = [
             { date: new Date().toISOString(), name: 'Task on Load', time: '9:00 AM', tag: 'Home', completed: false }
         ];
-        localStorage.setItem('tasks', JSON.stringify(sampleTasks));
-        
-        const today = new Date();
-        window.dispatchEvent(new Event('load'));
-        
-        const taskList = document.getElementById('task-list');
-        expect(taskList.innerHTML).toContain('Task on Load');
+        await page.evaluate((tasks) => {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }, sampleTasks);
+
+        await page.reload();
+
+        const taskListContent = await page.$eval('#task-list', el => el.innerHTML);
+        expect(taskListContent).toContain('Task on Load');
     });
 
-    it('should navigate to tasks page when Add Task button is clicked', () => {
-        const addTaskBtn = document.getElementById('addTaskBtn');
-        addTaskBtn.click();
-        expect(window.location.assign).toHaveBeenCalledWith('../tasks/tasks.html');
+    it('should navigate to tasks page when Add Task button is clicked', async () => {
+        await page.click('#addTaskBtn');
+        const currentUrl = page.url();
+        expect(currentUrl).toContain('tasks/tasks.html');
     });
 
-    it('should navigate to journal page when Journal Link button is clicked', () => {
-        const journalLinkBtn = document.getElementById('journalLinkBtn');
-        journalLinkBtn.click();
-        expect(window.location.assign).toHaveBeenCalledWith('../journal/journal.html');
+    it('should navigate to journal page when Journal Link button is clicked', async () => {
+        await page.click('#journalLinkBtn');
+        const currentUrl = page.url();
+        expect(currentUrl).toContain('journal/journal.html');
     });
 
-    it('should close the popup when clicking outside of it', () => {
-        const popup = document.getElementById('popup');
-        const event = new window.MouseEvent('click', {
-            view: window,
-            bubbles: true,
-            cancelable: true
-        });
-        popup.style.display = 'flex'; // Assume popup is open
-        window.dispatchEvent(event);
-        expect(popup.style.display).toBe('none');
+    it('should close the popup when clicking outside of it', async () => {
+        await page.click('.day li:not(.faded)');
+        await page.click('body');
+        const popupDisplay = await page.$eval('#popup', el => el.style.display);
+        expect(popupDisplay).toBe('none');
     });
 
-    it('should add a new task to localStorage', () => {
+    it('should add a new task to localStorage', async () => {
         const sampleTask = { date: new Date().toISOString(), name: 'New Task', time: '2:00 PM', tag: 'Work', completed: false };
-        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks.push(sampleTask);
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-        
-        const storedTasks = JSON.parse(localStorage.getItem('tasks'));
+        await page.evaluate((task) => {
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            tasks.push(task);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }, sampleTask);
+
+        const storedTasks = await page.evaluate(() => JSON.parse(localStorage.getItem('tasks')));
         expect(storedTasks).toContainEqual(sampleTask);
     });
 
-    it('should update task completion status in localStorage', () => {
+    it('should update task completion status in localStorage', async () => {
         const sampleTask = { date: new Date().toISOString(), name: 'Task to Complete', time: '3:00 PM', tag: 'Personal', completed: false };
-        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks.push(sampleTask);
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-        
-        // Simulate marking the task as completed
-        const updatedTasks = tasks.map(task => {
-            if (task.name === 'Task to Complete') {
-                task.completed = true;
-            }
-            return task;
+        await page.evaluate((task) => {
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            tasks.push(task);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }, sampleTask);
+
+        await page.evaluate(() => {
+            const tasks = JSON.parse(localStorage.getItem('tasks'));
+            const updatedTasks = tasks.map(task => {
+                if (task.name === 'Task to Complete') {
+                    task.completed = true;
+                }
+                return task;
+            });
+            localStorage.setItem('tasks', JSON.stringify(updatedTasks));
         });
-        localStorage.setItem('tasks', JSON.stringify(updatedTasks));
-        
-        const storedTasks = JSON.parse(localStorage.getItem('tasks'));
+
+        const storedTasks = await page.evaluate(() => JSON.parse(localStorage.getItem('tasks')));
         expect(storedTasks.find(task => task.name === 'Task to Complete').completed).toBe(true);
     });
 
-    it('should transition from the last day of the month to the first day of the next month', () => {
-        const nextIcon = document.getElementById('next');
-        const currentMonthYear = document.querySelector('.monthANDyear').innerText;
+    it('should transition from the last day of the month to the first day of the next month', async () => {
+        const initialMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
 
-        // Click to the last day of the month
-        const lastDay = document.querySelector('.day li:not(.faded):last-child');
-        lastDay.click();
-        
-        nextIcon.click();
-        const newMonthYear = document.querySelector('.monthANDyear').innerText;
-        expect(newMonthYear).not.toBe(currentMonthYear);
+        await page.click('.day li:not(.faded):last-child');
+        await page.click('#next');
 
-        const firstDay = document.querySelector('.day li:not(.faded)').innerText;
+        const newMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
+        expect(newMonthYear).not.toBe(initialMonthYear);
+
+        const firstDay = await page.$eval('.day li:not(.faded)', el => el.innerText);
         expect(firstDay).toBe('1');
     });
 
-    it('should transition from the first day of the month to the last day of the previous month', () => {
-        const prevIcon = document.getElementById('prev');
-        const currentMonthYear = document.querySelector('.monthANDyear').innerText;
+    it('should transition from the first day of the month to the last day of the previous month', async () => {
+        const initialMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
 
-        // Click to the first day of the month
-        const firstDay = document.querySelector('.day li:not(.faded)').innerText;
-        expect(firstDay).toBe('1');
-        
-        prevIcon.click();
-        const newMonthYear = document.querySelector('.monthANDyear').innerText;
-        expect(newMonthYear).not.toBe(currentMonthYear);
+        await page.click('.day li:not(.faded)');
+        await page.click('#prev');
 
-        const lastDay = document.querySelector('.day li:not(.faded):last-child').innerText;
-        expect(parseInt(lastDay)).toBeGreaterThan(27); // Ensure it's the last day of the previous month
+        const newMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
+        expect(newMonthYear).not.toBe(initialMonthYear);
+
+        const lastDay = await page.$eval('.day li:not(.faded):last-child', el => el.innerText);
+        expect(parseInt(lastDay)).toBeGreaterThan(27);
     });
 
-    it('should display multiple tasks for the same date', () => {
+    it('should display multiple tasks for the same date', async () => {
         const sampleTasks = [
             { date: new Date().toISOString(), name: 'Task 1', time: '10:00 AM', tag: 'Work', completed: false },
             { date: new Date().toISOString(), name: 'Task 2', time: '11:00 AM', tag: 'Home', completed: false }
         ];
-        localStorage.setItem('tasks', JSON.stringify(sampleTasks));
+        await page.evaluate((tasks) => {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }, sampleTasks);
 
         const today = new Date().getDate();
-        const dayElement = document.querySelector(`.day li:not(.faded):nth-child(${today + 4})`);
-        dayElement.click();
+        await page.click(`.day li:not(.faded):nth-child(${today + 4})`);
 
-        const taskList = document.getElementById('task-list');
-        expect(taskList.innerHTML).toContain('Task 1');
-        expect(taskList.innerHTML).toContain('Task 2');
+        const taskListContent = await page.$eval('#task-list', el => el.innerHTML);
+        expect(taskListContent).toContain('Task 1');
+        expect(taskListContent).toContain('Task 2');
     });
 
-    it('should show the popup on page load and display today\'s tasks', () => {
+    it('should show the popup on page load and display today\'s tasks', async () => {
         const sampleTasks = [
             { date: new Date().toISOString(), name: 'Task on Load', time: '9:00 AM', tag: 'Home', completed: false }
         ];
-        localStorage.setItem('tasks', JSON.stringify(sampleTasks));
-        
-        window.dispatchEvent(new Event('load'));
-        
-        const popup = document.getElementById('popup');
-        const taskList = document.getElementById('task-list');
-        expect(popup.style.display).toBe('flex');
-        expect(taskList.innerHTML).toContain('Task on Load');
+        await page.evaluate((tasks) => {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }, sampleTasks);
+
+        await page.reload();
+
+        const popupDisplay = await page.$eval('#popup', el => el.style.display);
+        const taskListContent = await page.$eval('#task-list', el => el.innerHTML);
+        expect(popupDisplay).toBe('flex');
+        expect(taskListContent).toContain('Task on Load');
     });
 
 });
