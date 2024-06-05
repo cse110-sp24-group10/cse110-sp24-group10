@@ -1,15 +1,21 @@
 {
     "devDependencies": {
+        "eslint": "^9.4.0",
         "esm": "^3.2.25",
         "mocha": "^10.4.0"
     },
     "scripts": {
-        "test": "node ./node_modules/mocha/bin/mocha.js"
+        "test": "node ./node_modules/mocha/bin/mocha.js",
+        "lint": "eslint ."
     },
     "type": "module",
     "mocha": {
         "require": "esm",
         "timeout": 5000,
         "reporter": "spec"
+    },
+    "dependencies": {
+        "jest": "^29.7.0",
+        "jsdom": "^24.1.0"
     }
 }

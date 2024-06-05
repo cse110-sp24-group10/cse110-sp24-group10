@@ -280,15 +280,14 @@ function filterTasksByTag(tag) {
     });
 }
 
-function filterTasksByCompletion(isCompleted) {
-    const tasks = document.querySelectorAll('.task-item');
+// Get the buttons
+const dateFilterBtn = document.getElementById('date-filter');
+const nameFilterBtn = document.getElementById('name-filter');
+dateFilterBtn.addEventListener('click', sortTasksByDate);
+nameFilterBtn.addEventListener('click', sortTasksByName);
 
-    tasks.forEach(task => {
-        const taskCompleted = task.classList.contains('completed');
-        if (taskCompleted === isCompleted || isCompleted === 'all') {
-            task.style.display = 'flex';
-        } else {
-            task.style.display = 'none';
-        }
-    });
-}
+let calendarButton = document.getElementById('calendarButton');
+console.log(calendarButton);
+calendarButton.addEventListener('click', () => {
+    window.location.href = "../calendar/calendar.html";
+});
