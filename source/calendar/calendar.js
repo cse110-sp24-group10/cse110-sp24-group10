@@ -63,7 +63,7 @@ const addDayClickEvent = () => {
             // Update popup with the selected date and load tasks
             popupDate.innerText = `${months[selectedDate.getMonth()]} ${selectedDay}, ${selectedDate.getFullYear()}`;
             loadTasksForDate(selectedDate);
-            popup.style.display = ""; // Show the popup
+            popup.style.display = "flex"; // Show the popup
         });
     });
 }

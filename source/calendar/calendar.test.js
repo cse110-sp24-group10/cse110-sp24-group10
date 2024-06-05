@@ -2,6 +2,7 @@
 const puppeteer = require('puppeteer');
 const { readFileSync } = require('fs');
 const path = require('path');
+const { TestWatcher } = require('jest');
 
 class LocalStorageMock {
     constructor() {
@@ -24,6 +25,8 @@ class LocalStorageMock {
 describe('Calendar Tests', () => {
     let browser;
     let page;
+    const months = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
 
     beforeAll(async () => {
         browser = await puppeteer.launch();
@@ -66,7 +69,7 @@ describe('Calendar Tests', () => {
     it('should open the popup when a day is clicked', async () => {
         await page.click('.day li:not(.faded)');
         const popupDisplay = await page.$eval('#popup', el => el.style.display);
-        expect(popupDisplay).toBe('');
+        expect(popupDisplay).toBe('flex');
     });
 
     it('should close the popup when the close button is clicked', async () => {
@@ -92,15 +95,17 @@ describe('Calendar Tests', () => {
     });
 
     it('should load tasks for the selected date', async () => {
+        const today = new Date();
+        const day = ('0' + today.getDate()).slice(-2);
+        const month = ('0' + (today.getMonth() + 1)).slice(-2);
         const sampleTasks = [
-            { date: new Date().toISOString(), name: 'Task 1', time: '10:00 AM', tag: 'Work', completed: false }
+            { date: `${today.getFullYear()}-` + month + `-` + day, name: 'Task 1', time:"", tag: 'green', completed: false }
         ];
+        console.log(JSON.stringify(sampleTasks));
         await page.evaluate((tasks) => {
             localStorage.setItem('tasks', JSON.stringify(tasks));
         }, sampleTasks);
-
-        const today = new Date().getDate();
-        await page.click(`.day li:not(.faded):nth-child(${today + 4})`);
+        await page.click(`.day li:not(.faded):nth-child(${today.getDate() + 4})`);
 
         const taskListContent = await page.$eval('#task-list', el => el.innerHTML);
         expect(taskListContent).toContain('Task 1');
