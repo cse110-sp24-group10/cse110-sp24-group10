@@ -27,13 +27,11 @@ describe('Calendar Tests', () => {
     let document;
     let window;
     let calendarScript;
+    let originalAssign;
 
     beforeAll(() => {
         const html = fs.readFileSync(path.resolve(__dirname, 'calendar.html'), 'utf8');
         const css = fs.readFileSync(path.resolve(__dirname, 'calendar.css'), 'utf8');
-        Object.defineProperty(window, 'location', {
-            value: { reload: jest.fn() }
-          });
         const dom = new JSDOM(html, {
             runScripts: 'dangerously',
             resources: 'usable'
@@ -47,10 +45,6 @@ describe('Calendar Tests', () => {
         scriptElement.textContent = calendarScript;
         document.head.appendChild(scriptElement);
     });
-
-    afterAll(() => {
-        window.location.reload = reload;
-      });
 
     it('should display the correct month and year', () => {
         const monthYearElement = document.querySelector('.monthANDyear');
@@ -155,18 +149,14 @@ describe('Calendar Tests', () => {
 
     it('should navigate to tasks page when Add Task button is clicked', () => {
         const addTaskBtn = document.getElementById('addTaskBtn');
-        const spy = jest.spyOn(window.location, 'assign').mockImplementation(() => {});
-        
         addTaskBtn.click();
-        expect(spy).toHaveBeenCalledWith('../tasks/tasks.html');
+        expect(window.location.assign).toHaveBeenCalledWith('../tasks/tasks.html');
     });
 
     it('should navigate to journal page when Journal Link button is clicked', () => {
         const journalLinkBtn = document.getElementById('journalLinkBtn');
-        const spy = jest.spyOn(window.location, 'assign').mockImplementation(() => {});
-        
         journalLinkBtn.click();
-        expect(spy).toHaveBeenCalledWith('../journal/journal.html');
+        expect(window.location.assign).toHaveBeenCalledWith('../journal/journal.html');
     });
 
     it('should close the popup when clicking outside of it', () => {
