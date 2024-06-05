@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let currDay = currDate.getDate();
     let currMonth = currDate.getMonth();
     let currYear = currDate.getFullYear();
+    let currNumDays = new Date(currYear, currMonth + 1, 0).getDate();
+
     // Create a CodeMirror instance with additional features
     const editor = CodeMirror(document.getElementById('editor'), {
         value: "// Enter code here\n",
@@ -21,6 +23,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const parsedData = JSON.parse(localStorageData);
         
         // TODO: IMPLEMENT IMPORTING ONLY TASKS THAT HAVE CURRENT DATE
+        // Check if there is any data in tags
+        if (!parsedData) {
+            return;
+        }
+
         parsedData.forEach(task => {
             const currTag = document.createElement('span');
             currTag.className = 'tag ' + task.tag; // tags are currently implemented as tag.<color>
@@ -33,6 +40,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function loadTasks() {
         let localStorageData = localStorage.getItem('tasks');
         let parsedData = JSON.parse(localStorageData);
+
+        // Check if there are any tasks
+        if(!parsedData) {
+            return;
+        }
 
         parsedData.forEach(item => {
             const currTask = document.createElement('div');
@@ -79,7 +91,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         loadTags();
         loadTasks();
 
-        /*
+        
         console.log(allJournalData);
         // if there is theres no journal data in localstorage, initialize an empty array for it
         if (!allJournalData) {
@@ -89,6 +101,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         let parsedData = JSON.parse(allJournalData);
         console.log(typeof(parsedData));
+        /*
         parsedData.forEach(entry => {
             if (entry.date === currDate.toDateString()) {
                 document.getElementById('textBox').value = entry.data.textValue;
@@ -96,6 +109,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         });
         */
+        
     }
     populatePage();
 
@@ -141,6 +155,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             currDay = 1;
         }
         currDate = new Date(currYear, currMonth, currDay);
+        
         updateDateText();
         populatePage();
     });
