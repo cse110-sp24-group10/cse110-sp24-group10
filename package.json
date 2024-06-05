@@ -16,5 +16,11 @@
     },
     "dependencies": {
         "jsdom": "^24.1.0"
+    },
+    "jest": {
+        "verbose": true,
+        "testEnvironmentOptions": {
+            "url": "http://localhost/"
+        }
     }
 }

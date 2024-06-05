@@ -31,6 +31,9 @@ describe('Calendar Tests', () => {
     beforeAll(() => {
         const html = fs.readFileSync(path.resolve(__dirname, 'calendar.html'), 'utf8');
         const css = fs.readFileSync(path.resolve(__dirname, 'calendar.css'), 'utf8');
+        Object.defineProperty(window, 'location', {
+            value: { reload: jest.fn() }
+          });
         const dom = new JSDOM(html, {
             runScripts: 'dangerously',
             resources: 'usable'
@@ -44,6 +47,10 @@ describe('Calendar Tests', () => {
         scriptElement.textContent = calendarScript;
         document.head.appendChild(scriptElement);
     });
+
+    afterAll(() => {
+        window.location.reload = reload;
+      });
 
     it('should display the correct month and year', () => {
         const monthYearElement = document.querySelector('.monthANDyear');
@@ -172,6 +179,97 @@ describe('Calendar Tests', () => {
         popup.style.display = 'flex'; // Assume popup is open
         window.dispatchEvent(event);
         expect(popup.style.display).toBe('none');
+    });
+
+    it('should add a new task to localStorage', () => {
+        const sampleTask = { date: new Date().toISOString(), name: 'New Task', time: '2:00 PM', tag: 'Work', completed: false };
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasks.push(sampleTask);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        
+        const storedTasks = JSON.parse(localStorage.getItem('tasks'));
+        expect(storedTasks).toContainEqual(sampleTask);
+    });
+
+    it('should update task completion status in localStorage', () => {
+        const sampleTask = { date: new Date().toISOString(), name: 'Task to Complete', time: '3:00 PM', tag: 'Personal', completed: false };
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasks.push(sampleTask);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        
+        // Simulate marking the task as completed
+        const updatedTasks = tasks.map(task => {
+            if (task.name === 'Task to Complete') {
+                task.completed = true;
+            }
+            return task;
+        });
+        localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+        
+        const storedTasks = JSON.parse(localStorage.getItem('tasks'));
+        expect(storedTasks.find(task => task.name === 'Task to Complete').completed).toBe(true);
+    });
+
+    it('should transition from the last day of the month to the first day of the next month', () => {
+        const nextIcon = document.getElementById('next');
+        const currentMonthYear = document.querySelector('.monthANDyear').innerText;
+
+        // Click to the last day of the month
+        const lastDay = document.querySelector('.day li:not(.faded):last-child');
+        lastDay.click();
+        
+        nextIcon.click();
+        const newMonthYear = document.querySelector('.monthANDyear').innerText;
+        expect(newMonthYear).not.toBe(currentMonthYear);
+
+        const firstDay = document.querySelector('.day li:not(.faded)').innerText;
+        expect(firstDay).toBe('1');
+    });
+
+    it('should transition from the first day of the month to the last day of the previous month', () => {
+        const prevIcon = document.getElementById('prev');
+        const currentMonthYear = document.querySelector('.monthANDyear').innerText;
+
+        // Click to the first day of the month
+        const firstDay = document.querySelector('.day li:not(.faded)').innerText;
+        expect(firstDay).toBe('1');
+        
+        prevIcon.click();
+        const newMonthYear = document.querySelector('.monthANDyear').innerText;
+        expect(newMonthYear).not.toBe(currentMonthYear);
+
+        const lastDay = document.querySelector('.day li:not(.faded):last-child').innerText;
+        expect(parseInt(lastDay)).toBeGreaterThan(27); // Ensure it's the last day of the previous month
+    });
+
+    it('should display multiple tasks for the same date', () => {
+        const sampleTasks = [
+            { date: new Date().toISOString(), name: 'Task 1', time: '10:00 AM', tag: 'Work', completed: false },
+            { date: new Date().toISOString(), name: 'Task 2', time: '11:00 AM', tag: 'Home', completed: false }
+        ];
+        localStorage.setItem('tasks', JSON.stringify(sampleTasks));
+
+        const today = new Date().getDate();
+        const dayElement = document.querySelector(`.day li:not(.faded):nth-child(${today + 4})`);
+        dayElement.click();
+
+        const taskList = document.getElementById('task-list');
+        expect(taskList.innerHTML).toContain('Task 1');
+        expect(taskList.innerHTML).toContain('Task 2');
+    });
+
+    it('should show the popup on page load and display today\'s tasks', () => {
+        const sampleTasks = [
+            { date: new Date().toISOString(), name: 'Task on Load', time: '9:00 AM', tag: 'Home', completed: false }
+        ];
+        localStorage.setItem('tasks', JSON.stringify(sampleTasks));
+        
+        window.dispatchEvent(new Event('load'));
+        
+        const popup = document.getElementById('popup');
+        const taskList = document.getElementById('task-list');
+        expect(popup.style.display).toBe('flex');
+        expect(taskList.innerHTML).toContain('Task on Load');
     });
 
 });
