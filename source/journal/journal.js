@@ -8,15 +8,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Create a CodeMirror instance with additional features
     const editor = CodeMirror(document.getElementById('editor'), {
-        value: "// Enter code here\n",
-        mode: "javascript",
+        value: getStartingComment(document.getElementById('languageSelect').value),
+        mode: document.getElementById('languageSelect').value,
         lineNumbers: true,
         theme: "default",
         autofocus: true,
         autoCloseBrackets: true,
         autoCloseTags: true,
         matchBrackets: true,
-        scrollbarStyle: "native"
+        scrollbarStyle: "native",
+        styleActiveLine: {nonEmpty: true},
     });
 
     function loadTags() {
@@ -59,7 +60,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const parsedJournal = JSON.parse(localJournal);
         
         // Check if current day currently exists in localstorage
-        if (!parsedJournal[currDateFormatted]) {
+        if (!parsedJournal || !parsedJournal[currDateFormatted]) {
             return;
         }
 
@@ -79,21 +80,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
             
             date2: { 
                 textValue: "text2",
-                editorValue: "editor2"
+                editorValue: "editor2",
+                language: "javascript"
             }
 
         }
         */
         const textVal = document.getElementById('textBox').value;
-        let allJournalData = JSON.parse(localStorage.getItem('journal') || '[]'); // get the journal array from localstorage if there is no journal array then it will create 
+        let allJournalData = JSON.parse(localStorage.getItem('journal') || '{}'); // Initialize as an object
         const currData = {
             textValue: document.getElementById('textBox').value,
             editorValue: editor.getValue(),
+            language: document.getElementById('languageSelect').value
         };
         
-        allJournalData[currDateFormatted] = currData; // append currData to journal array
+        allJournalData[currDateFormatted] = currData; // Append currData to journal object
 
-        localStorage.setItem('journal', JSON.stringify(allJournalData)); // save new journal object to localstorage
+        localStorage.setItem('journal', JSON.stringify(allJournalData)); // Save new journal object to localstorage
+        console.log('Saved to local storage: ', allJournalData);
+        const now = new Date();
+        const lastSaved = document.getElementById('lastSaved');
+        lastSaved.textContent = `Last saved: ${now.toLocaleTimeString()}`;
     }
 
     function updateDateText() {
@@ -123,6 +130,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Event listener for codeButton to switch to code editor
     document.getElementById('codeButton').addEventListener('click', function() {
+      document.getElementById('languageSelect').style.display = 'inline-block';
+      document.getElementById('themeSelect').style.display = 'inline-block';
+        this.classList.add('active');
+        document.getElementById('textButton').classList.remove('active');
         document.getElementById('editor').classList.add('active');
         editor.refresh(); // Refresh CodeMirror when it becomes visible
         document.getElementById('textBox').classList.remove('active');
@@ -130,9 +141,64 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Event listener for textButton to switch to text textarea
     document.getElementById('textButton').addEventListener('click', function() {
+      document.getElementById('languageSelect').style.display = 'none';
+      document.getElementById('themeSelect').style.display = 'none';
+        this.classList.add('active');
+        document.getElementById('codeButton').classList.remove('active');
         document.getElementById('textBox').classList.add('active');
         document.getElementById('editor').classList.remove('active');
     });
+
+    function getStartingComment(language) {
+      switch (language) {
+          case 'javascript':
+              return '// Enter code here\n';
+          case 'python':
+              return '# Enter code here\n';
+          case 'text/x-c++src':
+              return '// Enter code here\n';
+          default:
+              return '';
+      }
+  }
+
+  document.getElementById('languageSelect').addEventListener('change', function() {
+    editor.setOption('mode', this.value);
+    editor.getDoc().setValue(getStartingComment(this.value));
+});
+
+document.getElementById('themeSelect').addEventListener('change', function() {
+  editor.setOption('theme', this.value);
+
+  // Define the active line colors for each theme
+  const activeLineColors = {
+      default: '#F6EEE3',
+      monokai: '#49483E',
+      eclipse: '#E8F2FE',
+      // Add more themes as needed
+  };
+
+  // Get the active line color for the current theme
+  const activeLineColor = activeLineColors[this.value];
+
+  // Create a new style tag
+  const style = document.createElement('style');
+  style.textContent = `
+      .CodeMirror-activeline .CodeMirror-line {
+          background: ${activeLineColor} !important;
+      }
+  `;
+
+  // Remove the old style tag, if it exists
+  const oldStyle = document.getElementById('active-line-style');
+  if (oldStyle) {
+      oldStyle.remove();
+  }
+
+  // Add an id to the new style tag and append it to the document head
+  style.id = 'active-line-style';
+  document.head.appendChild(style);
+});
 
     document.getElementById('left-arrow').addEventListener('click', function () {
         //saveToLocalStorage();

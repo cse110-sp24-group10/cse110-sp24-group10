@@ -134,7 +134,25 @@ h2 {
     margin-bottom: 7%;
     border-radius: 10px;
     background-color: var(--palette-off-white);
+    position: relative;
+}
 
+.language-select {
+  position: absolute;
+  font-size: 10px;
+  top: 15px;
+  right: 10px;
+  height: 30px;
+  width: 85px; /* Adjust this to make the dropdown smaller or larger */
+}
+
+.theme-select {
+  position: absolute;
+  font-size: 10px;
+  top: 15px;
+  right: 100px;
+  height: 30px;
+  width: 85px; /* Adjust this to make the dropdown smaller or larger */
 }
 
 /* Textarea box for the notes and code */
@@ -155,24 +173,53 @@ h2 {
 /* Text and Code button */
 .tabs {
     display: flex;
-    justify-content: left;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* Styling for the Text and Code button */
 .tabs button {
-    padding: 10px 20px;
-    margin-right: 10px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #e1e1e1;
+  padding: 10px 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #e1e1e1;
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+/* Darken button on hover */
+.tabs button:hover {
+  background-color: #d1d1d1;
+}
+
+/* Darken button when active */
+.tabs button.active {
+  background-color: #716f6f;
+  color: white
+}
+
+.left-side {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust as needed */
+}
+
+#lastSaved {
+  font-size: 0.5em; /* Adjust as needed */
+  margin-left: 10px; /* Adjust as needed */
+  margin-top: -15px; /* Adjust as needed */
+  border: 1px solid #000; /* Adjust as needed */
+  padding: 5px; /* Adjust as needed */
+  border-radius: 5px; /* Adjust as needed */
+  background-color: #dbc2a0;
 }
 
 
 .tab.active {
     background-color: #ccc;
 }
-
 
 
 /* footer bar making stick to the bottom and design */
@@ -208,6 +255,7 @@ footer {
 
 .textarea {
     display: none;
+    padding: 10px;
 }
 
 #editor {
@@ -217,4 +265,8 @@ footer {
 
 .textarea.active, #editor.active {
     display: block;
+}
+
+.CodeMirror-activeline .CodeMirror-line {
+  background: #F6EEE3 !important;
 }

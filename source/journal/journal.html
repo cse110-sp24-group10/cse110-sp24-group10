@@ -14,7 +14,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/codemirror.min.css">
     <!-- CodeMirror JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/codemirror.min.js"></script>
+    <!-- CodeMirror show-hint JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/addon/hint/show-hint.min.js"></script>
+    <!-- CodeMirror language modes and hints -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/mode/clike/clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/addon/selection/active-line.min.js"></script>
+    <!-- CodeMirror Themes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/theme/monokai.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/theme/eclipse.min.css">
 </head>
 <body>
     <h1 id="date"></h1>
@@ -36,10 +45,28 @@
     <!-- Journal section which we are working on below-->
     <section id="notes-section">
         <div class="tabs">
+          <div class="left-side">
             <button id="textButton">Text</button>
             <button id="codeButton">Code</button>
+            <span id="lastSaved">Last saved: never</span>
+        </div>
+        <div class="right-side">
+          <select id="languageSelect" class="language-select" style="display: none;">
+              <option value="javascript">JavaScript</option>
+              <option value="python">Python</option>
+              <option value="text/x-c++src">C++</option>
+              <!-- Add more options as needed -->
+          </select>
+          <select id="themeSelect" class="theme-select" style="display: none;">
+              <option value="default">Default</option>
+              <option value="monokai">Monokai</option>
+              <option value="eclipse">Eclipse</option>
+              <!-- Add more options as needed -->
+          </select>
+      </div>
         </div>
         
+
         <div id="editor"></div>
         <textarea id="textBox" class="textarea active" placeholder="Enter text here"></textarea>
     </section>
