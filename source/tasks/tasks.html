@@ -13,21 +13,17 @@
 <body>
     <div class="sidebar">
         <button id="close-sidebar">&times;</button>
-        <button id="date-filter">Date(Ascending)</button>
-        <button id="date-filter-descending">Date(Descending)</button>
-        <button id="name-filter">Name(Ascending)</button>
-        <button id="name-filter-descending">Name(Descending)</button>
-        <button id="tag-filter">Tag(Ascending)</button>
-        <button id="tag-filter-descending">Tag(Descending)</button>
+        <button id="date-filter">Date(Earliest to Latest)</button>
+        <button id="date-filter-descending">Date(Latest to Earliest)</button>
+        <button id="name-filter">Name(A to Z)</button>
+        <button id="name-filter-descending">Name(Z to A)</button>
+        <button id="tag-filter">Tag(Very Easy to Very Hard)</button>
+        <button id="tag-filter-descending">Tag(Very Hard to Very Easy)</button>
     </div>
     <div class="task-list-container">
         <div class="top-bar">
             <button id="add-task-btn" class="circle-btn">+</button>
             <button id="filter-btn" class="styled-btn">Filter</button>
-            <label class="switch">
-                <input type="checkbox" id="dark-mode-toggle">
-                <span class="slider round"></span>
-            </label>
         </div>
         <div class="sortable-list">
             <ul id="task-list">
