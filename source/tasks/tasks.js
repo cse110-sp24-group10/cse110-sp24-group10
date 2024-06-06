@@ -269,6 +269,22 @@ function sortTasksByDate() {
     tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
+function sortTasksByDateDescending() {
+    const tasks = document.querySelectorAll('.task-item');
+    const tasksArray = Array.from(tasks);
+
+    tasksArray.sort((a, b) => {
+        const dateA = new Date(a.querySelector('.task-date-input').value + ' ' + a.querySelector('.task-time-input').value);
+        const dateB = new Date(b.querySelector('.task-date-input').value + ' ' + b.querySelector('.task-time-input').value);
+
+        return dateB - dateA;
+    });
+
+    tasksArray.forEach(task => task.remove());
+    tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
+}
+
+
 function sortTasksByTag() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
@@ -302,8 +318,12 @@ function filterTasksByTag(tag) {
 
 // Get the buttons
 const dateFilterBtn = document.getElementById('date-filter');
+const dateFilterBtnDes = document.getElementById('date-filter-descending');
+
 const nameFilterBtn = document.getElementById('name-filter');
 const tagFilterBtn = document.getElementById('tag-filter');
 dateFilterBtn.addEventListener('click', sortTasksByDate);
+dateFilterBtnDes.addEventListener('click', sortTasksByDateDescending);
+
 nameFilterBtn.addEventListener('click', sortTasksByName);
 tagFilterBtn.addEventListener('click', sortTasksByTag);
