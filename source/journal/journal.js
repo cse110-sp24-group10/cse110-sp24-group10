@@ -1,10 +1,27 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    let currDate = new Date();
-    let currDay = currDate.getDate();
-    let currMonth = currDate.getMonth();
-    let currYear = currDate.getFullYear();
-    let currNumDays = new Date(currYear, currMonth + 1, 0).getDate();
-    let currDateFormatted = currMonth + 1 + '/' + currDay + '/' + currYear;
+    let currDate;
+    let currDay;
+    let currMonth;
+    let currYear;
+    let currNumDays;
+    let currDateFormatted;
+    const selectedDateStr = localStorage.getItem("selectedDate");
+    console.log(selectedDateStr);
+
+    if (!selectedDateStr) {
+        currDate = new Date();
+    } else {
+        console.log('IN ELSE');
+        currDate = new Date(JSON.parse(selectedDateStr));
+        console.log(currDate);
+        console.log(typeof(currDate));
+    }
+    
+    currDay = currDate.getDate();
+    currMonth = currDate.getMonth();
+    currYear = currDate.getFullYear();
+    currNumDays = new Date(currYear, currMonth + 1, 0).getDate();
+    currDateFormatted = currMonth + 1 + '/' + currDay + '/' + currYear;
 
     // Create a CodeMirror instance with additional features
     const editor = CodeMirror(document.getElementById('editor'), {
@@ -162,6 +179,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         loadTasks();
         loadTexts();
     }
+
     populatePage();
 
     // Event listener for codeButton to switch to code editor

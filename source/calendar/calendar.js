@@ -5,6 +5,13 @@ const popup = document.getElementById("popup");
 const popupDate = document.getElementById("popup-date");
 const taskList = document.getElementById("task-list");
 const closeBtn = document.querySelector(".popup .close");
+let date = new Date(),
+    currYear = date.getFullYear(),
+    currMonth = date.getMonth();
+    currDay = date.getDate();
+//date to local storage for linking to other pages
+let selectedDate = new Date(currYear, currMonth, currDay);
+localStorage.setItem("selectedDate", JSON.stringify(selectedDate));
 
 const loadTasksForDate = (date) => {
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -54,6 +61,8 @@ const addDayClickEvent = () => {
             popupDate.innerText = `${months[selectedDate.getMonth()]} ${selectedDay}, ${selectedDate.getFullYear()}`;
             loadTasksForDate(selectedDate);
             popup.style.display = "";
+            //save to local storage for calendar access
+            localStorage.setItem("selectedDate", JSON.stringify(selectedDate));
         });
     });
 };
@@ -68,9 +77,6 @@ window.addEventListener("click", (event) => {
     }
 });
 
-let date = new Date(),
-    currYear = date.getFullYear(),
-    currMonth = date.getMonth();
 
 // List of months to choose from
 const months = ["January", "February", "March", "April", "May", "June",
