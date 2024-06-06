@@ -116,9 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
             taskColor.style.backgroundColor = categorySelect.value;
             li.classList.remove('red', 'yellow', 'green', 'blue', 'purple');
             li.classList.add(categorySelect.value);
-            categorySelect.style.display = 'none';
+            // categorySelect.style.display = 'none';
             saveTasksToLocalStorage();
         });
+        
+        categorySelect.style.display = 'block';
 
         categorySelect.value = tag;
 
