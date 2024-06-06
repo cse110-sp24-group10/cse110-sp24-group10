@@ -75,7 +75,7 @@ closeBtn.addEventListener("click", () => {
 
 // Event listener to close the popup when clicking outside of it
 window.addEventListener("click", (event) => {
-    if (event.target == popup) {
+    if (!popup.contains(event.target)) {
         popup.style.display = "none";
     }
 });
