@@ -74,6 +74,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
       } else if (language === 'text/x-c++src') {
           editor.getDoc().setValue(parsedJournal[currDateFormatted]["cplusplusCode"] || getStartingComment(language));
       }
+  
+      // Load the last saved time from local storage
+      const lastSaved = parsedJournal[currDateFormatted]["lastSaved"];
+      if (lastSaved) {
+          const lastSavedElement = document.getElementById('lastSaved');
+          lastSavedElement.textContent = `Last Saved: ${lastSaved}`;
+      }
   }
 
     
@@ -96,12 +103,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         }
         */
-    function saveToLocalStorage() {
+      function saveToLocalStorage() {
         const textVal = document.getElementById('textBox').value;
         let allJournalData = JSON.parse(localStorage.getItem('journal') || '{}'); // Initialize as an object
         const language = document.getElementById('languageSelect').value;
         const editorValue = editor.getValue();
-
+    
         // If the current date does not exist in the journal data, initialize it
         if (!allJournalData[currDateFormatted]) {
             allJournalData[currDateFormatted] = {
@@ -111,7 +118,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 cplusplusCode: ""
             };
         }
-
+    
         // Update the text value and the code for the currently selected language
         allJournalData[currDateFormatted].textValue = textVal;
         if (language === 'python') {
@@ -121,12 +128,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
         } else if (language === 'text/x-c++src') {
             allJournalData[currDateFormatted].cplusplusCode = editorValue;
         }
+    
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }); // Format time in 12-hour format with AM/PM
+        allJournalData[currDateFormatted].lastSaved = now.toLocaleDateString() + " " + timeString;
 
         localStorage.setItem('journal', JSON.stringify(allJournalData)); // Save new journal object to localstorage
         console.log('Saved to local storage: ', allJournalData);
-        const now = new Date();
         const lastSaved = document.getElementById('lastSaved');
-        lastSaved.textContent = `Last saved: ${now.toLocaleTimeString()}`;``
+        lastSaved.textContent = `Last Saved: ${timeString}`;
     }
 
     function updateDateText() {
