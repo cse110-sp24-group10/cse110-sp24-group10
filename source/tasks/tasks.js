@@ -103,10 +103,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const taskCategory = document.createElement('div');
         taskCategory.className = 'task-category';
         const categorySelect = document.createElement('select');
-        ['Red', 'Yellow', 'Green', 'Blue', 'Purple'].forEach(color => {
+        ['Blue-Very Easy', 'Green-Easy', 'Purple-Medium', 'Red-Hard', 'Yellow-Very Hard'].forEach(item => {
+            const [color, difficulty] = item.split('-');
             const option = document.createElement('option');
             option.value = color.toLowerCase();
-            option.textContent = color;
+            option.textContent = difficulty;
             categorySelect.appendChild(option);
         });
         taskCategory.appendChild(categorySelect);
@@ -115,9 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
             taskColor.style.backgroundColor = categorySelect.value;
             li.classList.remove('red', 'yellow', 'green', 'blue', 'purple');
             li.classList.add(categorySelect.value);
-            categorySelect.style.display = 'none';
+            // categorySelect.style.display = 'none';
             saveTasksToLocalStorage();
         });
+        
+        categorySelect.style.display = 'block';
 
         categorySelect.value = tag;
 
@@ -254,6 +257,23 @@ function sortTasksByName() {
     tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
+function sortTasksByNameDescending() {
+    const tasks = document.querySelectorAll('.task-item');
+    const tasksArray = Array.from(tasks);
+
+    tasksArray.sort((a, b) => {
+        const nameA = a.querySelector('.task-name').textContent;
+        const nameB = b.querySelector('.task-name').textContent;
+
+        if (nameA > nameB) return -1;
+        if (nameA < nameB) return 1;
+        return 0;
+    });
+
+    tasksArray.forEach(task => task.remove());
+    tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
+}
+
 function sortTasksByDate() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
@@ -263,6 +283,21 @@ function sortTasksByDate() {
         const dateB = new Date(b.querySelector('.task-date-input').value + ' ' + b.querySelector('.task-time-input').value);
 
         return dateA - dateB;
+    });
+
+    tasksArray.forEach(task => task.remove());
+    tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
+}
+
+function sortTasksByDateDescending() {
+    const tasks = document.querySelectorAll('.task-item');
+    const tasksArray = Array.from(tasks);
+
+    tasksArray.sort((a, b) => {
+        const dateA = new Date(a.querySelector('.task-date-input').value + ' ' + a.querySelector('.task-time-input').value);
+        const dateB = new Date(b.querySelector('.task-date-input').value + ' ' + b.querySelector('.task-time-input').value);
+
+        return dateB - dateA;
     });
 
     tasksArray.forEach(task => task.remove());
@@ -286,6 +321,23 @@ function sortTasksByTag() {
     tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
+function sortTasksByTagDescending() {
+    const tasks = document.querySelectorAll('.task-item');
+    const tasksArray = Array.from(tasks);
+
+    tasksArray.sort((a, b) => {
+        const tagA = a.querySelector('.task-category select').value.toLowerCase();
+        const tagB = b.querySelector('.task-category select').value.toLowerCase();
+
+        if (tagA > tagB) return -1;
+        if (tagA < tagB) return 1;
+        return 0;
+    });
+
+    tasksArray.forEach(task => task.remove());
+    tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
+}
+
 // Filter functions
 function filterTasksByTag(tag) {
     const tasks = document.querySelectorAll('.task-item');
@@ -300,10 +352,21 @@ function filterTasksByTag(tag) {
     });
 }
 
-// Get the buttons
+// Get the sorting buttons
 const dateFilterBtn = document.getElementById('date-filter');
+const dateFilterBtnDes = document.getElementById('date-filter-descending');
+
 const nameFilterBtn = document.getElementById('name-filter');
+const nameFilterBtnDes = document.getElementById('name-filter-descending');
+
 const tagFilterBtn = document.getElementById('tag-filter');
+const tagFilterBtnDes = document.getElementById('tag-filter-descending');
+
 dateFilterBtn.addEventListener('click', sortTasksByDate);
+dateFilterBtnDes.addEventListener('click', sortTasksByDateDescending);
+
 nameFilterBtn.addEventListener('click', sortTasksByName);
+nameFilterBtnDes.addEventListener('click', sortTasksByNameDescending);
+
 tagFilterBtn.addEventListener('click', sortTasksByTag);
+tagFilterBtnDes.addEventListener('click', sortTasksByTagDescending);
