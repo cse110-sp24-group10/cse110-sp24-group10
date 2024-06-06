@@ -4,18 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterBtn = document.getElementById('filter-btn');
     const sidebar = document.querySelector('.sidebar');
     const closeBtn = document.getElementById('close-sidebar');
-    const darkModeToggle = document.getElementById("dark-mode-toggle");
-    const body = document.body;
-
-    darkModeToggle.addEventListener("change", function() {
-        if (darkModeToggle.checked) {
-            body.classList.add("dark-mode");
-            localStorage.setItem("darkMode", "enabled");
-        } else {
-            body.classList.remove("dark-mode");
-            localStorage.setItem("darkMode", "disabled");
-        }
-    });
 
     // Check local storage to keep the dark mode setting consistent across sessions
     if (localStorage.getItem("darkMode") === "enabled") {
@@ -103,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const taskCategory = document.createElement('div');
         taskCategory.className = 'task-category';
         const categorySelect = document.createElement('select');
-        ['Blue-Very Easy', 'Green-Easy', 'Purple-Medium', 'Red-Hard', 'Yellow-Very Hard'].forEach(item => {
+        ['Blue-Very Easy', 'Green-Easy', 'Yellow-Medium', 'Orange-Hard', 'Red-Very Hard'].forEach(item => {
             const [color, difficulty] = item.split('-');
             const option = document.createElement('option');
             option.value = color.toLowerCase();
@@ -114,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         categorySelect.addEventListener('change', () => {
             taskColor.style.backgroundColor = categorySelect.value;
-            li.classList.remove('red', 'yellow', 'green', 'blue', 'purple');
+            li.classList.remove('red', 'yellow', 'green', 'blue', 'orange');
             li.classList.add(categorySelect.value);
             // categorySelect.style.display = 'none';
             saveTasksToLocalStorage();
@@ -130,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const colorTagBtn = document.createElement('button');
         colorTagBtn.className = 'color-tag-btn';
-        colorTagBtn.textContent = 'Add Tag';
+        colorTagBtn.textContent = 'Add Difficulty';
         colorTagBtn.addEventListener('click', () => {
             taskCategory.click();
         });

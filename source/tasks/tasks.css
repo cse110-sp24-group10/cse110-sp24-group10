@@ -153,8 +153,8 @@ body {
     background-color: #99CCFF;
 }
 
-.task-item.purple {
-    background-color: #CC99FF;
+.task-item.orange {
+    background-color: #ffd447;
 }
 
 .task-color {
@@ -213,8 +213,8 @@ li {
 .sidebar {
     position: fixed;
     top: 50%;
-    left: -200px;
-    width: 180px;
+    left: -350px;
+    width: 300px;
     transform: translateY(-50%);
     height: auto;
     background-color: #f4f4f4;
@@ -273,49 +273,79 @@ li {
     border: 3px solid #000;
 }
 
-/* Slider Switch Styles */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 34px;
-  height: 20px;
+/* Additional styles for improved appearance */
+.task-category select,
+.task-date-time input {
+    display: block;
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: auto;
 }
 
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+.color-tag-btn {
+    padding: 10px 20px;
+    background-color: #654321;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: .4s;
-  border-radius: 34px;
+.color-tag-btn:hover {
+    background-color: #a37433;
+    transform: translateY(-2px);
 }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
+.color-tag-btn:active {
+    background-color: #a37433;
+    transform: translateY(0);
 }
 
-input:checked + .slider {
-  background-color: #2196F3;
+.reorder-btn,
+.delete-btn {
+    background: #654321;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
 }
 
-input:checked + .slider:before {
-  transform: translateX(14px);
+.reorder-btn:hover,
+.delete-btn:hover {
+    background-color: #a37433;
+    transform: translateY(-2px);
 }
 
+.reorder-btn:active,
+.delete-btn:active {
+    background-color: #a37433;
+    transform: translateY(0);
+}
+
+.task-item:hover .reorder-btn,
+.task-item:hover .delete-btn {
+    display: inline-block;
+}
+
+.task-item .delete-btn {
+    display: none;
+}
+
+.task-date-time {
+    margin-right: 15px; /* Adjust the value as needed */
+}
+
+.difficulty-button {
+    margin-left: 15px; /* Adjust the value as needed */
+}

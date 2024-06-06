@@ -20,7 +20,19 @@ const loadTasksForDate = (date) => {
             const taskDate = new Date(task.date);
             const formattedDate = `${taskDate.getMonth() + 1}/${taskDate.getDate() + 1}/${taskDate.getFullYear()}`;
             const completed = task.completed ? 'Completed' : 'Not Completed';
-            return `<div class="task">${task.name}: ${task.tag} - (${formattedDate} - (${completed}))</div>`;
+            let difficulty = '';
+            if(task.tag === "blue") {
+                difficulty = "Very Easy";
+            } else if(task.tag === "blue") {
+                difficulty = "Easy";
+            } else if(task.tag === "blue") {
+                difficulty = "Medium";
+            } else if(task.tag === "blue") {
+                difficulty = "Hard";
+            } else {
+                difficulty = "Very Hard";
+            }
+            return `<div class="task">${task.name}: ${difficulty} - (${formattedDate} - (${completed}))</div>`;
         }).join('');
     } else {
         taskList.innerHTML = '<li>No tasks for today.</li>';
@@ -44,7 +56,7 @@ const addDayClickEvent = () => {
             popup.style.display = "";
         });
     });
-}
+};
 
 closeBtn.addEventListener("click", () => {
     popup.style.display = "none";
@@ -93,7 +105,7 @@ const createCalendar = () => {
 
     dayTag.innerHTML = liTag;
     addDayClickEvent(); // Ensure event listeners are added after calendar is created
-}
+};
 createCalendar();
 
 toggleIcons.forEach(icon => {
