@@ -1,7 +1,29 @@
+:root {
+    --arrow-font-size: 1.5em;
+    --top-bar-size: 2em;
+    --palette-off-white: #F6EEE3;
+    --palette-light-tan: #EEE7D7;
+    --palette-light-grey: #E5DECF;
+    --palette-pink: #E5CBBA;
+    --palette-brown: #D9BDA5;
+    --palette-background: #dbc2a0;
+    --palette-dark-brown: #c9a36f;
+    --header-margin-spacing: 40px;
+    --undo-margin: calc(-500%/90);
+    --mobile-padding: 10px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+* {
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier Prime';
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Courier Prime';
     padding-bottom: 80px;
-    background-color: #fdf6e3;
+    background-color: var(--palette-background);
 }
 
 .task-list-container {
@@ -23,7 +45,7 @@ body {
     padding: 10px 20px;
     margin-left: 10px;
     cursor: pointer;
-    background-color: #007bff;
+    background: #654321;
     color: white;
     border: none;
     border-radius: 5px;
@@ -33,13 +55,13 @@ body {
 
 #filter-btn.styled-btn:hover,
 #settings-btn.styled-btn:hover {
-    background-color: #0056b3;
+    background-color: #a37433;
     transform: translateY(-2px);
 }
 
 #filter-btn.styled-btn:active,
 #settings-btn.styled-btn:active {
-    background-color: #003d80;
+    background-color: #a37433;
     transform: translateY(0);
 }
 
@@ -47,7 +69,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #007bff;
+    background-color: #654321;
     color: white;
     border: none;
     font-size: 24px;
@@ -61,12 +83,12 @@ body {
 }
 
 #add-task-btn.circle-btn:hover {
-    background-color: #0056b3;
+    background-color: #a37433;
     transform: translateY(-2px);
 }
 
 #add-task-btn.circle-btn:active {
-    background-color: #003d80;
+    background-color: #a37433;
     transform: translateY(0);
 }
 
@@ -76,7 +98,7 @@ body {
     margin-bottom: 10px;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 25px;  /* Change this to give circular ends */
+    border-radius: 25px;
     background-color: #f9f9f9;
 }
 
@@ -93,15 +115,14 @@ body {
     cursor: pointer;
 }
 
-.task-date-time,
 .task-category,
+.task-date-time,
 .reorder-btn,
 .delete-btn,
-.color-tag-btn {
+.priority-dropdown {
     margin-left: 10px;
     cursor: pointer;
 }
-
 
 .task-category select,
 .task-date-time input {
@@ -117,7 +138,7 @@ body {
 }
 
 .task-item.red {
-    background-color: #FFCCCC; /* Added color classes for each tag color */
+    background-color: #FFCCCC;
 }
 
 .task-item.yellow {
@@ -132,8 +153,8 @@ body {
     background-color: #99CCFF;
 }
 
-.task-item.purple {
-    background-color: #CC99FF;
+.task-item.orange {
+    background-color: #ffd447;
 }
 
 .task-color {
@@ -148,14 +169,13 @@ li {
 }
 
 .task-item.completed {
-    background-color: #d3d3d3; /* Light gray background */
+    background-color: #d3d3d3;
 }
 
 .task-item.completed .task-name {
-    text-decoration: line-through; /* Cross out text */
-    color: #999; /* Change text color */
+    text-decoration: line-through;
+    color: #999;
 }
-
 
 .bottom-bar {
     position: fixed;
@@ -169,11 +189,15 @@ li {
     flex-shrink: 4;
     padding: 20px 0;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    background-color: rgba(255, 255, 255, 0.9);
-    
+    background-color: var(--palette-dark-brown);
 }
+
+.bottom-bar a {
+    text-decoration: none;
+}
+
 .bottom-bar button {
-    padding: 10px 40px;
+    padding: 10px 5%;
     font-size: 1em;
     cursor: pointer;
     border: 1px solid #ccc;
@@ -181,25 +205,22 @@ li {
     background-color: #e1e1e1;
 }
 
-/* date and time picker */
 .task-date-time input[type="date"],
 .task-date-time input[type="time"] {
     display: block;
 }
 
-/* Update sidebar styles */
 .sidebar {
     position: fixed;
     top: 50%;
-    left: -200px; /* Adjust the width as needed */
-    width: 180px; /* Adjust the width as needed */
+    left: -350px;
+    width: 300px;
     transform: translateY(-50%);
     height: auto;
     background-color: #f4f4f4;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     transition: left 0.3s ease;
     z-index: 999;
-    border-radius: 15px; /* Add rounded corners */
 }
 
 .show-sidebar {
@@ -207,16 +228,15 @@ li {
 }
 
 .sidebar button.active {
-    background-color: #ddd; /* Change the background color when clicked */
+    background-color: #ddd;
 }
 
-/* Position the close button */
 #close-sidebar {
     position: absolute;
-    top: 5px; /* Adjust top position */
-    right: 5px; /* Adjust right position */
-    width: 30px; /* Adjust width */
-    height: 30px; /* Adjust height */
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
     background: transparent;
     border: none;
     font-size: 24px;
@@ -235,7 +255,97 @@ li {
     transition: background-color 0.3s ease;
 }
 
-
 .sidebar button:hover {
     background-color: #ddd;
+}
+
+.sidebar .main-color-container .color-dot {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 5px;
+    border: 1px solid #ccc;
+}
+
+.main-color-container .color-dot.selected {
+    border: 3px solid #000;
+}
+
+/* Additional styles for improved appearance */
+.task-category select,
+.task-date-time input {
+    display: block;
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: auto;
+}
+
+.color-tag-btn {
+    padding: 10px 20px;
+    background-color: #654321;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.color-tag-btn:hover {
+    background-color: #a37433;
+    transform: translateY(-2px);
+}
+
+.color-tag-btn:active {
+    background-color: #a37433;
+    transform: translateY(0);
+}
+
+.reorder-btn,
+.delete-btn {
+    background: #654321;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+}
+
+.reorder-btn:hover,
+.delete-btn:hover {
+    background-color: #a37433;
+    transform: translateY(-2px);
+}
+
+.reorder-btn:active,
+.delete-btn:active {
+    background-color: #a37433;
+    transform: translateY(0);
+}
+
+.task-item:hover .reorder-btn,
+.task-item:hover .delete-btn {
+    display: inline-block;
+}
+
+.task-item .delete-btn {
+    display: none;
+}
+
+.task-date-time {
+    margin-right: 15px; /* Adjust the value as needed */
+}
+
+.difficulty-button {
+    margin-left: 15px; /* Adjust the value as needed */
 }

@@ -5,10 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.querySelector('.sidebar');
     const closeBtn = document.getElementById('close-sidebar');
 
-    /**
-     * Saves tasks to local storage.
-     * Each task is an object with a name and a completed status.
-     */
+    // Check local storage to keep the dark mode setting consistent across sessions
+    if (localStorage.getItem("darkMode") === "enabled") {
+        darkModeToggle.checked = true;
+        body.classList.add("dark-mode");
+    }
+
     function saveTasksToLocalStorage() {
         const tasks = Array.from(taskList.children).map(task => {
             return {
@@ -17,59 +19,55 @@ document.addEventListener('DOMContentLoaded', () => {
                 date: task.querySelector('.task-date-input').value,
                 time: task.querySelector('.task-time-input').value,
                 tag: task.querySelector('.task-category select').value
-
             };
         });
-    
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
-    /**
-     * Loads tasks from local storage and adds them to the task list.
-     * Each task is an object with a name and a completed status.
-     */
     function loadTasksFromLocalStorage() {
         const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    
         tasks.forEach(task => {
             const taskElement = createTaskElement(task.name, task.completed, task.date, task.time, task.tag);
-            taskElement.classList.add(task.tag);
+            if (task.tag !== '') {
+                taskElement.classList.add(task.tag.toLowerCase());
+            }
+            if (task.completed) {
+                taskElement.classList.add('completed');
+            }
             taskList.insertBefore(taskElement, taskList.firstChild);
         });
     }
-    
+
     loadTasksFromLocalStorage();
-    
+
     filterBtn.addEventListener('click', () => {
         sidebar.classList.toggle('show-sidebar');
     });
-    
+
     closeBtn.addEventListener('click', () => {
         sidebar.classList.remove('show-sidebar');
     });
-    
-    // Button to add task
+
     addTaskBtn.addEventListener('click', () => {
         const newTask = createTaskElement();
         taskList.insertBefore(newTask, taskList.firstChild);
-
-        // storage
         saveTasksToLocalStorage();
     });
 
-    //Task element
     function createTaskElement(name = 'New Task', completed = false, date = '', time = '', tag = '') {
         const li = document.createElement('li');
         li.className = 'task-item';
         li.draggable = "true";
+
+        if (completed) {
+            li.classList.add('completed');
+        }
 
         const checkbox = document.createElement('input');
         checkbox.checked = completed;
         checkbox.type = 'checkbox';
         checkbox.addEventListener('change', () => {
             li.classList.toggle('completed');
-
-            //storage
             saveTasksToLocalStorage();
         });
 
@@ -80,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const taskName = document.createElement('span');
         taskName.className = 'task-name';
         taskName.contentEditable = true;
-        taskName.textContent = 'New Task';
         taskName.textContent = name;
 
         taskName.addEventListener('mouseover', () => {
@@ -91,42 +88,41 @@ document.addEventListener('DOMContentLoaded', () => {
             taskName.style.color = '';
         });
 
-        //Add color category
         const taskCategory = document.createElement('div');
         taskCategory.className = 'task-category';
         const categorySelect = document.createElement('select');
-        ['Red', 'Yellow', 'Green', 'Blue', 'Purple'].forEach(color => {
+        ['Blue-Very Easy', 'Green-Easy', 'Yellow-Medium', 'Orange-Hard', 'Red-Very Hard'].forEach(item => {
+            const [color, difficulty] = item.split('-');
             const option = document.createElement('option');
             option.value = color.toLowerCase();
-            option.textContent = color;
+            option.textContent = difficulty;
             categorySelect.appendChild(option);
         });
         taskCategory.appendChild(categorySelect);
 
         categorySelect.addEventListener('change', () => {
             taskColor.style.backgroundColor = categorySelect.value;
-            li.classList.remove('red', 'yellow', 'green', 'blue', 'purple'); // Remove existing color class
-            li.classList.add(categorySelect.value); // Add color class to task item
-            categorySelect.style.display = 'none';
-
-            // Save tasks to local storage after updating the select element's value
+            li.classList.remove('red', 'yellow', 'green', 'blue', 'orange');
+            li.classList.add(categorySelect.value);
+            // categorySelect.style.display = 'none';
             saveTasksToLocalStorage();
         });
+        
+        categorySelect.style.display = 'block';
 
         categorySelect.value = tag;
 
         taskCategory.addEventListener('click', () => {
             categorySelect.style.display = 'block';
         });
-        
+
         const colorTagBtn = document.createElement('button');
         colorTagBtn.className = 'color-tag-btn';
-        colorTagBtn.textContent = 'Add Tag';
+        colorTagBtn.textContent = 'Add Difficulty';
         colorTagBtn.addEventListener('click', () => {
             taskCategory.click();
         });
-        
-        // New date and time picker code
+
         const taskDateTime = document.createElement('div');
         taskDateTime.className = 'task-date-time';
 
@@ -152,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
             timeInput.style.display = 'block';
         });
 
-
         const reorderBtn = document.createElement('button');
         reorderBtn.className = 'reorder-btn';
         reorderBtn.textContent = '\u22EE';
@@ -166,13 +161,13 @@ document.addEventListener('DOMContentLoaded', () => {
             li.draggable = false;
             li.classList.remove('dragging');
         });
-        
 
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
         deleteBtn.textContent = 'X';
         deleteBtn.addEventListener('click', () => {
             li.remove();
+            saveTasksToLocalStorage();
         });
 
         li.appendChild(checkbox);
@@ -180,7 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
         li.appendChild(taskName);
         li.appendChild(taskCategory);
         li.appendChild(taskDateTime);
-
         li.appendChild(colorTagBtn);
         li.appendChild(reorderBtn);
         li.appendChild(deleteBtn);
@@ -189,88 +183,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let draggedItem = null;
- 
+
     taskList.addEventListener('dragstart', (e) => {
         if (e.target.classList.contains('dragging')) {
             draggedItem = e.target;
             setTimeout(() => {
-                e.target.style.display = 'none';
+                draggedItem.style.display = 'none';
             }, 0);
         }
     });
-    
+
     taskList.addEventListener('dragend', (e) => {
         setTimeout(() => {
-            e.target.style.display = '';
+            draggedItem.style.display = '';
             draggedItem = null;
         }, 0);
         e.target.classList.remove('dragging');
-        e.target.draggable = false; // Reset draggable to false
+        e.target.draggable = false;
+        saveTasksToLocalStorage();
     });
-    
-    taskList.addEventListener(
-        "dragover",
-        (e) => {
-            e.preventDefault();
-            const afterElement =
-                getDragAfterElement(
-                    taskList,
-                    e.clientY);
-            const currentElement =
-                document.querySelector(
-                    ".dragging");
-            if (afterElement == null) {
-                taskList.appendChild(
-                    draggedItem
-                );} 
-            else {
-                taskList.insertBefore(
-                    draggedItem,
-                    afterElement
-                );}
-        });
-    
-    const getDragAfterElement = (
-        container, y
-    ) => {
-        const draggableElements = [
-            ...container.querySelectorAll(
-                "li:not(.dragging)"
-            ),];
-    
-        return draggableElements.reduce(
-            (closest, child) => {
-                const box =
-                    child.getBoundingClientRect();
-                const offset =
-                    y - box.top - box.height / 2;
-                if (
-                    offset < 0 &&
-                    offset > closest.offset) {
-                    return {
-                        offset: offset,
-                        element: child,
-                    };} 
-                else {
-                    return closest;
-                }},
-            {
-                offset: Number.NEGATIVE_INFINITY,
-            }
-        ).element;
-    };
 
+    taskList.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(taskList, e.clientY);
+        if (afterElement == null) {
+            taskList.appendChild(draggedItem);
+        } else {
+            taskList.insertBefore(draggedItem, afterElement);
+        }
+    });
+
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('li:not(.dragging)')];
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    };
 });
 
-
-const filterBtn = document.getElementById('filter-btn');
-
+// Sorting functions
 function sortTasksByName() {
-    // Get all tasks
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
 
-    // Sort array based on the names of the tasks
     tasksArray.sort((a, b) => {
         const nameA = a.querySelector('.task-name').textContent;
         const nameB = b.querySelector('.task-name').textContent;
@@ -280,47 +241,120 @@ function sortTasksByName() {
         return 0;
     });
 
-    // Remove all tasks from the DOM
-    tasks.forEach(task => task.parentNode.removeChild(task));
-
-    // Append sorted tasks back to the DOM
-    const taskList = document.getElementById('task-list');
-    tasksArray.forEach(task => taskList.appendChild(task));
+    tasksArray.forEach(task => task.remove());
+    tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
-function sortTasksByDate() {
-    // Get all tasks
+function sortTasksByNameDescending() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
 
-    // Sort array based on the dates of the tasks
     tasksArray.sort((a, b) => {
-        const dateA = new Date(a.querySelector('.task-date-input').value);
-        const dateB = new Date(b.querySelector('.task-date-input').value);
+        const nameA = a.querySelector('.task-name').textContent;
+        const nameB = b.querySelector('.task-name').textContent;
 
-        // If the dates are the same, sort by time
-        if (dateA.getTime() === dateB.getTime()) {
-            const timeA = a.querySelector('.task-time-input').value;
-            const timeB = b.querySelector('.task-time-input').value;
+        if (nameA > nameB) return -1;
+        if (nameA < nameB) return 1;
+        return 0;
+    });
 
-            return timeA < timeB ? -1 : (timeA > timeB ? 1 : 0);
-        }
+    tasksArray.forEach(task => task.remove());
+    tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
+}
+
+function sortTasksByDate() {
+    const tasks = document.querySelectorAll('.task-item');
+    const tasksArray = Array.from(tasks);
+
+    tasksArray.sort((a, b) => {
+        const dateA = new Date(a.querySelector('.task-date-input').value + ' ' + a.querySelector('.task-time-input').value);
+        const dateB = new Date(b.querySelector('.task-date-input').value + ' ' + b.querySelector('.task-time-input').value);
 
         return dateA - dateB;
     });
 
-    // Remove all tasks from the DOM
-    tasks.forEach(task => task.parentNode.removeChild(task));
-
-    // Append sorted tasks back to the DOM
-    const taskList = document.getElementById('task-list');
-    tasksArray.forEach(task => taskList.appendChild(task));
+    tasksArray.forEach(task => task.remove());
+    tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
-// Get the buttons
-const dateFilterBtn = document.getElementById('date-filter');
-const nameFilterBtn = document.getElementById('name-filter');
+function sortTasksByDateDescending() {
+    const tasks = document.querySelectorAll('.task-item');
+    const tasksArray = Array.from(tasks);
 
-// Add event listeners
+    tasksArray.sort((a, b) => {
+        const dateA = new Date(a.querySelector('.task-date-input').value + ' ' + a.querySelector('.task-time-input').value);
+        const dateB = new Date(b.querySelector('.task-date-input').value + ' ' + b.querySelector('.task-time-input').value);
+
+        return dateB - dateA;
+    });
+
+    tasksArray.forEach(task => task.remove());
+    tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
+}
+
+function sortTasksByTag() {
+    const tasks = document.querySelectorAll('.task-item');
+    const tasksArray = Array.from(tasks);
+
+    tasksArray.sort((a, b) => {
+        const tagA = a.querySelector('.task-category select').value.toLowerCase();
+        const tagB = b.querySelector('.task-category select').value.toLowerCase();
+
+        if (tagA < tagB) return -1;
+        if (tagA > tagB) return 1;
+        return 0;
+    });
+
+    tasksArray.forEach(task => task.remove());
+    tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
+}
+
+function sortTasksByTagDescending() {
+    const tasks = document.querySelectorAll('.task-item');
+    const tasksArray = Array.from(tasks);
+
+    tasksArray.sort((a, b) => {
+        const tagA = a.querySelector('.task-category select').value.toLowerCase();
+        const tagB = b.querySelector('.task-category select').value.toLowerCase();
+
+        if (tagA > tagB) return -1;
+        if (tagA < tagB) return 1;
+        return 0;
+    });
+
+    tasksArray.forEach(task => task.remove());
+    tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
+}
+
+// Filter functions
+function filterTasksByTag(tag) {
+    const tasks = document.querySelectorAll('.task-item');
+
+    tasks.forEach(task => {
+        const taskTag = task.querySelector('.task-category select').value.toLowerCase();
+        if (taskTag === tag.toLowerCase() || tag === 'all') {
+            task.style.display = 'flex';
+        } else {
+            task.style.display = 'none';
+        }
+    });
+}
+
+// Get the sorting buttons
+const dateFilterBtn = document.getElementById('date-filter');
+const dateFilterBtnDes = document.getElementById('date-filter-descending');
+
+const nameFilterBtn = document.getElementById('name-filter');
+const nameFilterBtnDes = document.getElementById('name-filter-descending');
+
+const tagFilterBtn = document.getElementById('tag-filter');
+const tagFilterBtnDes = document.getElementById('tag-filter-descending');
+
 dateFilterBtn.addEventListener('click', sortTasksByDate);
+dateFilterBtnDes.addEventListener('click', sortTasksByDateDescending);
+
 nameFilterBtn.addEventListener('click', sortTasksByName);
+nameFilterBtnDes.addEventListener('click', sortTasksByNameDescending);
+
+tagFilterBtn.addEventListener('click', sortTasksByTag);
+tagFilterBtnDes.addEventListener('click', sortTasksByTagDescending);
