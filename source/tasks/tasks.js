@@ -301,7 +301,6 @@ function sortTasksByDateDescending() {
     tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
-
 function sortTasksByTag() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
@@ -312,6 +311,23 @@ function sortTasksByTag() {
 
         if (tagA < tagB) return -1;
         if (tagA > tagB) return 1;
+        return 0;
+    });
+
+    tasksArray.forEach(task => task.remove());
+    tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
+}
+
+function sortTasksByTagDescending() {
+    const tasks = document.querySelectorAll('.task-item');
+    const tasksArray = Array.from(tasks);
+
+    tasksArray.sort((a, b) => {
+        const tagA = a.querySelector('.task-category select').value.toLowerCase();
+        const tagB = b.querySelector('.task-category select').value.toLowerCase();
+
+        if (tagA > tagB) return -1;
+        if (tagA < tagB) return 1;
         return 0;
     });
 
@@ -333,15 +349,16 @@ function filterTasksByTag(tag) {
     });
 }
 
-// Get the buttons
+// Get the sorting buttons
 const dateFilterBtn = document.getElementById('date-filter');
 const dateFilterBtnDes = document.getElementById('date-filter-descending');
 
 const nameFilterBtn = document.getElementById('name-filter');
 const nameFilterBtnDes = document.getElementById('name-filter-descending');
 
-
 const tagFilterBtn = document.getElementById('tag-filter');
+const tagFilterBtnDes = document.getElementById('tag-filter-descending');
+
 dateFilterBtn.addEventListener('click', sortTasksByDate);
 dateFilterBtnDes.addEventListener('click', sortTasksByDateDescending);
 
@@ -349,3 +366,4 @@ nameFilterBtn.addEventListener('click', sortTasksByName);
 nameFilterBtnDes.addEventListener('click', sortTasksByNameDescending);
 
 tagFilterBtn.addEventListener('click', sortTasksByTag);
+tagFilterBtnDes.addEventListener('click', sortTasksByTagDescending);
