@@ -254,6 +254,23 @@ function sortTasksByName() {
     tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
+function sortTasksByNameDescending() {
+    const tasks = document.querySelectorAll('.task-item');
+    const tasksArray = Array.from(tasks);
+
+    tasksArray.sort((a, b) => {
+        const nameA = a.querySelector('.task-name').textContent;
+        const nameB = b.querySelector('.task-name').textContent;
+
+        if (nameA > nameB) return -1;
+        if (nameA < nameB) return 1;
+        return 0;
+    });
+
+    tasksArray.forEach(task => task.remove());
+    tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
+}
+
 function sortTasksByDate() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
@@ -321,9 +338,14 @@ const dateFilterBtn = document.getElementById('date-filter');
 const dateFilterBtnDes = document.getElementById('date-filter-descending');
 
 const nameFilterBtn = document.getElementById('name-filter');
+const nameFilterBtnDes = document.getElementById('name-filter-descending');
+
+
 const tagFilterBtn = document.getElementById('tag-filter');
 dateFilterBtn.addEventListener('click', sortTasksByDate);
 dateFilterBtnDes.addEventListener('click', sortTasksByDateDescending);
 
 nameFilterBtn.addEventListener('click', sortTasksByName);
+nameFilterBtnDes.addEventListener('click', sortTasksByNameDescending);
+
 tagFilterBtn.addEventListener('click', sortTasksByTag);
