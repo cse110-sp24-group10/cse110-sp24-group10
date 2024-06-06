@@ -56,51 +56,77 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function loadTexts() {
-        const localJournal = localStorage.getItem('journal');
-        const parsedJournal = JSON.parse(localJournal);
-        
-        // Check if current day currently exists in localstorage
-        if (!parsedJournal || !parsedJournal[currDateFormatted]) {
-            return;
-        }
-
-        document.getElementById('textBox').value = parsedJournal[currDateFormatted]["textValue"];
-        editor.getDoc().setValue(parsedJournal[currDateFormatted]["editorValue"]);
-    }
+      const localJournal = localStorage.getItem('journal');
+      const parsedJournal = JSON.parse(localJournal);
+      const language = document.getElementById('languageSelect').value;
+  
+      // Check if current day currently exists in localstorage
+      if (!parsedJournal || !parsedJournal[currDateFormatted]) {
+          editor.getDoc().setValue(getStartingComment(language));
+          return;
+      }
+  
+      document.getElementById('textBox').value = parsedJournal[currDateFormatted]["textValue"];
+      if (language === 'python') {
+          editor.getDoc().setValue(parsedJournal[currDateFormatted]["pythonCode"] || getStartingComment(language));
+      } else if (language === 'javascript') {
+          editor.getDoc().setValue(parsedJournal[currDateFormatted]["javascriptCode"] || getStartingComment(language));
+      } else if (language === 'text/x-c++src') {
+          editor.getDoc().setValue(parsedJournal[currDateFormatted]["cplusplusCode"] || getStartingComment(language));
+      }
+  }
 
     
-    function saveToLocalStorage() {
-        /*
+    /*
         FORMAT OF JOURNAL DATA IN LOCALSTORAGE
         journal: {
             date1: {
                 textValue: "text1",
-                editorValue: "editor1"
+                pythonCode: "code python",
+                javascriptCode: "code javascript"
+                c++Code: "code c++"
             }
             
             date2: { 
                 textValue: "text2",
-                editorValue: "editor2",
-                language: "javascript"
+                pythonCode: "code python",
+                javascriptCode: "code javascript"
+                c++Code: "code c++"
             }
 
         }
         */
+    function saveToLocalStorage() {
         const textVal = document.getElementById('textBox').value;
         let allJournalData = JSON.parse(localStorage.getItem('journal') || '{}'); // Initialize as an object
-        const currData = {
-            textValue: document.getElementById('textBox').value,
-            editorValue: editor.getValue(),
-            language: document.getElementById('languageSelect').value
-        };
-        
-        allJournalData[currDateFormatted] = currData; // Append currData to journal object
+        const language = document.getElementById('languageSelect').value;
+        const editorValue = editor.getValue();
+
+        // If the current date does not exist in the journal data, initialize it
+        if (!allJournalData[currDateFormatted]) {
+            allJournalData[currDateFormatted] = {
+                textValue: "",
+                pythonCode: "",
+                javascriptCode: "",
+                cplusplusCode: ""
+            };
+        }
+
+        // Update the text value and the code for the currently selected language
+        allJournalData[currDateFormatted].textValue = textVal;
+        if (language === 'python') {
+            allJournalData[currDateFormatted].pythonCode = editorValue;
+        } else if (language === 'javascript') {
+            allJournalData[currDateFormatted].javascriptCode = editorValue;
+        } else if (language === 'text/x-c++src') {
+            allJournalData[currDateFormatted].cplusplusCode = editorValue;
+        }
 
         localStorage.setItem('journal', JSON.stringify(allJournalData)); // Save new journal object to localstorage
         console.log('Saved to local storage: ', allJournalData);
         const now = new Date();
         const lastSaved = document.getElementById('lastSaved');
-        lastSaved.textContent = `Last saved: ${now.toLocaleTimeString()}`;
+        lastSaved.textContent = `Last saved: ${now.toLocaleTimeString()}`;``
     }
 
     function updateDateText() {
@@ -165,7 +191,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('languageSelect').addEventListener('change', function() {
     editor.setOption('mode', this.value);
     editor.getDoc().setValue(getStartingComment(this.value));
-});
+    loadTexts();
+  });
 
 document.getElementById('themeSelect').addEventListener('change', function() {
   editor.setOption('theme', this.value);
