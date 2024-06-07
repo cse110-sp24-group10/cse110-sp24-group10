@@ -30,11 +30,11 @@ const loadTasksForDate = (date) => {
             let difficulty = '';
             if(task.tag === "blue") {
                 difficulty = "Very Easy";
-            } else if(task.tag === "blue") {
+            } else if(task.tag === "green") {
                 difficulty = "Easy";
-            } else if(task.tag === "blue") {
+            } else if(task.tag === "yellow") {
                 difficulty = "Medium";
-            } else if(task.tag === "blue") {
+            } else if(task.tag === "orange") {
                 difficulty = "Hard";
             } else {
                 difficulty = "Very Hard";

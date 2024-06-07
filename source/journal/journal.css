@@ -270,3 +270,16 @@ footer {
 .CodeMirror-activeline .CodeMirror-line {
   background: #F6EEE3 !important;
 }
+
+.task {
+    background-color: #e5decf;
+    border: 1px solid #888;
+    padding: 10px;
+    margin: 5px 0;
+    width: 100%;
+    max-width: 550px;
+    border-radius: 15px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+}

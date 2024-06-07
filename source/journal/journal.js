@@ -6,15 +6,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let currNumDays;
     let currDateFormatted;
     const selectedDateStr = localStorage.getItem("selectedDate");
-    console.log(selectedDateStr);
 
     if (!selectedDateStr) {
         currDate = new Date();
     } else {
-        console.log('IN ELSE');
         currDate = new Date(JSON.parse(selectedDateStr));
-        console.log(currDate);
-        console.log(typeof(currDate));
     }
     
     currDay = currDate.getDate();
@@ -37,6 +33,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         styleActiveLine: {nonEmpty: true},
     });
 
+    // TODO: FINISH IMPLENTING TAG PART WHEN TASK TEAM IS READY
     function loadTags() {
         const localTags = localStorage.getItem('tags');
         const parsedTags = JSON.parse(localTags);
@@ -55,22 +52,58 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     }
     
-    // TODO: FINISH WHEN TASK LIST IS DONE ON THE LOCAL STORAGE PART
+    // TODO: FINISH IMPLENTING TAG PART WHEN TASK TEAM IS READY
     function loadTasks() {
-        let localTasks = localStorage.getItem('tasks');
-        let parsedTasks = JSON.parse(localTasks);
-
-        // Check if there are any tasks
-        if(!parsedTasks) {
-            return;
-        }
-
-        parsedTasks.forEach(item => {
-            const currTask = document.createElement('div');
-            currTask.className = 'task';
-            currTask.textContet = item.task;
+        const taskList = document.getElementById("task-list");
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        const tasksForTheDay = tasks.filter(task => {
+            const taskDate = new Date(task.date);
+            // Adjust for timezone offset
+            const adjustedTaskDate = new Date(taskDate.getTime() + taskDate.getTimezoneOffset() * 60000);
+            return adjustedTaskDate.toDateString() === currDate.toDateString();
         });
+        
+        if (tasksForTheDay.length > 0) {
+            taskList.innerHTML = tasksForTheDay.map(task => {
+                const taskDate = new Date(task.date);
+                const formattedDate = `${taskDate.getMonth() + 1}/${taskDate.getDate() + 1}/${taskDate.getFullYear()}`;
+                const completed = task.completed ? 'Completed' : 'Not Completed';
+                let difficulty = '';
+                if(task.tag === "blue") {
+                    difficulty = "Very Easy";
+                } else if(task.tag === "green") {
+                    difficulty = "Easy";
+                } else if(task.tag === "yellow") {
+                    difficulty = "Medium";
+                } else if(task.tag === "orange") {
+                    difficulty = "Hard";
+                } else {
+                    difficulty = "Very Hard";
+                }
+                return `<div class="task">[${task.time}]: ${task.name} (${difficulty})</div>`;
+            }).join('');
+        } else {
+            taskList.innerHTML = '<li>No tasks for today.</li>';
+        }    
     }
+
+    const addTaskClickEvent = () => {
+        let taskList = document.getElementById("task-list");
+
+        // iterate through tasks and add click event to each task. when task clicked, complete/uncomplete it
+        Array.from(taskList.children).forEach(task => {
+            task.addEventListener("click", () => {
+                if (!task.completed) {
+                    task.completed = true;
+                    task.innerHTML = '<s>' + task.innerText + '</s>';
+                } else {
+                    task.completed = false;
+                    task.innerHTML = task.innerText.replace('<s>', '').replace('</s>', '');
+                }
+            });
+        });
+    ;
+    };
 
     function loadTexts() {
       const localJournal = localStorage.getItem('journal');
@@ -151,7 +184,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         allJournalData[currDateFormatted].lastSaved = now.toLocaleDateString() + " " + timeString;
 
         localStorage.setItem('journal', JSON.stringify(allJournalData)); // Save new journal object to localstorage
-        console.log('Saved to local storage: ', allJournalData);
         const lastSaved = document.getElementById('lastSaved');
         lastSaved.textContent = `Last Saved: ${timeString}`;
     }
@@ -163,7 +195,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     
-    // TODO: COMBINE LOADTAGS() AND LOADTASKS() HERE
+    // TODO: COMBINE LOADTAGS() AND LOADFS() HERE
     function populatePage() {
         const allJournalData = localStorage.getItem('journal');
         
@@ -174,9 +206,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         // deleting all tags and tasks before repopulating to make sure data doesn't bleed over into next pages
         document.getElementById('tags').innerHTML = '<h2>Tags:</h2>';
-        document.getElementById('tasks').innerHTML = '<h2>Tasks:</h2>';
+        document.getElementById('tasks').innerHTML = `
+        <h2>Tasks:</h2>
+        <ul id="task-list">
+            <li>No tasks for today.</li>
+        </ul>`;
         loadTags();
         loadTasks();
+        addTaskClickEvent();
         loadTexts();
     }
 
@@ -213,47 +250,47 @@ document.addEventListener('DOMContentLoaded', (event) => {
               return '// Enter code here\n';
           default:
               return '';
-      }
-  }
+        }
+    }
 
-  document.getElementById('languageSelect').addEventListener('change', function() {
-    editor.setOption('mode', this.value);
-    editor.getDoc().setValue(getStartingComment(this.value));
-    loadTexts();
-  });
+    document.getElementById('languageSelect').addEventListener('change', function() {
+        editor.setOption('mode', this.value);
+        editor.getDoc().setValue(getStartingComment(this.value));
+        loadTexts();
+    });
 
-document.getElementById('themeSelect').addEventListener('change', function() {
-  editor.setOption('theme', this.value);
+    document.getElementById('themeSelect').addEventListener('change', function() {
+        editor.setOption('theme', this.value);
 
-  // Define the active line colors for each theme
-  const activeLineColors = {
-      default: '#F6EEE3',
-      monokai: '#49483E',
-      eclipse: '#E8F2FE',
-      // Add more themes as needed
-  };
+        // Define the active line colors for each theme
+        const activeLineColors = {
+            default: '#F6EEE3',
+            monokai: '#49483E',
+            eclipse: '#E8F2FE',
+            // Add more themes as needed
+        };
 
-  // Get the active line color for the current theme
-  const activeLineColor = activeLineColors[this.value];
+        // Get the active line color for the current theme
+        const activeLineColor = activeLineColors[this.value];
 
-  // Create a new style tag
-  const style = document.createElement('style');
-  style.textContent = `
-      .CodeMirror-activeline .CodeMirror-line {
-          background: ${activeLineColor} !important;
-      }
-  `;
+        // Create a new style tag
+        const style = document.createElement('style');
+        style.textContent = `
+            .CodeMirror-activeline .CodeMirror-line {
+                background: ${activeLineColor} !important;
+            }
+        `;
 
-  // Remove the old style tag, if it exists
-  const oldStyle = document.getElementById('active-line-style');
-  if (oldStyle) {
-      oldStyle.remove();
-  }
+        // Remove the old style tag, if it exists
+        const oldStyle = document.getElementById('active-line-style');
+        if (oldStyle) {
+            oldStyle.remove();
+        }
 
-  // Add an id to the new style tag and append it to the document head
-  style.id = 'active-line-style';
-  document.head.appendChild(style);
-});
+        // Add an id to the new style tag and append it to the document head
+        style.id = 'active-line-style';
+        document.head.appendChild(style);
+    });
 
     document.getElementById('left-arrow').addEventListener('click', function () {
         //saveToLocalStorage();
