@@ -1,7 +1,9 @@
 /* Basic variables used for design*/
 :root{
     --arrow-font-size: 1.5em;
+    --tags-and-task-size: 1.5em;
     --top-bar-size: 2em;
+    --title-date-font-size: 3em;
     --palette-off-white: #F6EEE3;
     --palette-light-tan: #EEE7D7;
     --palette-light-grey: #E5DECF;
@@ -9,15 +11,24 @@
     --palette-brown: #D9BDA5;
     --palette-background: #dbc2a0;
     --palette-dark-brown: #c9a36f;
-    --header-margin-spacing: 40px;
-    /* Some math shit to get here i.e. -5/90 to get back to 100 but need to multiply by 100 to get -500%/90) */
-    --undo-margin: calc(-500%/90);
     --tag-red: #FFCCCC;
     --tag-yellow: #FFFF99;
     --tag-green: #CCFFCC;
     --tag-blue: #99CCFF;
     --tag-purple: #CC99FF;
-}
+    --header-margin-spacing: 40px;
+    --tag-title-margin: 20px;
+    --body-margins: 5%; 
+    --arrow-margin: 0 1px;
+    --top-bar-gap: 40px;
+    --arrow-height: 50px;
+    --arrow-width: 60px;
+    --arrow-line-height: 55px;
+    --arrow-border-radius: 50%;
+    --right-arrow-spacing: 60px;
+    /* Some math shit to get here i.e. -5/90 to get back to 100 but need to multiply by 100 to get -500%/90) */
+    --undo-margin: calc(-500%/90);
+}   
 
 /* Adding typewriter font */
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
@@ -29,21 +40,21 @@
 
 /* Overall styling for the page */
 body {
-    margin: 5%;
+    margin: var(--body-margins);
     background-color: var(--palette-background);
     height: 100%;
 }
 
 /* Header design */
 h1 {
-    font-size: 3em;
+    font-size: var(--title-date-font-size);
     display: inline;
 }
 
 /* Design for 'Tags:' and 'Task overview:' */
 h2 {
-    font-size: 1.5em;
-    margin-top: 20px;
+    font-size: var(--tags-and-task-size);
+    margin-top: var(--tag-title-margin);
 }
 
 /* The top bar for arrows and settings */
@@ -52,7 +63,7 @@ h2 {
     align-items: flex-end;
     float: right;
     font-size: var(--top-bar-size);
-    gap: 40px;
+    gap:var(--top-bar-gap);
 }
 
 /* turn cursor to pointer for all top bar elements */
@@ -60,15 +71,15 @@ h2 {
     cursor: pointer;
 }
 
-/* styling for top bar icons */
+/* styling for top bar arrows */
 .top-bar .nav-arrows{
-    height: 50px;
-    width: 60px;
-    margin: 0 1px;
+    height: var(--arrow-height);
+    width: var(--arrow-width);
+    margin: var(--arrow-margin);
     background: var(--palette-light-grey);
     text-align: center;
-    line-height: 55px;
-    border-radius: 50%;
+    line-height: var(--arrow-line-height);
+    border-radius: var(--arrow-border-radius);
 }
 
 /* Settings button positioning and interaction */
@@ -81,7 +92,7 @@ h2 {
 
 /* Sizing and spacing for the arrows in the top */
 .top-bar #right-arrow {
-    margin-right: 60px;
+    margin-right: var(--right-arrow-spacing);
     font-size: var(--arrow-font-size);
 }
 .top-bar #left-arrow {

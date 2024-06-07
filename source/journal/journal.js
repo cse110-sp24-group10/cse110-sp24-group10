@@ -1,6 +1,59 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    const taskList = document.getElementById('task-list');
+    const taskList = document.getElementById('task-list');   
 
+    let currDate;
+    let currDay;
+    let currMonth;
+    let currYear;
+    let currNumDays;
+    let currDateFormatted;
+    const selectedDateStr = localStorage.getItem("selectedDate");
+
+    if (!selectedDateStr) {
+        currDate = new Date();
+    } else {
+        currDate = new Date(JSON.parse(selectedDateStr));
+    }
+
+    currDay = currDate.getDate();
+    currMonth = currDate.getMonth();
+    currYear = currDate.getFullYear();
+    currNumDays = new Date(currYear, currMonth + 1, 0).getDate();
+    currDateFormatted = currMonth + 1 + '/' + currDay + '/' + currYear;
+
+    // Create a CodeMirror instance with additional features
+    const editor = CodeMirror(document.getElementById('editor'), {
+        value: getStartingComment(document.getElementById('languageSelect').value),
+        mode: document.getElementById('languageSelect').value,
+        lineNumbers: true,
+        theme: "default",
+        autofocus: true,
+        autoCloseBrackets: true,
+        autoCloseTags: true,
+        matchBrackets: true,
+        scrollbarStyle: "native",
+        styleActiveLine: { nonEmpty: true },
+    });
+
+    function loadTags() {
+        const localTags = localStorage.getItem('tags');
+        const parsedTags = JSON.parse(localTags);
+
+        // TODO: IMPLEMENT IMPORTING ONLY TASKS THAT HAVE CURRENT DATE
+        // Check if there is any data in tags
+        if (!parsedTags) {
+            return;
+        }
+
+        parsedTags.forEach(task => {
+            const currTag = document.createElement('span');
+            currTag.className = 'tag ' + task.tag; // tags are currently implemented as tag.<color>
+            currTag.textContent = task.tag;
+            document.getElementById('tags').appendChild(currTag);
+        });
+    }
+
+    /*
     function saveTasksToLocalStorage() {
         const tasks = Array.from(taskList.children).map(task => {
             return {
@@ -8,14 +61,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 completed: task.querySelector('input[type="checkbox"]').checked,
                 date: task.querySelector('.task-date-input').value,
                 time: task.querySelector('.task-time-input').value,
-                tag: task.querySelector('.task-category span').textContent
+                tag: task.querySelector('.task-category select').value
             };
         });
         localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
+    } 
+    */
 
-    function loadTasksFromLocalStorage() {
+    // TODO: FINISH WHEN TASK LIST IS DONE ON THE LOCAL STORAGE PART
+    function loadTasks() {
         const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        console.log(tasks.length);
         tasks.forEach(task => {
             const taskElement = createTaskElement(task.name, task.completed, task.date, task.time, task.tag);
             if (task.tag !== '') {
@@ -41,7 +97,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
         checkbox.type = 'checkbox';
         checkbox.addEventListener('change', () => {
             li.classList.toggle('completed');
-            saveTasksToLocalStorage();
+            if (!task.completed) {
+                task.completed = true;
+                task.innerHTML = '<s>' + task.innerText + '</s>';
+            } else {
+                task.completed = false;
+                task.innerHTML = task.innerText.replace('<s>', '').replace('</s>', '');
+            }
         });
     
         const taskColor = document.createElement('div');
@@ -76,14 +138,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         taskDateTime.appendChild(dateInput);
         taskDateTime.appendChild(timeInput);
     
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.textContent = 'X';
-        deleteBtn.addEventListener('click', () => {
-            li.remove();
-            saveTasksToLocalStorage();
-        });
-    
         li.appendChild(checkbox);
         li.appendChild(taskColor);
         li.appendChild(taskName);
@@ -91,79 +145,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         li.appendChild(taskDateTime);
     
         return li;
-    }    
-
-    let currDate;
-    let currDay;
-    let currMonth;
-    let currYear;
-    let currNumDays;
-    let currDateFormatted;
-    const selectedDateStr = localStorage.getItem("selectedDate");
-    console.log(selectedDateStr);
-
-    if (!selectedDateStr) {
-        currDate = new Date();
-    } else {
-        console.log('IN ELSE');
-        currDate = new Date(JSON.parse(selectedDateStr));
-        console.log(currDate);
-        console.log(typeof (currDate));
-    }
-
-    currDay = currDate.getDate();
-    currMonth = currDate.getMonth();
-    currYear = currDate.getFullYear();
-    currNumDays = new Date(currYear, currMonth + 1, 0).getDate();
-    currDateFormatted = currMonth + 1 + '/' + currDay + '/' + currYear;
-
-    // Create a CodeMirror instance with additional features
-    const editor = CodeMirror(document.getElementById('editor'), {
-        value: getStartingComment(document.getElementById('languageSelect').value),
-        mode: document.getElementById('languageSelect').value,
-        lineNumbers: true,
-        theme: "default",
-        autofocus: true,
-        autoCloseBrackets: true,
-        autoCloseTags: true,
-        matchBrackets: true,
-        scrollbarStyle: "native",
-        styleActiveLine: { nonEmpty: true },
-    });
-
-    function loadTags() {
-        const localTags = localStorage.getItem('tags');
-        const parsedTags = JSON.parse(localTags);
-
-        // TODO: IMPLEMENT IMPORTING ONLY TASKS THAT HAVE CURRENT DATE
-        // Check if there is any data in tags
-        if (!parsedTags) {
-            return;
-        }
-
-        parsedTasks.forEach(task => {
-            const currTag = document.createElement('span');
-            currTag.className = 'tag ' + task.tag; // tags are currently implemented as tag.<color>
-            currTag.textContent = task.tag;
-            document.getElementById('tags').appendChild(currTag);
-        });
-    }
-
-    // TODO: FINISH WHEN TASK LIST IS DONE ON THE LOCAL STORAGE PART
-    function loadTasks() {
-        let localTasks = localStorage.getItem('tasks');
-        let parsedTasks = JSON.parse(localTasks);
-
-        // Check if there are any tasks
-        if (!parsedTasks) {
-            return;
-        }
-
-        parsedTasks.forEach(item => {
-            const currTask = document.createElement('div');
-            currTask.className = 'task';
-            currTask.textContet = item.task;
-        });
     }
 
     function loadTexts() {
@@ -245,7 +226,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         allJournalData[currDateFormatted].lastSaved = now.toLocaleDateString() + " " + timeString;
 
         localStorage.setItem('journal', JSON.stringify(allJournalData)); // Save new journal object to localstorage
-        console.log('Saved to local storage: ', allJournalData);
         const lastSaved = document.getElementById('lastSaved');
         lastSaved.textContent = `Last Saved: ${timeString}`;
     }
@@ -268,9 +248,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         // deleting all tags and tasks before repopulating to make sure data doesn't bleed over into next pages
         document.getElementById('tags').innerHTML = '<h2>Tags:</h2>';
-        document.getElementById('tasks').innerHTML = '<h2>Tasks:</h2>';
+        /*
+        document.getElementById('tasks').innerHTML = `<h2>Tasks:</h2><div class="task-list-container">
+        <div class="sortable-list">
+        <ul id="task-list"><!-- Task items will be appended here -->
+        </ul>
+        </div>
+        </div>`;
+        */
         loadTags();
-        loadTasksFromLocalStorage();
+        loadTasks();
         loadTexts();
     }
 
@@ -388,7 +375,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     document.getElementById('settings').addEventListener('click', function () {
-        console.log('SETTINGS CLICKED');
         saveToLocalStorage();
     });
 
