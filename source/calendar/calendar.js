@@ -32,22 +32,31 @@ const loadTasksForDate = (date) => {
     // Display tasks or a message if no tasks exist for the specified date
     if (tasksForTheDay.length > 0) {
         taskList.innerHTML = tasksForTheDay.map(task => {
-            const taskDate = new Date(task.date);
-            const formattedDate = `${taskDate.getMonth() + 1}/${taskDate.getDate() + 1}/${taskDate.getFullYear()}`;
+            const time = task.time;
+
+            const [hours, minutes] = time.split(':');
+
+            // Parsing the hour component to an integer and adjusting it to 12-hour format
+            let hour = parseInt(hours);
+            let minute = parseInt(minutes);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            hour = hour % 12 || 12; // Adjusting 0 to 12 for 12 AM
+
+            const formattedTime = hour + ":" + minute + " " + ampm;
             const completed = task.completed ? 'Completed' : 'Not Completed';
             let difficulty = '';
             if(task.tag === "blue") {
                 difficulty = "Very Easy";
-            } else if(task.tag === "blue") {
+            } else if(task.tag === "green") {
                 difficulty = "Easy";
-            } else if(task.tag === "blue") {
+            } else if(task.tag === "yellow") {
                 difficulty = "Medium";
-            } else if(task.tag === "blue") {
+            } else if(task.tag === "orange") {
                 difficulty = "Hard";
             } else {
                 difficulty = "Very Hard";
             }
-            return `<div class="task">${task.name}: ${difficulty} - (${formattedDate} - (${completed}))</div>`;
+            return `<div class="task">${task.name}: ${difficulty} - (${formattedTime} - (${completed}))</div>`;
         }).join('');
     } else {
         taskList.innerHTML = '<li class="noTask">No tasks for today.</li>';
