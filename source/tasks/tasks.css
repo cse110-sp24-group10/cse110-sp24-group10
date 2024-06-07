@@ -381,35 +381,31 @@ li {
         margin-bottom: 10px;
     }
 
-
     .task-item {
-        flex-direction: column;
+        display: flex;
+        flex-wrap: wrap; 
         align-items: flex-start;
         padding: 10px;
     }
 
-   
-
-    .task-name,
-    .task-category,
-    .task-date-time,
-    .priority-dropdown
-     {
-        margin-left: 0;
-        margin-bottom: 5px;
-        order: 1;
-
+    .task-name, .task-category {
+        flex: 1 1 50%; 
+        min-width: 200px; 
+        box-sizing: border-box;
     }
 
-    .delete-btn
-    {
+    .task-date-time, .priority-dropdown{
+        flex: 1 1 100%; 
+        min-width: 200px;
+        box-sizing: border-box;
+        margin-bottom: 5px;
+    }
+
+    .delete-btn {
         margin-right: 0;
         margin-left: auto;
         margin-bottom: 5px;
-        order: 2;
-        
-    }
 
-    
+    }
     
 }
