@@ -1,3 +1,4 @@
+/* Basic variables used for design*/
 :root {
     --arrow-font-size: 1.5em;
     --top-bar-size: 2em;
@@ -13,6 +14,7 @@
     --mobile-padding: 10px;
 }
 
+/* Adding typewriter font */
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 * {
     padding: 0;
@@ -20,18 +22,22 @@
     font-family: 'Courier Prime';
 }
 
+/* Overall styling for the page */
 body {
     font-family: 'Courier Prime';
     padding-bottom: 80px;
     background-color: var(--palette-background);
 }
 
+/* Container for task list */
 .task-list-container {
     width: 50%;
     margin: auto;
     padding-top: 20px;
 }
 
+
+/* Styles for top bar with sort and add task buttons*/
 .top-bar {
     display: flex;
     align-items: center;
@@ -39,6 +45,7 @@ body {
     margin-bottom: 10px;
 }
 
+/* Styled button for sorting tasks */
 #sort-btn.styled-btn {
     font-size: 16px;
     padding: 10px 20px;
@@ -52,16 +59,21 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Hover effect for sort button */
 #sort-btn.styled-btn:hover{
     background-color: #a37433;
     transform: translateY(-2px);
 }
 
+
+/* Active effect for sort button */
 #sort-btn.styled-btn:active {
     background-color: #a37433;
     transform: translateY(0);
 }
 
+
+/* Circular button for adding tasks */
 #add-task-btn.circle-btn {
     width: 40px;
     height: 40px;
@@ -79,16 +91,20 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Hover effect for add task button */
 #add-task-btn.circle-btn:hover {
     background-color: #a37433;
     transform: translateY(-2px);
 }
 
+/* Active effect for add task button */
 #add-task-btn.circle-btn:active {
     background-color: #a37433;
     transform: translateY(0);
 }
 
+
+/* Styles for individual tasks */
 .task-item {
     display: flex;
     align-items: center;
@@ -99,19 +115,24 @@ body {
     background-color: #f9f9f9;
 }
 
+
+/* Strike through completed task names */
 .task-item.completed .task-name {
     text-decoration: line-through;
 }
 
+/* Hover effect for task names */
 .task-name:hover {
     color: #555;
 }
 
+/* Task name styling, name grows when typing*/
 .task-name {
     flex-grow: 1;
     cursor: pointer;
 }
 
+/* Styling for task category, date/time, and priority dropdown on each task */
 .task-category,
 .task-date-time,
 .priority-dropdown {
@@ -119,15 +140,18 @@ body {
     cursor: pointer;
 }
 
+/* Hide select dropdown and date/time input */
 .task-category select,
 .task-date-time input {
     display: none;
 }
 
+/* Hide delete button by default */
 .delete-btn {
     display: none;
 }
 
+/* Show delete button on hover task */
 .task-item:hover .delete-btn {
     display: block;
 }
@@ -163,6 +187,7 @@ li {
     cursor: grab;
 }
 
+/*Make task gray when it is marked completed*/
 .task-item.completed {
     background-color: #d3d3d3;
 }

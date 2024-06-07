@@ -106,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             li.classList.remove('red', 'orange', 'yellow', 'green', 'blue');
             li.classList.add(categorySelect.value);
-            // categorySelect.style.display = 'none';
             saveTasksToLocalStorage();
         });
         
