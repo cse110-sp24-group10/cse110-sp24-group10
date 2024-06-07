@@ -1,5 +1,7 @@
-/* Typewriter Font */
+/* Import Google Font - Courier Prime */
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* Apply basic styles to all elements */
 * {
     margin: 0;
     padding: 0;
@@ -7,7 +9,7 @@
     font-family: 'Courier Prime', monospace;
 }
 
-/* Overall styling for whole calendar */
+/* Overall styling for the body */
 body {
     display: flex;
     align-items: center;
@@ -17,19 +19,19 @@ body {
     padding: 20px;
 }
 
-/* Styles container/background */
+/* Styles for the main container */
 .container {
     width: 70%; /* Increased width */
     background: #f6eee3;
     border-radius: 15px;
     min-height: 80vh; /* Increased min-height */
-    padding: 20px; /* Added padding */
+    padding: 0px; /* No padding */
     display: flex;
     flex-direction: column;
     margin-bottom: 100px;
 }
 
-/* Styles header/icon bar */
+/* Styles for the header section */
 .container header {
     display: flex;
     align-items: center;
@@ -37,13 +39,13 @@ body {
     justify-content: space-between;
 }
 
-/* Style text inside header */
-header .monthANDyear{
+/* Style for the month and year text in the header */
+header .monthANDyear {
     font-size: 3rem; /* Increased font size */
     font-weight: 500;
 }
 
-/* Styling icons */
+/* Styles for the navigation icons */
 header .icons span {
     height: 50px; /* Increased height */
     width: 60px; /* Increased width */
@@ -56,7 +58,7 @@ header .icons span {
     font-size: 1.75rem; /* Increased font size */
 }
 
-/* Add padding to inside calendar */
+/* Styles for the calendar grid */
 .calendar {
     padding: 30px; /* Increased padding */
     flex-grow: 1;
@@ -65,7 +67,7 @@ header .icons span {
     justify-content: space-between;
 }
 
-/* Style list/take out bullets */
+/* Remove list style and apply flex properties to calendar lists */
 .calendar ul {
     display: flex;
     list-style: none;
@@ -73,20 +75,20 @@ header .icons span {
     text-align: center;
 }
 
-/* Style/place items in calendar */
+/* Styles for individual days and weeks in the calendar */
 .calendar ul li {
     width: calc(100% / 7);
     position: relative;
     font-size: 1.5rem; /* Increased font size */
 }
 
-/* Bold days in calendar */
+/* Bold and increase font size for week day names */
 .calendar .week li {
     font-weight: bold;
     font-size: 2rem; /* Increased font size */
 }
 
-/* Margin to space days in month from days in week */
+/* Margin to space days in the month from days in the week */
 .calendar .day {
     margin-bottom: 25px; /* Increased margin-bottom */
     flex-grow: 1;
@@ -97,7 +99,7 @@ header .icons span {
     margin-bottom: 25px; /* Removed margin-bottom */
 }
 
-/* Hover effect for going over days */
+/* Hover effect for individual days */
 .calendar .day li {
     cursor: pointer;
     margin-top: 60px; /* Increased margin-top */
@@ -105,7 +107,7 @@ header .icons span {
     font-size: 1.8rem;
 }
 
-/* Places circle highlight under day when hovering */
+/* Styles for the hover effect (circle) under each day */
 .calendar .day li::before {
     position: absolute;
     content: "";
@@ -118,22 +120,30 @@ header .icons span {
     z-index: -1;
 }
 
-/* Changes color when highlighted */
+/* Change background color on hover */
 .day li:hover::before {
     background: #e5decf;
 }
 
-/* Change day to light gray when not part of month */
+/* Change color for days not in the current month */
 .day .faded {
     color: #aaa;
 }
 
-/* Current day highlight */
+.day .faded-past {
+    color: #aaa;
+}
+
+.day .faded-future {
+    color: #aaa;
+}
+
+/* Highlight current day */
 .day li.highlighted::before {
     background: #654321;
 }
 
-/* Invert day color when highlighted (since brown is dark) */
+/* Invert text color for highlighted day */
 .day li.highlighted {
     color: #f6eee3;
 }
@@ -153,6 +163,7 @@ header .icons span {
     justify-content: center;
 }
 
+/* Styles for the content inside the pop-up */
 .popup-content {
     background-color: #f6eee3;
     border: 1px solid #888;
@@ -169,6 +180,7 @@ header .icons span {
     overflow-y: auto;
 }
 
+/* Styles for the close button in the pop-up */
 .popup .close {
     position: absolute;
     top: 10px;
@@ -185,12 +197,14 @@ header .icons span {
     cursor: pointer;
 }
 
+/* Styles for the header inside the pop-up */
 .popup h2 {
     font-size: 2rem;
     margin-bottom: 20px;
     text-align: center;
 }
 
+/* Styles for the list of tasks in the pop-up */
 .popup ul {
     list-style: none;
     padding-left: 20px;
@@ -201,7 +215,7 @@ header .icons span {
     font-size: 1.5rem;
 }
 
-/* Styles for Add Task and Journal Link buttons */
+/* Styles for the buttons inside the pop-up */
 .styled-btn {
     display: block;
     margin: 10px auto;
@@ -228,6 +242,7 @@ header .icons span {
     color: #654321;
 }
 
+/* Styles for individual task items */
 .task {
     background-color: #e5decf;
     border: 1px solid #888;

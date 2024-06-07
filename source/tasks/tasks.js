@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const taskCategory = document.createElement('div');
         taskCategory.className = 'task-category';
         const categorySelect = document.createElement('select');
-        ['Blue-Very Easy', 'Green-Easy', 'Yellow-Medium', 'Orange-Hard', 'Red-Very Hard'].forEach(item => {
+        ['Blue-Very Easy', 'Green-Easy', 'Purple-Medium', 'Red-Hard', 'Yellow-Very Hard'].forEach(item => {
             const [color, difficulty] = item.split('-');
             const option = document.createElement('option');
             option.value = color.toLowerCase();
@@ -103,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         categorySelect.addEventListener('change', () => {
             taskColor.style.backgroundColor = categorySelect.value;
+
             li.classList.remove('red', 'orange', 'yellow', 'green', 'blue');
             li.classList.add(categorySelect.value);
             // categorySelect.style.display = 'none';
