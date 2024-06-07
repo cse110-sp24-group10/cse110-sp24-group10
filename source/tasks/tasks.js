@@ -6,12 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.getElementById('close-sidebar');
     const bottomBar = document.querySelector('bottom-bar');
 
-    // Check local storage to keep the dark mode setting consistent across sessions
-    if (localStorage.getItem("darkMode") === "enabled") {
-        darkModeToggle.checked = true;
-        body.classList.add("dark-mode");
-    }
-
     function saveTasksToLocalStorage() {
         const tasks = Array.from(taskList.children).map(task => {
             return {
@@ -109,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // categorySelect.style.display = 'none';
             saveTasksToLocalStorage();
         });
-        
+
         categorySelect.style.display = 'block';
 
         categorySelect.value = tag;
@@ -293,7 +287,7 @@ function sortTasksByTag() {
     tasksArray.sort((a, b) => {
         const tagA = a.querySelector('.task-category select').value.toLowerCase();
         const tagB = b.querySelector('.task-category select').value.toLowerCase();
-        
+
         if (tagColors.indexOf(tagA) > tagColors.indexOf(tagB)) return -1;
         if (tagColors.indexOf(tagA) < tagColors.indexOf(tagB)) return 1;
         return 0;

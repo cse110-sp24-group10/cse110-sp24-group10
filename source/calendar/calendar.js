@@ -9,7 +9,7 @@ const closeBtn = document.querySelector(".popup .close");
 let date = new Date(),
     currYear = date.getFullYear(),
     currMonth = date.getMonth();
-    currDay = date.getDate();
+currDay = date.getDate();
 //date to local storage for linking to other pages
 let selectedDate = new Date(currYear, currMonth, currDay);
 localStorage.setItem("selectedDate", JSON.stringify(selectedDate));
@@ -45,13 +45,13 @@ const loadTasksForDate = (date) => {
             const formattedTime = hour + ":" + minute + " " + ampm;
             const completed = task.completed ? 'Completed' : 'Not Completed';
             let difficulty = '';
-            if(task.tag === "blue") {
+            if (task.tag === "blue") {
                 difficulty = "Very Easy";
-            } else if(task.tag === "green") {
+            } else if (task.tag === "green") {
                 difficulty = "Easy";
-            } else if(task.tag === "yellow") {
+            } else if (task.tag === "yellow") {
                 difficulty = "Medium";
-            } else if(task.tag === "orange") {
+            } else if (task.tag === "orange") {
                 difficulty = "Hard";
             } else {
                 difficulty = "Very Hard";

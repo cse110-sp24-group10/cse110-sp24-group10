@@ -14,6 +14,7 @@
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 * {
     padding: 0;
     box-sizing: border-box;
@@ -318,11 +319,13 @@ li {
 }
 
 .task-date-time {
-    margin-right: 15px; /* Adjust the value as needed */
+    margin-right: 15px;
+    /* Adjust the value as needed */
 }
 
 .difficulty-button {
-    margin-left: 15px; /* Adjust the value as needed */
+    margin-left: 15px;
+    /* Adjust the value as needed */
 }
 
 .task-item input[type="checkbox"] {
@@ -330,30 +333,24 @@ li {
     width: 20px;
     height: 20px;
     border: 2px solid #ccc;
-    border-radius: 50%; /* Make the checkbox circular */
+    border-radius: 50%;
+    /* Make the checkbox circular */
     cursor: pointer;
-    outline: none; /* Remove default focus outline */
+    outline: none;
+    /* Remove default focus outline */
     transition: background-color 0.3s, border-color 0.3s;
     margin-right: 10px;
 }
 
 .task-item input[type="checkbox"]:checked {
     background-color: #654321;
-    border-color: #654321; /* Change border color when checked */
-}
-
-.task-item input[type="checkbox"]:checked::after {
-    content: '\2714';
-    font-size: 12px;
-    color: white;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    border-color: #654321;
+    /* Change border color when checked */
 }
 
 .task-item input[type="checkbox"]:focus {
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1); /* Add focus outline */
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+    /* Add focus outline */
 }
 
 /* Media queries for mobile compatibility */
@@ -368,13 +365,12 @@ li {
         align-items: flex-end;
     }
 
-    #filter-btn.styled-btn
-    {
+    #filter-btn.styled-btn {
         width: 40%;
         margin-bottom: 10px;
         font-size: calc(2vw + 1vh);
-        
-        
+
+
     }
 
     #add-task-btn.circle-btn {
@@ -383,19 +379,21 @@ li {
 
     .task-item {
         display: flex;
-        flex-wrap: wrap; 
+        flex-wrap: wrap;
         align-items: flex-start;
         padding: 10px;
     }
 
-    .task-name, .task-category {
-        flex: 1 1 50%; 
-        min-width: 200px; 
+    .task-name,
+    .task-category {
+        flex: 1 1 50%;
+        min-width: 200px;
         box-sizing: border-box;
     }
 
-    .task-date-time, .priority-dropdown{
-        flex: 1 1 100%; 
+    .task-date-time,
+    .priority-dropdown {
+        flex: 1 1 100%;
         min-width: 200px;
         box-sizing: border-box;
         margin-bottom: 5px;
@@ -407,5 +405,5 @@ li {
         margin-bottom: 5px;
 
     }
-    
+
 }

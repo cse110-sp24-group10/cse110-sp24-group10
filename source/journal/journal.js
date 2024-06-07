@@ -1,4 +1,98 @@
 document.addEventListener('DOMContentLoaded', (event) => {
+    const taskList = document.getElementById('task-list');
+
+    function saveTasksToLocalStorage() {
+        const tasks = Array.from(taskList.children).map(task => {
+            return {
+                name: task.querySelector('.task-name').textContent,
+                completed: task.querySelector('input[type="checkbox"]').checked,
+                date: task.querySelector('.task-date-input').value,
+                time: task.querySelector('.task-time-input').value,
+                tag: task.querySelector('.task-category span').textContent
+            };
+        });
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function loadTasksFromLocalStorage() {
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasks.forEach(task => {
+            const taskElement = createTaskElement(task.name, task.completed, task.date, task.time, task.tag);
+            if (task.tag !== '') {
+                taskElement.classList.add(task.tag.toLowerCase());
+            }
+            if (task.completed) {
+                taskElement.classList.add('completed');
+            }
+            taskList.appendChild(taskElement);
+        });
+    }
+
+    function createTaskElement(name = 'New Task', completed = false, date = '', time = '', tag = '') {
+        const li = document.createElement('li');
+        li.className = 'task-item';
+    
+        if (completed) {
+            li.classList.add('completed');
+        }
+    
+        const checkbox = document.createElement('input');
+        checkbox.checked = completed;
+        checkbox.type = 'checkbox';
+        checkbox.addEventListener('change', () => {
+            li.classList.toggle('completed');
+            saveTasksToLocalStorage();
+        });
+    
+        const taskColor = document.createElement('div');
+        taskColor.className = 'task-color';
+        taskColor.style.backgroundColor = tag;
+    
+        const taskName = document.createElement('span');
+        taskName.className = 'task-name';
+        taskName.textContent = name;
+    
+        const taskCategory = document.createElement('div');
+        taskCategory.className = 'task-category';
+        const categorySpan = document.createElement('span');
+        categorySpan.textContent = tag;
+        taskCategory.appendChild(categorySpan);
+    
+        const taskDateTime = document.createElement('div');
+        taskDateTime.className = 'task-date-time';
+    
+        const dateInput = document.createElement('input');
+        dateInput.type = 'date';
+        dateInput.className = 'task-date-input';
+        dateInput.value = date;
+        dateInput.disabled = true;
+    
+        const timeInput = document.createElement('input');
+        timeInput.type = 'time';
+        timeInput.className = 'task-time-input';
+        timeInput.value = time;
+        timeInput.disabled = true;
+    
+        taskDateTime.appendChild(dateInput);
+        taskDateTime.appendChild(timeInput);
+    
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.textContent = 'X';
+        deleteBtn.addEventListener('click', () => {
+            li.remove();
+            saveTasksToLocalStorage();
+        });
+    
+        li.appendChild(checkbox);
+        li.appendChild(taskColor);
+        li.appendChild(taskName);
+        li.appendChild(taskCategory);
+        li.appendChild(taskDateTime);
+    
+        return li;
+    }    
+
     let currDate;
     let currDay;
     let currMonth;
@@ -14,9 +108,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         console.log('IN ELSE');
         currDate = new Date(JSON.parse(selectedDateStr));
         console.log(currDate);
-        console.log(typeof(currDate));
+        console.log(typeof (currDate));
     }
-    
+
     currDay = currDate.getDate();
     currMonth = currDate.getMonth();
     currYear = currDate.getFullYear();
@@ -34,13 +128,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
         autoCloseTags: true,
         matchBrackets: true,
         scrollbarStyle: "native",
-        styleActiveLine: {nonEmpty: true},
+        styleActiveLine: { nonEmpty: true },
     });
 
     function loadTags() {
         const localTags = localStorage.getItem('tags');
         const parsedTags = JSON.parse(localTags);
-        
+
         // TODO: IMPLEMENT IMPORTING ONLY TASKS THAT HAVE CURRENT DATE
         // Check if there is any data in tags
         if (!parsedTags) {
@@ -54,14 +148,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
             document.getElementById('tags').appendChild(currTag);
         });
     }
-    
+
     // TODO: FINISH WHEN TASK LIST IS DONE ON THE LOCAL STORAGE PART
     function loadTasks() {
         let localTasks = localStorage.getItem('tasks');
         let parsedTasks = JSON.parse(localTasks);
 
         // Check if there are any tasks
-        if(!parsedTasks) {
+        if (!parsedTasks) {
             return;
         }
 
@@ -73,34 +167,34 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function loadTexts() {
-      const localJournal = localStorage.getItem('journal');
-      const parsedJournal = JSON.parse(localJournal);
-      const language = document.getElementById('languageSelect').value;
-  
-      // Check if current day currently exists in localstorage
-      if (!parsedJournal || !parsedJournal[currDateFormatted]) {
-          editor.getDoc().setValue(getStartingComment(language));
-          return;
-      }
-  
-      document.getElementById('textBox').value = parsedJournal[currDateFormatted]["textValue"];
-      if (language === 'python') {
-          editor.getDoc().setValue(parsedJournal[currDateFormatted]["pythonCode"] || getStartingComment(language));
-      } else if (language === 'javascript') {
-          editor.getDoc().setValue(parsedJournal[currDateFormatted]["javascriptCode"] || getStartingComment(language));
-      } else if (language === 'text/x-c++src') {
-          editor.getDoc().setValue(parsedJournal[currDateFormatted]["cplusplusCode"] || getStartingComment(language));
-      }
-  
-      // Load the last saved time from local storage
-      const lastSaved = parsedJournal[currDateFormatted]["lastSaved"];
-      if (lastSaved) {
-          const lastSavedElement = document.getElementById('lastSaved');
-          lastSavedElement.textContent = `Last Saved: ${lastSaved}`;
-      }
-  }
+        const localJournal = localStorage.getItem('journal');
+        const parsedJournal = JSON.parse(localJournal);
+        const language = document.getElementById('languageSelect').value;
 
-    
+        // Check if current day currently exists in localstorage
+        if (!parsedJournal || !parsedJournal[currDateFormatted]) {
+            editor.getDoc().setValue(getStartingComment(language));
+            return;
+        }
+
+        document.getElementById('textBox').value = parsedJournal[currDateFormatted]["textValue"];
+        if (language === 'python') {
+            editor.getDoc().setValue(parsedJournal[currDateFormatted]["pythonCode"] || getStartingComment(language));
+        } else if (language === 'javascript') {
+            editor.getDoc().setValue(parsedJournal[currDateFormatted]["javascriptCode"] || getStartingComment(language));
+        } else if (language === 'text/x-c++src') {
+            editor.getDoc().setValue(parsedJournal[currDateFormatted]["cplusplusCode"] || getStartingComment(language));
+        }
+
+        // Load the last saved time from local storage
+        const lastSaved = parsedJournal[currDateFormatted]["lastSaved"];
+        if (lastSaved) {
+            const lastSavedElement = document.getElementById('lastSaved');
+            lastSavedElement.textContent = `Last Saved: ${lastSaved}`;
+        }
+    }
+
+
     /*
         FORMAT OF JOURNAL DATA IN LOCALSTORAGE
         journal: {
@@ -120,12 +214,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         }
         */
-      function saveToLocalStorage() {
+    function saveToLocalStorage() {
         const textVal = document.getElementById('textBox').value;
         let allJournalData = JSON.parse(localStorage.getItem('journal') || '{}'); // Initialize as an object
         const language = document.getElementById('languageSelect').value;
         const editorValue = editor.getValue();
-    
+
         // If the current date does not exist in the journal data, initialize it
         if (!allJournalData[currDateFormatted]) {
             allJournalData[currDateFormatted] = {
@@ -135,7 +229,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 cplusplusCode: ""
             };
         }
-    
+
         // Update the text value and the code for the currently selected language
         allJournalData[currDateFormatted].textValue = textVal;
         if (language === 'python') {
@@ -145,7 +239,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         } else if (language === 'text/x-c++src') {
             allJournalData[currDateFormatted].cplusplusCode = editorValue;
         }
-    
+
         const now = new Date();
         const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }); // Format time in 12-hour format with AM/PM
         allJournalData[currDateFormatted].lastSaved = now.toLocaleDateString() + " " + timeString;
@@ -159,14 +253,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function updateDateText() {
         const htmlDate = document.getElementById('date'); // date in HTML, the one shown on the page
         const currDateString = currDate.toDateString();
-        htmlDate.textContent  = currDateString;
+        htmlDate.textContent = currDateString;
     }
 
-    
+
     // TODO: COMBINE LOADTAGS() AND LOADTASKS() HERE
     function populatePage() {
         const allJournalData = localStorage.getItem('journal');
-        
+
         updateDateText();
         // TODO: default all texts before repopulating
         document.getElementById('textBox').value = '';
@@ -176,16 +270,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById('tags').innerHTML = '<h2>Tags:</h2>';
         document.getElementById('tasks').innerHTML = '<h2>Tasks:</h2>';
         loadTags();
-        loadTasks();
+        loadTasksFromLocalStorage();
         loadTexts();
     }
 
     populatePage();
 
     // Event listener for codeButton to switch to code editor
-    document.getElementById('codeButton').addEventListener('click', function() {
-      document.getElementById('languageSelect').style.display = 'inline-block';
-      document.getElementById('themeSelect').style.display = 'inline-block';
+    document.getElementById('codeButton').addEventListener('click', function () {
+        document.getElementById('languageSelect').style.display = 'inline-block';
+        document.getElementById('themeSelect').style.display = 'inline-block';
         this.classList.add('active');
         document.getElementById('textButton').classList.remove('active');
         document.getElementById('editor').classList.add('active');
@@ -194,9 +288,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     // Event listener for textButton to switch to text textarea
-    document.getElementById('textButton').addEventListener('click', function() {
-      document.getElementById('languageSelect').style.display = 'none';
-      document.getElementById('themeSelect').style.display = 'none';
+    document.getElementById('textButton').addEventListener('click', function () {
+        document.getElementById('languageSelect').style.display = 'none';
+        document.getElementById('themeSelect').style.display = 'none';
         this.classList.add('active');
         document.getElementById('codeButton').classList.remove('active');
         document.getElementById('textBox').classList.add('active');
@@ -204,56 +298,56 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     function getStartingComment(language) {
-      switch (language) {
-          case 'javascript':
-              return '// Enter code here\n';
-          case 'python':
-              return '# Enter code here\n';
-          case 'text/x-c++src':
-              return '// Enter code here\n';
-          default:
-              return '';
-      }
-  }
+        switch (language) {
+            case 'javascript':
+                return '// Enter code here\n';
+            case 'python':
+                return '# Enter code here\n';
+            case 'text/x-c++src':
+                return '// Enter code here\n';
+            default:
+                return '';
+        }
+    }
 
-  document.getElementById('languageSelect').addEventListener('change', function() {
-    editor.setOption('mode', this.value);
-    editor.getDoc().setValue(getStartingComment(this.value));
-    loadTexts();
-  });
+    document.getElementById('languageSelect').addEventListener('change', function () {
+        editor.setOption('mode', this.value);
+        editor.getDoc().setValue(getStartingComment(this.value));
+        loadTexts();
+    });
 
-document.getElementById('themeSelect').addEventListener('change', function() {
-  editor.setOption('theme', this.value);
+    document.getElementById('themeSelect').addEventListener('change', function () {
+        editor.setOption('theme', this.value);
 
-  // Define the active line colors for each theme
-  const activeLineColors = {
-      default: '#F6EEE3',
-      monokai: '#49483E',
-      eclipse: '#E8F2FE',
-      // Add more themes as needed
-  };
+        // Define the active line colors for each theme
+        const activeLineColors = {
+            default: '#F6EEE3',
+            monokai: '#49483E',
+            eclipse: '#E8F2FE',
+            // Add more themes as needed
+        };
 
-  // Get the active line color for the current theme
-  const activeLineColor = activeLineColors[this.value];
+        // Get the active line color for the current theme
+        const activeLineColor = activeLineColors[this.value];
 
-  // Create a new style tag
-  const style = document.createElement('style');
-  style.textContent = `
+        // Create a new style tag
+        const style = document.createElement('style');
+        style.textContent = `
       .CodeMirror-activeline .CodeMirror-line {
           background: ${activeLineColor} !important;
       }
   `;
 
-  // Remove the old style tag, if it exists
-  const oldStyle = document.getElementById('active-line-style');
-  if (oldStyle) {
-      oldStyle.remove();
-  }
+        // Remove the old style tag, if it exists
+        const oldStyle = document.getElementById('active-line-style');
+        if (oldStyle) {
+            oldStyle.remove();
+        }
 
-  // Add an id to the new style tag and append it to the document head
-  style.id = 'active-line-style';
-  document.head.appendChild(style);
-});
+        // Add an id to the new style tag and append it to the document head
+        style.id = 'active-line-style';
+        document.head.appendChild(style);
+    });
 
     document.getElementById('left-arrow').addEventListener('click', function () {
         //saveToLocalStorage();
@@ -269,7 +363,7 @@ document.getElementById('themeSelect').addEventListener('change', function() {
         }
         currDate = new Date(currYear, currMonth, currDay);
         currDateFormatted = currMonth + 1 + '/' + currDay + '/' + currYear;
-        
+
         updateDateText();
         populatePage();
     });
@@ -288,7 +382,7 @@ document.getElementById('themeSelect').addEventListener('change', function() {
         }
         currDate = new Date(currYear, currMonth, currDay);
         currDateFormatted = currMonth + 1 + '/' + currDay + '/' + currYear;
-        
+
         updateDateText();
         populatePage();
     });

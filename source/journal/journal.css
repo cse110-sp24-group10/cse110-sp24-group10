@@ -270,3 +270,117 @@ footer {
 .CodeMirror-activeline .CodeMirror-line {
   background: #F6EEE3 !important;
 }
+
+.task-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    background-color: #f9f9f9;
+}
+
+.task-item.completed .task-name {
+    text-decoration: line-through;
+    color: #999; /* Adjusted color for completed tasks */
+}
+
+.task-name:hover {
+    color: #555;
+}
+
+.task-name {
+    flex-grow: 1;
+    cursor: pointer;
+}
+
+.task-item:hover .delete-btn {
+    display: block;
+}
+
+.task-item.red {
+    background-color: #FFCCCC;
+}
+
+.task-item.yellow {
+    background-color: #dede54ce;
+}
+
+.task-item.green {
+    background-color: #CCFFCC;
+}
+
+.task-item.blue {
+    background-color: #99CCFF;
+}
+
+.task-item.orange {
+    background-color: #ffc26da4;
+}
+
+.task-color {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+li {
+    cursor: grab;
+}
+
+.task-item.completed {
+    background-color: #d3d3d3;
+}
+
+.task-item.completed .task-name {
+    text-decoration: line-through;
+    color: #999;
+}
+
+/* Styling for tag */
+.task-category select {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* Styling for checkbox */
+.task-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Styling for date and time inputs */
+.task-date-input,
+.task-time-input {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.task-item input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    /* Make the checkbox circular */
+    cursor: pointer;
+    outline: none;
+    /* Remove default focus outline */
+    transition: background-color 0.3s, border-color 0.3s;
+    margin-right: 10px;
+}
+
+.task-item input[type="checkbox"]:checked {
+    background-color: #654321;
+    border-color: #654321;
+    /* Change border color when checked */
+}
+
+.task-item input[type="checkbox"]:focus {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+    /* Add focus outline */
+}
