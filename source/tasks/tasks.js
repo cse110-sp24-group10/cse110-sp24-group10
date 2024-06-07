@@ -10,12 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const newTagName = document.getElementById('new-tag-name');
   const newTagColor = document.getElementById('new-tag-color');
 
-  // Check local storage to keep the dark mode setting consistent across sessions
-  if (localStorage.getItem("darkMode") === "enabled") {
-      darkModeToggle.checked = true;
-      body.classList.add("dark-mode");
-  }
-
   function saveTasksToLocalStorage() {
       const tasks = Array.from(taskList.children).map(task => {
           return {
