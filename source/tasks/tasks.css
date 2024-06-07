@@ -140,7 +140,7 @@ body {
 }
 
 .task-item.yellow {
-    background-color: #ffff9995;
+    background-color: #dede54ce;
 }
 
 .task-item.green {
@@ -151,8 +151,8 @@ body {
     background-color: #99CCFF;
 }
 
-.task-item.purple {
-    background-color: #CC99FF;
+.task-item.orange {
+    background-color: #ffc26da4;
 }
 
 .task-color {
