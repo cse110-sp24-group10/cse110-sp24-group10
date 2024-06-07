@@ -10,13 +10,8 @@ module.exports = {
       '--no-zygote',
       '--single-process', // Run Chromium in a single process mode
       '--disable-gpu' // Disable GPU hardware acceleration
-    ]
+    ],
+    slowMo: 25 // Retain slowMo for consistent behavior during testing
   },
-  browserContext: 'default',
-  server: {
-    command: 'node server.js', // Assuming you might have a server running for tests
-    port: 4444,
-    launchTimeout: 10000, // Timeout for launching the server
-    debug: true,
-  }
+  browserContext: 'default'
 };
