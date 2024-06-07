@@ -1,3 +1,4 @@
+/* Basic variables used for design*/
 :root {
   --arrow-font-size: 1.5em;
   --top-bar-size: 2em;
@@ -13,6 +14,7 @@
   --mobile-padding: 10px;
 }
 
+/* Adding typewriter font */
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 * {
   padding: 0;
@@ -20,18 +22,22 @@
   font-family: 'Courier Prime';
 }
 
+/* Overall styling for the page */
 body {
   font-family: 'Courier Prime';
   padding-bottom: 80px;
   background-color: var(--palette-background);
 }
 
+/* Container for task list */
 .task-list-container {
   width: 50%;
   margin: auto;
   padding-top: 20px;
 }
 
+
+/* Styles for top bar with sort and add task buttons*/
 .top-bar {
   display: flex;
   align-items: center;
@@ -39,32 +45,35 @@ body {
   margin-bottom: 10px;
 }
 
-#sort-btn.styled-btn,
-#settings-btn.styled-btn {
-  font-size: 16px;
-  padding: 10px 20px;
-  margin-left: 10px;
-  cursor: pointer;
-  background: #654321;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Styled button for sorting tasks */
+#sort-btn.styled-btn {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    background: #654321;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-#sort-btn.styled-btn:hover,
-#settings-btn.styled-btn:hover {
-  background-color: #a37433;
-  transform: translateY(-2px);
+/* Hover effect for sort button */
+#sort-btn.styled-btn:hover{
+    background-color: #a37433;
+    transform: translateY(-2px);
 }
 
-#sort-btn.styled-btn:active,
-#settings-btn.styled-btn:active {
-  background-color: #a37433;
-  transform: translateY(0);
+
+/* Active effect for sort button */
+#sort-btn.styled-btn:active {
+    background-color: #a37433;
+    transform: translateY(0);
 }
 
+
+/* Circular button for adding tasks */
 #add-task-btn.circle-btn {
   width: 40px;
   height: 40px;
@@ -82,16 +91,20 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Hover effect for add task button */
 #add-task-btn.circle-btn:hover {
   background-color: #a37433;
   transform: translateY(-2px);
 }
 
+/* Active effect for add task button */
 #add-task-btn.circle-btn:active {
   background-color: #a37433;
   transform: translateY(0);
 }
 
+
+/* Styles for individual tasks */
 .task-item {
   display: flex;
   align-items: center;
@@ -102,19 +115,25 @@ body {
   background-color: #f9f9f9;
 }
 
+
+/* Strike through completed task names */
 .task-item.completed .task-name {
   text-decoration: line-through;
 }
 
+/* Hover effect for task names */
 .task-name:hover {
   color: #555;
 }
 
+/* Task name styling, name grows when typing*/
 .task-name {
   flex-grow: 1;
   cursor: pointer;
 }
 
+  
+/* Styling for task category, date/time, and priority dropdown on each task */
 .task-difficulty,
 .task-date-time,
 .task-tag,
@@ -123,6 +142,7 @@ body {
   cursor: pointer;
 }
 
+/* Hide select dropdown and date/time input */
 .task-difficulty select,
 .task-tag select,
 .task-date-time input {
@@ -135,10 +155,12 @@ body {
   width: auto;
 }
 
+/* Hide delete button by default */
 .delete-btn {
   display: none;
 }
 
+/* Show delete button on hover task */
 .task-item:hover .delete-btn {
   display: block;
 }
@@ -174,6 +196,7 @@ li {
   cursor: grab;
 }
 
+/*Make task gray when it is marked completed*/
 .task-item.completed {
   background-color: #d3d3d3;
 }
@@ -279,7 +302,6 @@ li {
   border: 3px solid #000;
 }
 
-.reorder-btn,
 .delete-btn {
   background: #654321;
   color: white;
@@ -292,19 +314,16 @@ li {
   font-size: 14px;
 }
 
-.reorder-btn:hover,
 .delete-btn:hover {
   background-color: #a37433;
   transform: translateY(-2px);
 }
 
-.reorder-btn:active,
 .delete-btn:active {
   background-color: #a37433;
   transform: translateY(0);
 }
 
-.task-item:hover .reorder-btn,
 .task-item:hover .delete-btn {
   display: inline-block;
 }
@@ -339,13 +358,12 @@ li {
 }
 
 .task-item input[type="checkbox"]:checked::after {
-  content: '\2714';
-  font-size: 12px;
-  color: white;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    content: '\2714';
+    font-size: 12px;
+    color: #654321;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .task-item input[type="checkbox"]:focus {
