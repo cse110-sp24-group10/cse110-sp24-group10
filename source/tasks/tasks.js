@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const taskList = document.getElementById('task-list');
     const addTaskBtn = document.getElementById('add-task-btn');
-    const filterBtn = document.getElementById('filter-btn');
+    const sortBtn = document.getElementById('sort-btn');
     const sidebar = document.querySelector('.sidebar');
     const closeBtn = document.getElementById('close-sidebar');
 
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadTasksFromLocalStorage();
 
-    filterBtn.addEventListener('click', () => {
+    sortBtn.addEventListener('click', () => {
         sidebar.classList.toggle('show-sidebar');
     });
 
@@ -341,20 +341,20 @@ function filterTasksByTag(tag) {
 }
 
 // Get the sorting buttons
-const dateFilterBtn = document.getElementById('date-filter');
-const dateFilterBtnDes = document.getElementById('date-filter-descending');
+const dateSortBtn = document.getElementById('date-sort');
+const dateSortBtnDes = document.getElementById('date-sort-descending');
 
-const nameFilterBtn = document.getElementById('name-filter');
-const nameFilterBtnDes = document.getElementById('name-filter-descending');
+const nameSortBtn = document.getElementById('name-sort');
+const nameSortBtnDes = document.getElementById('name-sort-descending');
 
-const tagFilterBtn = document.getElementById('tag-filter');
-const tagFilterBtnDes = document.getElementById('tag-filter-descending');
+const tagSortBtn = document.getElementById('tag-sort');
+const tagSortBtnDes = document.getElementById('tag-sort-descending');
 
-dateFilterBtn.addEventListener('click', sortTasksByDate);
-dateFilterBtnDes.addEventListener('click', sortTasksByDateDescending);
+dateSortBtn.addEventListener('click', sortTasksByDate);
+dateSortBtnDes.addEventListener('click', sortTasksByDateDescending);
 
-nameFilterBtn.addEventListener('click', sortTasksByName);
-nameFilterBtnDes.addEventListener('click', sortTasksByNameDescending);
+nameSortBtn.addEventListener('click', sortTasksByName);
+nameSortBtnDes.addEventListener('click', sortTasksByNameDescending);
 
-tagFilterBtn.addEventListener('click', sortTasksByTag);
-tagFilterBtnDes.addEventListener('click', sortTasksByTagDescending);
+tagSortBtn.addEventListener('click', sortTasksByTag);
+tagSortBtnDes.addEventListener('click', sortTasksByTagDescending);
