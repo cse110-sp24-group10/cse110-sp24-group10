@@ -14,10 +14,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/codemirror.min.css">
     <!-- CodeMirror JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/codemirror.min.js"></script>
+    <!-- CodeMirror show-hint JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/addon/hint/show-hint.min.js"></script>
+    <!-- CodeMirror language modes and hints -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/mode/clike/clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/addon/selection/active-line.min.js"></script>
+    <!-- CodeMirror Themes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/theme/monokai.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/theme/eclipse.min.css">
+    <script type="module" src="../components/bottom-bar.js"></script>
 </head>
 <body>
-    <h1>May 16, 2024</h1>
+    <h1 id="date"></h1>
 
     <div class="top-bar">
         <span id="left-arrow" class="nav-arrows" tabindex="0"> &lt </span>
@@ -25,49 +35,45 @@
         <img id="settings" src="./settingsCog-min.png" alt="⚙️" tabindex="0">   
     </div>
 
-    <section id="tags-section">
+    <section id="tags">
         <h2>Tags:</h2>
-        <span class="tag tag1">Tag1</span>
-        <span class="tag tag2">Tag2</span>
     </section>
     <!-- Once done put the task list here -->
-    <section id="tasks-section">
-        <h2>Task Overview:</h2>
-        <div class="task">
-            <input type="checkbox" id="task1">
-            <label for="task1">First Task</label>
-        </div>
-        <div class="task">
-            <input type="checkbox" id="task2">
-            <label for="task2">Second Task</label>
-        </div>
-        <div class="task">
-            <input type="checkbox" id="task3">
-            <label for="task3">Third Task</label>
-        </div>
+    <section id="tasks">
+        <h2>Tasks:</h2>
     </section>
         
     <!-- Journal section which we are working on below-->
     <section id="notes-section">
         <div class="tabs">
+          <div class="left-side">
             <button id="textButton">Text</button>
             <button id="codeButton">Code</button>
+            <span id="lastSaved">Last Saved: Never</span>
+        </div>
+        <div class="right-side">
+          <select id="languageSelect" class="language-select" style="display: none;">
+              <option value="javascript">JavaScript</option>
+              <option value="python">Python</option>
+              <option value="text/x-c++src">C++</option>
+              <!-- Add more options as needed -->
+          </select>
+          <select id="themeSelect" class="theme-select" style="display: none;">
+              <option value="default">Default</option>
+              <option value="monokai">Monokai</option>
+              <option value="eclipse">Eclipse</option>
+              <!-- Add more options as needed -->
+          </select>
+      </div>
         </div>
         
+
         <div id="editor"></div>
-        <textarea id="textBox" class="textarea active" placeholder="Text Area"></textarea>
+        <textarea id="textBox" class="textarea active" placeholder="Enter text here"></textarea>
     </section>
 
     <script src="journal.js" defer></script>
 </body>
 
-<!-- Buttons at the bottom to switch views -->
-<footer>
-    <div class="bottom-bar  ">
-        <button id="calendar-button"> Calendar </button>
-        <button id="task-list-button"> Task List </button>
-        <button id="journal-button"> Journal </button>
-    </div>
-</footer>
-
-<footer>
+<!-- Unified bottom bar component -->
+<bottom-bar></bottom-bar>
