@@ -283,29 +283,6 @@ li {
     width: auto;
 }
 
-.color-tag-btn {
-    padding: 10px 20px;
-    background-color: #654321;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-top: 5px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.color-tag-btn:hover {
-    background-color: #a37433;
-    transform: translateY(-2px);
-}
-
-.color-tag-btn:active {
-    background-color: #a37433;
-    transform: translateY(0);
-}
-
 .reorder-btn,
 .delete-btn {
     background: #654321;
@@ -377,4 +354,62 @@ li {
 
 .task-item input[type="checkbox"]:focus {
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1); /* Add focus outline */
+}
+
+/* Media queries for mobile compatibility */
+@media (max-width: 768px) {
+    .task-list-container {
+        width: 90%;
+        padding-top: 10px;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    #filter-btn.styled-btn
+    {
+        width: 40%;
+        margin-bottom: 10px;
+        font-size: calc(2vw + 1vh);
+        
+        
+    }
+
+    #add-task-btn.circle-btn {
+        margin-bottom: 10px;
+    }
+
+
+    .task-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+   
+
+    .task-name,
+    .task-category,
+    .task-date-time,
+    .priority-dropdown
+     {
+        margin-left: 0;
+        margin-bottom: 5px;
+        order: 1;
+
+    }
+
+    .delete-btn
+    {
+        margin-right: 0;
+        margin-left: auto;
+        margin-bottom: 5px;
+        order: 2;
+        
+    }
+
+    
+    
 }
