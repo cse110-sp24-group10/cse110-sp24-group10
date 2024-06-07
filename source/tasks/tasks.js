@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sortBtn = document.getElementById('sort-btn');
     const sidebar = document.querySelector('.sidebar');
     const closeBtn = document.getElementById('close-sidebar');
+    const bottomBar = document.querySelector('bottom-bar');
 
     // Check local storage to keep the dark mode setting consistent across sessions
     if (localStorage.getItem("darkMode") === "enabled") {
@@ -102,7 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         categorySelect.addEventListener('change', () => {
             taskColor.style.backgroundColor = categorySelect.value;
-            li.classList.remove('red', 'yellow', 'green', 'blue', 'purple');
+
+            li.classList.remove('red', 'orange', 'yellow', 'green', 'blue');
             li.classList.add(categorySelect.value);
             // categorySelect.style.display = 'none';
             saveTasksToLocalStorage();
@@ -114,13 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         taskCategory.addEventListener('click', () => {
             categorySelect.style.display = 'block';
-        });
-
-        const colorTagBtn = document.createElement('button');
-        colorTagBtn.className = 'color-tag-btn';
-        colorTagBtn.textContent = 'Add Difficulty';
-        colorTagBtn.addEventListener('click', () => {
-            taskCategory.click();
         });
 
         const taskDateTime = document.createElement('div');
@@ -148,16 +143,12 @@ document.addEventListener('DOMContentLoaded', () => {
             timeInput.style.display = 'block';
         });
 
-        const reorderBtn = document.createElement('button');
-        reorderBtn.className = 'reorder-btn';
-        reorderBtn.textContent = '\u22EE';
-
-        reorderBtn.addEventListener('mousedown', (e) => {
+        li.addEventListener('mousedown', (e) => {
             li.draggable = true;
             li.classList.add('dragging');
         });
 
-        reorderBtn.addEventListener('mouseup', (e) => {
+        li.addEventListener('mouseup', (e) => {
             li.draggable = false;
             li.classList.remove('dragging');
         });
@@ -175,8 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
         li.appendChild(taskName);
         li.appendChild(taskCategory);
         li.appendChild(taskDateTime);
-        li.appendChild(colorTagBtn);
-        li.appendChild(reorderBtn);
         li.appendChild(deleteBtn);
 
         return li;
@@ -225,6 +214,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, { offset: Number.NEGATIVE_INFINITY }).element;
     };
+
+    bottomBar.addEventListener('click', () => {
+        saveTasksToLocalStorage();
+    });
 });
 
 // Sorting functions
@@ -295,13 +288,14 @@ function sortTasksByDateDescending() {
 function sortTasksByTag() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
+    const tagColors = ['red', 'orange', 'yellow', 'green', 'blue'];
 
     tasksArray.sort((a, b) => {
         const tagA = a.querySelector('.task-category select').value.toLowerCase();
         const tagB = b.querySelector('.task-category select').value.toLowerCase();
-
-        if (tagA < tagB) return -1;
-        if (tagA > tagB) return 1;
+        
+        if (tagColors.indexOf(tagA) > tagColors.indexOf(tagB)) return -1;
+        if (tagColors.indexOf(tagA) < tagColors.indexOf(tagB)) return 1;
         return 0;
     });
 
@@ -312,13 +306,14 @@ function sortTasksByTag() {
 function sortTasksByTagDescending() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
+    const tagColors = ['red', 'orange', 'yellow', 'green', 'blue'];
 
     tasksArray.sort((a, b) => {
         const tagA = a.querySelector('.task-category select').value.toLowerCase();
         const tagB = b.querySelector('.task-category select').value.toLowerCase();
 
-        if (tagA > tagB) return -1;
-        if (tagA < tagB) return 1;
+        if (tagColors.indexOf(tagA) < tagColors.indexOf(tagB)) return -1;
+        if (tagColors.indexOf(tagA) > tagColors.indexOf(tagB)) return 1;
         return 0;
     });
 
@@ -326,7 +321,7 @@ function sortTasksByTagDescending() {
     tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
-// Filter functions
+// Sort functions
 function filterTasksByTag(tag) {
     const tasks = document.querySelectorAll('.task-item');
 
