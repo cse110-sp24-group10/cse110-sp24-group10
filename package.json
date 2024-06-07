@@ -16,12 +16,6 @@
         "preset": "jest-puppeteer",
         "verbose": true
     },
-    "type": "module",
-    "mocha": {
-        "require": "esm",
-        "timeout": 5000,
-        "reporter": "spec"
-    },
     "dependencies": {
         "eslint": "^9.4.0",
         "jest": "^29.7.0",
