@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const taskCategory = document.createElement('div');
         taskCategory.className = 'task-category';
         const categorySelect = document.createElement('select');
-        ['Blue-Very Easy', 'Green-Easy', 'Purple-Medium', 'Red-Hard', 'Yellow-Very Hard'].forEach(item => {
+        ['Blue-Very Easy', 'Green-Easy', 'Yellow-Medium', 'Orange-Hard', 'Red-Very Hard'].forEach(item => {
             const [color, difficulty] = item.split('-');
             const option = document.createElement('option');
             option.value = color.toLowerCase();
@@ -260,8 +260,8 @@ function sortTasksByDate() {
     const tasksArray = Array.from(tasks);
 
     tasksArray.sort((a, b) => {
-        const dateA = new Date(a.querySelector('.task-date-input').value + ' ' + a.querySelector('.task-time-input').value);
-        const dateB = new Date(b.querySelector('.task-date-input').value + ' ' + b.querySelector('.task-time-input').value);
+        const dateA = new Date(a.querySelector('.task-date-input').value + 'T' + a.querySelector('.task-time-input').value);
+        const dateB = new Date(b.querySelector('.task-date-input').value + 'T' + b.querySelector('.task-time-input').value);
 
         return dateA - dateB;
     });
@@ -275,8 +275,8 @@ function sortTasksByDateDescending() {
     const tasksArray = Array.from(tasks);
 
     tasksArray.sort((a, b) => {
-        const dateA = new Date(a.querySelector('.task-date-input').value + ' ' + a.querySelector('.task-time-input').value);
-        const dateB = new Date(b.querySelector('.task-date-input').value + ' ' + b.querySelector('.task-time-input').value);
+        const dateA = new Date(a.querySelector('.task-date-input').value + 'T' + a.querySelector('.task-time-input').value);
+        const dateB = new Date(b.querySelector('.task-date-input').value + 'T' + b.querySelector('.task-time-input').value);
 
         return dateB - dateA;
     });
