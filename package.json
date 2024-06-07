@@ -8,6 +8,10 @@
         "test": "jest",
         "lint": "eslint ."
     },
+    "jest": {
+        "preset": "jest-puppeteer",
+        "verbose": true
+    },
     "type": "module",
     "mocha": {
         "require": "esm",

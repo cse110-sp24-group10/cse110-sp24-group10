@@ -8,20 +8,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <script type="module" src="../components/bottom-bar.js"></script>
 </head>
 <body>
     <div class="sidebar">
         <button id="close-sidebar">&times;</button>
-        <button id="date-filter">Date</button>
-        <button id="tag-filter">Tag</button>
-        <button id="name-filter">Name</button>
-        <button id="difficulty-filter">Difficulty</button>
+        <button id="date-filter">Date(Earliest to Latest)</button>
+        <button id="date-filter-descending">Date(Latest to Earliest)</button>
+        <button id="name-filter">Name(A to Z)</button>
+        <button id="name-filter-descending">Name(Z to A)</button>
+        <button id="tag-filter">Tag(Very Easy to Very Hard)</button>
+        <button id="tag-filter-descending">Tag(Very Hard to Very Easy)</button>
     </div>
     <div class="task-list-container">
         <div class="top-bar">
             <button id="add-task-btn" class="circle-btn">+</button>
             <button id="filter-btn" class="styled-btn">Filter</button>
-            <button id="settings-btn" class="styled-btn">Settings</button>
         </div>
         <div class="sortable-list">
             <ul id="task-list">
@@ -31,11 +33,5 @@
     </div>
     <script src="tasks.js"></script>
 </body>
-<footer>
-    <div class="bottom-bar">
-        <a href="../calendar/calendar.html"><button id="calendar-button"> Calendar </button></a>
-        <button id="task-list-button"> Task List </button>
-        <a href="../journal/journal.html"><button id="journal-button"> Journal </button></a>
-    </div>
-</footer>
+<bottom-bar></bottom-bar>
 </html>
