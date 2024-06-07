@@ -11,7 +11,7 @@
     <script type="module" src="../components/bottom-bar.js"></script>
 </head>
 <body>
-    <div class="sidebar">
+    <div class="sidebar"> <!-- Appears when Sort button is pressed-->
         <button id="close-sidebar">&times;</button>
         <button id="date-sort">Date(Earliest to Latest)</button>
         <button id="date-sort-descending">Date(Latest to Earliest)</button>
@@ -21,15 +21,34 @@
         <button id="tag-sort-descending">Tag(Very Hard to Very Easy)</button>
     </div>
     <div class="task-list-container">
-        <div class="top-bar">
+        <div class="top-bar"> <!-- Add task and Sort buttons-->
             <button id="add-task-btn" class="circle-btn">+</button>
             <button id="sort-btn" class="styled-btn">Sort</button>
+            <button id="manage-tags-btn" class="styled-btn">Manage Tags</button>
         </div>
         <div class="sortable-list">
             <ul id="task-list">
                 <!-- Task items will be appended here -->
             </ul>
         </div>
+    </div>
+    <!-- Pop-up window -->
+    <div class="popup" id="manage-tags-popup">
+      <div class="popup-content">
+        <span class="close" id="close-popup-btn">&times;</span>
+        <h2 id="popup-date">Manage Tags</h2>
+        <ul id="tag-list">
+          <!-- Existing tags will be appended here -->
+          <!-- Example tag with delete button -->
+          <!-- <li><span class="tag">Tag Name</span><button class="delete-tag-btn">Delete</button></li> -->
+        </ul>
+        <!-- Add Tag Section -->
+        <form id="add-tag-form" class="add-tag-form">
+          <input type="text" id="new-tag-name" placeholder="New tag name">
+          <input type="color" id="new-tag-color">
+          <button type="submit" class="styled-btn">Add Tag</button>
+        </form>
+      </div>
     </div>
     <script src="tasks.js"></script>
 </body>
