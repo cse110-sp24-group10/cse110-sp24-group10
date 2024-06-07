@@ -96,20 +96,24 @@ describe('Calendar Tests', () => {
 
     it('should load tasks for the selected date', async () => {
         const today = new Date();
-        const day = ('0' + today.getDate()).slice(-2);
-        const month = ('0' + (today.getMonth() + 1)).slice(-2);
+        const formattedDate = today.toISOString().slice(0, 10); // This slices the date part in "YYYY-MM-DD" format
         const sampleTasks = [
-            { date: `${today.getFullYear()}-` + month + `-` + day, name: 'Task 1', time:"", tag: 'green', completed: false }
+            { date: formattedDate, name: 'Task 1', time: "", tag: 'green', completed: false }
         ];
         console.log(JSON.stringify(sampleTasks));
+        console.log(formattedDate);
         await page.evaluate((tasks) => {
             localStorage.setItem('tasks', JSON.stringify(tasks));
         }, sampleTasks);
-        await page.click(`.day li:not(.faded):nth-child(${today.getDate() + 4})`);
-
+    
+        // Find the correct day element based on today's date
+        const dayIndex = today.getDate() + new Date(today.getFullYear(), today.getMonth(), 1).getDay() - 1;
+        await page.click(`.day li:nth-child(${dayIndex + 1})`); // Correctly select the li element representing today
+    
         const taskListContent = await page.$eval('#task-list', el => el.innerHTML);
         expect(taskListContent).toContain('Task 1');
     });
+    
 
     it('should display no tasks message if no tasks are available for a selected day', async () => {
         await page.click('.day li:not(.highlighted):not(.faded)');
