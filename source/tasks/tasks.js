@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const taskList = document.getElementById('task-list');
     const addTaskBtn = document.getElementById('add-task-btn');
-    const filterBtn = document.getElementById('filter-btn');
+    const sortBtn = document.getElementById('sort-btn');
     const sidebar = document.querySelector('.sidebar');
     const closeBtn = document.getElementById('close-sidebar');
+    const bottomBar = document.querySelector('bottom-bar');
 
     // Check local storage to keep the dark mode setting consistent across sessions
     if (localStorage.getItem("darkMode") === "enabled") {
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadTasksFromLocalStorage();
 
-    filterBtn.addEventListener('click', () => {
+    sortBtn.addEventListener('click', () => {
         sidebar.classList.toggle('show-sidebar');
     });
 
@@ -102,7 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         categorySelect.addEventListener('change', () => {
             taskColor.style.backgroundColor = categorySelect.value;
-            li.classList.remove('red', 'yellow', 'green', 'blue', 'orange');
+
+            li.classList.remove('red', 'orange', 'yellow', 'green', 'blue');
             li.classList.add(categorySelect.value);
             // categorySelect.style.display = 'none';
             saveTasksToLocalStorage();
@@ -114,13 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         taskCategory.addEventListener('click', () => {
             categorySelect.style.display = 'block';
-        });
-
-        const colorTagBtn = document.createElement('button');
-        colorTagBtn.className = 'color-tag-btn';
-        colorTagBtn.textContent = 'Add Difficulty';
-        colorTagBtn.addEventListener('click', () => {
-            taskCategory.click();
         });
 
         const taskDateTime = document.createElement('div');
@@ -148,16 +143,12 @@ document.addEventListener('DOMContentLoaded', () => {
             timeInput.style.display = 'block';
         });
 
-        const reorderBtn = document.createElement('button');
-        reorderBtn.className = 'reorder-btn';
-        reorderBtn.textContent = '\u22EE';
-
-        reorderBtn.addEventListener('mousedown', (e) => {
+        li.addEventListener('mousedown', (e) => {
             li.draggable = true;
             li.classList.add('dragging');
         });
 
-        reorderBtn.addEventListener('mouseup', (e) => {
+        li.addEventListener('mouseup', (e) => {
             li.draggable = false;
             li.classList.remove('dragging');
         });
@@ -175,8 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
         li.appendChild(taskName);
         li.appendChild(taskCategory);
         li.appendChild(taskDateTime);
-        li.appendChild(colorTagBtn);
-        li.appendChild(reorderBtn);
         li.appendChild(deleteBtn);
 
         return li;
@@ -225,6 +214,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, { offset: Number.NEGATIVE_INFINITY }).element;
     };
+
+    bottomBar.addEventListener('click', () => {
+        saveTasksToLocalStorage();
+    });
 });
 
 // Sorting functions
@@ -267,8 +260,8 @@ function sortTasksByDate() {
     const tasksArray = Array.from(tasks);
 
     tasksArray.sort((a, b) => {
-        const dateA = new Date(a.querySelector('.task-date-input').value + ' ' + a.querySelector('.task-time-input').value);
-        const dateB = new Date(b.querySelector('.task-date-input').value + ' ' + b.querySelector('.task-time-input').value);
+        const dateA = new Date(a.querySelector('.task-date-input').value + 'T' + a.querySelector('.task-time-input').value);
+        const dateB = new Date(b.querySelector('.task-date-input').value + 'T' + b.querySelector('.task-time-input').value);
 
         return dateA - dateB;
     });
@@ -282,8 +275,8 @@ function sortTasksByDateDescending() {
     const tasksArray = Array.from(tasks);
 
     tasksArray.sort((a, b) => {
-        const dateA = new Date(a.querySelector('.task-date-input').value + ' ' + a.querySelector('.task-time-input').value);
-        const dateB = new Date(b.querySelector('.task-date-input').value + ' ' + b.querySelector('.task-time-input').value);
+        const dateA = new Date(a.querySelector('.task-date-input').value + 'T' + a.querySelector('.task-time-input').value);
+        const dateB = new Date(b.querySelector('.task-date-input').value + 'T' + b.querySelector('.task-time-input').value);
 
         return dateB - dateA;
     });
@@ -295,13 +288,14 @@ function sortTasksByDateDescending() {
 function sortTasksByTag() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
+    const tagColors = ['red', 'orange', 'yellow', 'green', 'blue'];
 
     tasksArray.sort((a, b) => {
         const tagA = a.querySelector('.task-category select').value.toLowerCase();
         const tagB = b.querySelector('.task-category select').value.toLowerCase();
-
-        if (tagA < tagB) return -1;
-        if (tagA > tagB) return 1;
+        
+        if (tagColors.indexOf(tagA) > tagColors.indexOf(tagB)) return -1;
+        if (tagColors.indexOf(tagA) < tagColors.indexOf(tagB)) return 1;
         return 0;
     });
 
@@ -312,13 +306,14 @@ function sortTasksByTag() {
 function sortTasksByTagDescending() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
+    const tagColors = ['red', 'orange', 'yellow', 'green', 'blue'];
 
     tasksArray.sort((a, b) => {
         const tagA = a.querySelector('.task-category select').value.toLowerCase();
         const tagB = b.querySelector('.task-category select').value.toLowerCase();
 
-        if (tagA > tagB) return -1;
-        if (tagA < tagB) return 1;
+        if (tagColors.indexOf(tagA) < tagColors.indexOf(tagB)) return -1;
+        if (tagColors.indexOf(tagA) > tagColors.indexOf(tagB)) return 1;
         return 0;
     });
 
@@ -326,7 +321,7 @@ function sortTasksByTagDescending() {
     tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
-// Filter functions
+// Sort functions
 function filterTasksByTag(tag) {
     const tasks = document.querySelectorAll('.task-item');
 
@@ -341,20 +336,20 @@ function filterTasksByTag(tag) {
 }
 
 // Get the sorting buttons
-const dateFilterBtn = document.getElementById('date-filter');
-const dateFilterBtnDes = document.getElementById('date-filter-descending');
+const dateSortBtn = document.getElementById('date-sort');
+const dateSortBtnDes = document.getElementById('date-sort-descending');
 
-const nameFilterBtn = document.getElementById('name-filter');
-const nameFilterBtnDes = document.getElementById('name-filter-descending');
+const nameSortBtn = document.getElementById('name-sort');
+const nameSortBtnDes = document.getElementById('name-sort-descending');
 
-const tagFilterBtn = document.getElementById('tag-filter');
-const tagFilterBtnDes = document.getElementById('tag-filter-descending');
+const tagSortBtn = document.getElementById('tag-sort');
+const tagSortBtnDes = document.getElementById('tag-sort-descending');
 
-dateFilterBtn.addEventListener('click', sortTasksByDate);
-dateFilterBtnDes.addEventListener('click', sortTasksByDateDescending);
+dateSortBtn.addEventListener('click', sortTasksByDate);
+dateSortBtnDes.addEventListener('click', sortTasksByDateDescending);
 
-nameFilterBtn.addEventListener('click', sortTasksByName);
-nameFilterBtnDes.addEventListener('click', sortTasksByNameDescending);
+nameSortBtn.addEventListener('click', sortTasksByName);
+nameSortBtnDes.addEventListener('click', sortTasksByNameDescending);
 
-tagFilterBtn.addEventListener('click', sortTasksByTag);
-tagFilterBtnDes.addEventListener('click', sortTasksByTagDescending);
+tagSortBtn.addEventListener('click', sortTasksByTag);
+tagSortBtnDes.addEventListener('click', sortTasksByTagDescending);
