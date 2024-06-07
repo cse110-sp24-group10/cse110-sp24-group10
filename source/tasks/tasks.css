@@ -39,7 +39,7 @@ body {
     margin-bottom: 10px;
 }
 
-#filter-btn.styled-btn,
+#sort-btn.styled-btn,
 #settings-btn.styled-btn {
     font-size: 16px;
     padding: 10px 20px;
@@ -53,13 +53,13 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-#filter-btn.styled-btn:hover,
+#sort-btn.styled-btn:hover,
 #settings-btn.styled-btn:hover {
     background-color: #a37433;
     transform: translateY(-2px);
 }
 
-#filter-btn.styled-btn:active,
+#sort-btn.styled-btn:active,
 #settings-btn.styled-btn:active {
     background-color: #a37433;
     transform: translateY(0);
@@ -153,8 +153,8 @@ body {
     background-color: #99CCFF;
 }
 
-.task-item.orange {
-    background-color: #ffd447;
+.task-item.purple {
+    background-color: #CC99FF;
 }
 
 .task-color {
