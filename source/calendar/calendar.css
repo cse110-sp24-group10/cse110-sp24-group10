@@ -349,9 +349,6 @@ header .icons span {
   font-size: 1.2rem;
 }
 
-
-
-
 :root{
     --arrow-font-size: 1.5em;
     --top-bar-size: 2em;
@@ -365,4 +362,39 @@ header .icons span {
     --header-margin-spacing: 40px;
     /* Some math shit to get here i.e. -5/90 to get back to 100 but need to multiply by 100 to get -500%/90) */
     --undo-margin: calc(-500%/90)
+}
+/* header style update for added logo */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align items to the start */
+  padding: 35px 40px 15px; /* Adjust padding as needed */
+}
+
+header img {
+  margin-right: 10px; /* Space between the logo and the month/year text */
+}
+
+header .monthANDyear {
+  font-size: 3rem; /* Font size */
+  font-weight: 500;
+  margin-left: 10px; /* Space between the logo and the text */
+}
+
+header .icons {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Push icons to the far right */
+}
+
+header .icons span {
+  height: 50px; /* Height of the icons */
+  width: 60px; /* Width of the icons */
+  margin: 0 1px; /* Space between the icons */
+  background: #e5decf; /* Background color */
+  text-align: center; /* Center text inside the icons */
+  cursor: pointer; /* Cursor style */
+  line-height: 50px; /* Vertical alignment of text */
+  border-radius: 50%; /* Rounded corners */
+  font-size: 1.75rem; /* Font size */
 }
