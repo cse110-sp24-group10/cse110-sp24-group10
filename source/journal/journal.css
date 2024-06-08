@@ -11,11 +11,6 @@
     --palette-brown: #D9BDA5;
     --palette-background: #dbc2a0;
     --palette-dark-brown: #c9a36f;
-    --tag-red: #FFCCCC;
-    --tag-yellow: #FFFF99;
-    --tag-green: #CCFFCC;
-    --tag-blue: #99CCFF;
-    --tag-purple: #CC99FF;
     --header-margin-spacing: 40px;
     --tag-title-margin: 20px;
     --body-margins: 5%; 
@@ -100,33 +95,13 @@ h2 {
     font-size: var(--arrow-font-size);
 }
 
-/* temporary code for task list */
 .tag {
     display: inline-block;
     padding: 5px 2%;
     border-radius: 5px;
     margin-right: 5px;
     color: black;
-}
-
-.red {
-    background-color: var(--tag-red)
-}
-
-.yellow {
-    background-color: var(--tag-yellow)
-}
-
-.green {
-    background-color: var(--tag-green)
-}
-
-.blue {
-    background-color: var(--tag-blue)
-}
-
-.purple {
-    background-color: var(--tag-purple)
+    background-color: white;
 }
 
 .task {
@@ -310,26 +285,6 @@ footer {
     display: block;
 }
 
-.task-item.red {
-    background-color: #FFCCCC;
-}
-
-.task-item.yellow {
-    background-color: #dede54ce;
-}
-
-.task-item.green {
-    background-color: #CCFFCC;
-}
-
-.task-item.blue {
-    background-color: #99CCFF;
-}
-
-.task-item.orange {
-    background-color: #ffc26da4;
-}
-
 .task-color {
     width: 10px;
     height: 10px;
@@ -364,11 +319,19 @@ li {
 }
 
 /* Styling for date and time inputs */
-.task-date-input,
-.task-time-input {
+.task-date,
+.task-time {
     border: none;
     background-color: transparent;
     cursor: pointer;
+    width: 100px;
+}
+
+.task-diff {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding-right: 10px;
 }
 
 .task-item input[type="checkbox"] {

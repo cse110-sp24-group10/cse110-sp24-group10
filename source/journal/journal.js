@@ -1,18 +1,16 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    let taskList = document.getElementById('task-list');
-    console.log(taskList);
     let currDate;
     let currDay;
     let currMonth;
     let currYear;
     let currNumDays;
     let currDateFormatted;
-    const selectedDateStr = localStorage.getItem("selectedDate");
+    const currDateStr = localStorage.getItem("selectedDate");
 
-    if (!selectedDateStr) {
+    if (!currDateStr) {
         currDate = new Date();
     } else {
-        currDate = new Date(JSON.parse(selectedDateStr));
+        currDate = new Date(JSON.parse(currDateStr));
     }
 
     currDay = currDate.getDate();
@@ -38,112 +36,130 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function loadTags() {
         const localTags = localStorage.getItem('tags');
         const parsedTags = JSON.parse(localTags);
-
-        // TODO: IMPLEMENT IMPORTING ONLY TASKS THAT HAVE CURRENT DATE
-        // Check if there is any data in tags
+        let localTasks = localStorage.getItem('tasks');
+        let parsedLocalTasks = JSON.parse(localTasks);
+        let seenTags = new Set();
         if (!parsedTags) {
             return;
         }
 
-        parsedTags.forEach(task => {
-            const currTag = document.createElement('span');
-            currTag.className = 'tag ' + task.tag; // tags are currently implemented as tag.<color>
-            currTag.textContent = task.tag;
-            document.getElementById('tags').appendChild(currTag);
+        parsedLocalTasks.forEach(task => {
+            // adjust for timezone offset of task.date to make sure it isnt a day behind (task.date being 2024-06-07 should evaluate to june 7th, not 6th) and make sure the time is 0
+            const taskDate = new Date(task.date);
+            const adjustedTaskDate = new Date(taskDate.getTime() + taskDate.getTimezoneOffset() * 60000);
+            const adjustedTaskDateFormatted = adjustedTaskDate.getMonth() + 1 + '/' + adjustedTaskDate.getDate() + '/' + adjustedTaskDate.getFullYear();
+            if (adjustedTaskDateFormatted != currDateFormatted) {
+                console.log(adjustedTaskDateFormatted);
+                console.log(currDateFormatted);
+                console.log("WRONG DATE");
+                // leave the loop defined at line 46
+                return;
+            }
+            if (!seenTags.has(task.name)) {
+                seenTags.add(task.tag);
+                const currTag = document.createElement('span');
+                currTag.className = 'tag';
+                parsedTags.forEach(tag => {
+                    if (task.tag === tag.name) {
+                        currTag.textContent = tag.name;
+                        currTag.style.backgroundColor = tag.color;
+                        document.getElementById('tags').appendChild(currTag);
+                    }
+                });
+            }
         });
-    }
-
-    function saveTasks() {
-        const tasks = Array.from(taskList.children).map(task => {
-            return {
-                name: task.querySelector('.task-name').textContent,
-                completed: task.querySelector('input[type="checkbox"]').checked,
-                date: task.querySelector('.task-date-input').value,
-                time: task.querySelector('.task-time-input').value,
-                difficulty: task.querySelector('.task-difficulty select').value,
-                tag: task.querySelector('.task-tag select').value
-            };
-        });
-        localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
     function loadTasks() {
-        console.log(taskList);
-        Array.from(taskList.children).forEach(task => {
-            const taskElement = createTaskElement(task.name, task.completed, task.date, task.time, task.tag);
+        let localTasks = localStorage.getItem('tasks');
+        let parsedLocalTasks = JSON.parse(localTasks);
+        let htmlTasks = document.getElementById("task-list");
+
+        parsedLocalTasks.forEach(task => {
+            // adjust for timezone offset of task.date to make sure it isnt a day behind (task.date being 2024-06-07 should evaluate to june 7th, not 6th) and make sure the time is 0
+            const taskDate = new Date(task.date);
+            const adjustedTaskDate = new Date(taskDate.getTime() + taskDate.getTimezoneOffset() * 60000);
+            const adjustedTaskDateFormatted = adjustedTaskDate.getMonth() + 1 + '/' + adjustedTaskDate.getDate() + '/' + adjustedTaskDate.getFullYear();
+
+            if (adjustedTaskDateFormatted != currDateFormatted) {
+                console.log(adjustedTaskDateFormatted);
+                console.log(currDateFormatted);
+                console.log("WRONG DATE");
+                // leave the loop defined at line 46
+                return;
+            }
+
+            const taskElement = createTaskElement(task);
             if (task.tag !== '') {
                 taskElement.classList.add(task.tag.toLowerCase());
             }
             if (task.completed) {
                 taskElement.classList.add('completed');
             }
-            taskList.appendChild(taskElement);
+            htmlTasks.appendChild(taskElement);
         });
     }
 
-    function createTaskElement(name = 'New Task', completed = false, date = '', time = '', difficulty = '', tag = '') {
+    function createTaskElement(task) {
+        let localTasks = localStorage.getItem('tasks');
+        let parsedLocalTasks = JSON.parse(localTasks);
+
         const li = document.createElement('li');
         li.className = 'task-item';
 
-        const taskName = document.createElement('span');
-        taskName.className = 'task-name';
-        taskName.textContent = name;
-
-        if (completed) {
+        const taskTagAndName = document.createElement('span');
+        taskTagAndName.className = 'task-name';
+        taskTagAndName.textContent = `[${task.tag}] - ${task.name}`;
+        
+        if (task.completed === true) {
             li.classList.add('completed');
         }
 
         const checkbox = document.createElement('input');
-        checkbox.checked = completed;
+        checkbox.checked = task.completed;
         checkbox.type = 'checkbox';
         checkbox.addEventListener('change', () => {
             li.classList.toggle('completed');
-            if (!task.completed) {
-                task.completed = true;
-                task.innerHTML = '<s>' + task.innerText + '</s>';
+            if (checkbox.checked) {
+                li.classList.add('completed');
+                // look for the task in localstorage and change the completed value to true and rewrite back to localstorage
+                parsedLocalTasks.forEach(localTask => {
+                    console.log(task.name + " vs " + localTask.name);
+                    if (task.name === localTask.name) {
+                        localTask.completed = true;
+                    }
+                });
+                
             } else {
-                task.completed = false;
-                task.innerHTML = task.innerText.replace('<s>', '').replace('</s>', '');
+                li.classList.remove('completed');
+                parsedLocalTasks.forEach(localTask => {
+                    if (task.name === localTask.name) {
+                        localTask.completed = false;
+                    }
+                });
             }
 
-            saveTasks();
+            localStorage.setItem('tasks', JSON.stringify(parsedLocalTasks));
         });
-
-        const dateInput = document.createElement('input');
-        dateInput.type = 'date';
-        dateInput.className = 'task-date-input';
-        dateInput.value = date;
-        dateInput.disabled = true;
-
-        const taskDateTime = document.createElement('div');
-        taskDateTime.className = 'task-date-time';
-
-        const timeInput = document.createElement('input');
-        timeInput.type = 'time';
-        timeInput.className = 'task-time-input';
-        timeInput.value = time;
-        timeInput.disabled = true;
-
-        taskDateTime.appendChild(dateInput);
-        taskDateTime.appendChild(timeInput);
-
+        
         const taskDiff = document.createElement('div');
-        taskDiff.className = 'task-difficulty';
-        taskDiff.textContent = difficulty;
-        /*
-        const taskCategory = document.createElement('div');
-        taskCategory.className = 'task-category';
-        const categorySpan = document.createElement('span');
-        categorySpan.textContent = tag;
-        taskCategory.appendChild(categorySpan);
-        */
+        taskDiff.className = 'task-diff';
+        taskDiff.textContent = task.difficulty;
+
+        const taskTime = document.createElement('input');
+        taskTime.type = 'time';
+        taskTime.className = 'task-time';
+        taskTime.value = task.time;
+        taskTime.disabled = true;
 
         li.appendChild(checkbox);
-        li.appendChild(taskName);
-        li.appendChild(taskCategory);
-        li.appendChild(taskDateTime);
-
+        li.appendChild(taskTagAndName);
+        
+        li.append(taskDiff);
+        li.append(taskTime);
+        
         return li;
+        
     }
 
     function loadTexts() {
@@ -179,17 +195,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         FORMAT OF JOURNAL DATA IN LOCALSTORAGE
         journal: {
             date1: {
-                textValue: "text1",
-                pythonCode: "code python",
-                javascriptCode: "code javascript"
-                c++Code: "code c++"
-            }
+                textValue: string,
+                pythonCode: string,
+                javascriptCode: string,
+                c++Code: string
             
             date2: { 
-                textValue: "text2",
-                pythonCode: "code python",
-                javascriptCode: "code javascript"
-                c++Code: "code c++"
+                textValue: string,
+                pythonCode: string,
+                javascriptCode: string,
+                c++Code: string
             }
 
         }
@@ -247,14 +262,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         // deleting all tags and tasks before repopulating to make sure data doesn't bleed over into next pages
         document.getElementById('tags').innerHTML = '<h2>Tags:</h2>';
-        /*
         document.getElementById('tasks').innerHTML = `<h2>Tasks:</h2><div class="task-list-container">
         <div class="sortable-list">
         <ul id="task-list"><!-- Task items will be appended here -->
         </ul>
         </div>
         </div>`;
-        */
         loadTags();
         loadTasks();
         loadTexts();
@@ -347,7 +360,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             currDay = new Date(currYear, currMonth + 1, 0).getDate();
         }
         currDate = new Date(currYear, currMonth, currDay);
-        currDateFormatted = currMonth + 1 + '/' + currDay + '/' + currYear;
+        currDateFormatted = currMonth + 1 + '/' + currDay + '/' + currYear; 
 
         updateDateText();
         populatePage();
@@ -370,10 +383,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         updateDateText();
         populatePage();
-    });
-
-    document.getElementById('settings').addEventListener('click', function () {
-        saveToLocalStorage();
     });
 
     document.getElementById('textBox').addEventListener('keyup', saveToLocalStorage);
