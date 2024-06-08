@@ -16,6 +16,7 @@
 
 /* Adding typewriter font */
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 * {
   padding: 0;
   box-sizing: border-box;
@@ -392,6 +393,10 @@ li {
       margin-bottom: 10px;
   }
 
+  #sort-btn.styled-btn{
+    margin-bottom: 10px;
+  }
+
   .task-item {
       display: flex;
       flex-wrap: wrap; 
@@ -399,13 +404,17 @@ li {
       padding: 10px;
   }
 
-  .task-name, .task-difficulty {
+  .task-name, 
+  .task-difficulty {
       flex: 1 1 50%; 
       min-width: 200px; 
       box-sizing: border-box;
   }
 
-  .task-date-time, .priority-dropdown {
+  .task-date-time, 
+  .priority-dropdown, 
+  .task-difficulty, 
+  .task-tag {
       flex: 1 1 100%; 
       min-width: 200px;
       box-sizing: border-box;

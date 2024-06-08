@@ -1,7 +1,9 @@
 /* Basic variables used for design*/
 :root{
     --arrow-font-size: 1.5em;
+    --tags-and-task-size: 1.5em;
     --top-bar-size: 2em;
+    --title-date-font-size: 3em;
     --palette-off-white: #F6EEE3;
     --palette-light-tan: #EEE7D7;
     --palette-light-grey: #E5DECF;
@@ -10,14 +12,18 @@
     --palette-background: #dbc2a0;
     --palette-dark-brown: #c9a36f;
     --header-margin-spacing: 40px;
+    --tag-title-margin: 20px;
+    --body-margins: 5%; 
+    --arrow-margin: 0 1px;
+    --top-bar-gap: 40px;
+    --arrow-height: 50px;
+    --arrow-width: 60px;
+    --arrow-line-height: 55px;
+    --arrow-border-radius: 50%;
+    --right-arrow-spacing: 60px;
     /* Some math shit to get here i.e. -5/90 to get back to 100 but need to multiply by 100 to get -500%/90) */
     --undo-margin: calc(-500%/90);
-    --tag-red: #FFCCCC;
-    --tag-yellow: #FFFF99;
-    --tag-green: #CCFFCC;
-    --tag-blue: #99CCFF;
-    --tag-purple: #CC99FF;
-}
+}   
 
 /* Adding typewriter font */
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
@@ -29,21 +35,21 @@
 
 /* Overall styling for the page */
 body {
-    margin: 5%;
+    margin: var(--body-margins);
     background-color: var(--palette-background);
     height: 100%;
 }
 
 /* Header design */
 h1 {
-    font-size: 3em;
+    font-size: var(--title-date-font-size);
     display: inline;
 }
 
 /* Design for 'Tags:' and 'Task overview:' */
 h2 {
-    font-size: 1.5em;
-    margin-top: 20px;
+    font-size: var(--tags-and-task-size);
+    margin-top: var(--tag-title-margin);
 }
 
 /* The top bar for arrows and settings */
@@ -52,7 +58,7 @@ h2 {
     align-items: flex-end;
     float: right;
     font-size: var(--top-bar-size);
-    gap: 40px;
+    gap:var(--top-bar-gap);
 }
 
 /* turn cursor to pointer for all top bar elements */
@@ -60,15 +66,15 @@ h2 {
     cursor: pointer;
 }
 
-/* styling for top bar icons */
+/* styling for top bar arrows */
 .top-bar .nav-arrows{
-    height: 50px;
-    width: 60px;
-    margin: 0 1px;
+    height: var(--arrow-height);
+    width: var(--arrow-width);
+    margin: var(--arrow-margin);
     background: var(--palette-light-grey);
     text-align: center;
-    line-height: 55px;
-    border-radius: 50%;
+    line-height: var(--arrow-line-height);
+    border-radius: var(--arrow-border-radius);
 }
 
 /* Settings button positioning and interaction */
@@ -81,7 +87,7 @@ h2 {
 
 /* Sizing and spacing for the arrows in the top */
 .top-bar #right-arrow {
-    margin-right: 60px;
+    margin-right: var(--right-arrow-spacing);
     font-size: var(--arrow-font-size);
 }
 .top-bar #left-arrow {
@@ -89,33 +95,13 @@ h2 {
     font-size: var(--arrow-font-size);
 }
 
-/* temporary code for task list */
 .tag {
     display: inline-block;
     padding: 5px 2%;
     border-radius: 5px;
     margin-right: 5px;
     color: black;
-}
-
-.red {
-    background-color: var(--tag-red)
-}
-
-.yellow {
-    background-color: var(--tag-yellow)
-}
-
-.green {
-    background-color: var(--tag-green)
-}
-
-.blue {
-    background-color: var(--tag-blue)
-}
-
-.purple {
-    background-color: var(--tag-purple)
+    background-color: white;
 }
 
 .task {
@@ -269,4 +255,106 @@ footer {
 
 .CodeMirror-activeline .CodeMirror-line {
   background: #F6EEE3 !important;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    background-color: #f9f9f9;
+}
+
+.task-item.completed .task-name {
+    text-decoration: line-through;
+    color: #999; /* Adjusted color for completed tasks */
+}
+
+.task-name:hover {
+    color: #555;
+}
+
+.task-name {
+    flex-grow: 1;
+    cursor: pointer;
+}
+
+.task-item:hover .delete-btn {
+    display: block;
+}
+
+.task-color {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+li {
+    cursor: grab;
+}
+
+.task-item.completed {
+    background-color: #d3d3d3;
+}
+
+.task-item.completed .task-name {
+    text-decoration: line-through;
+    color: #999;
+}
+
+/* Styling for tag */
+.task-category select {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* Styling for checkbox */
+.task-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Styling for date and time inputs */
+.task-date,
+.task-time {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    width: 100px;
+}
+
+.task-diff {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding-right: 10px;
+}
+
+.task-item input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    /* Make the checkbox circular */
+    cursor: pointer;
+    outline: none;
+    /* Remove default focus outline */
+    transition: background-color 0.3s, border-color 0.3s;
+    margin-right: 10px;
+}
+
+.task-item input[type="checkbox"]:checked {
+    background-color: #654321;
+    border-color: #654321;
+    /* Change border color when checked */
+}
+
+.task-item input[type="checkbox"]:focus {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+    /* Add focus outline */
 }
