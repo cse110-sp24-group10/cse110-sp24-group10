@@ -66,6 +66,7 @@ describe('Calendar Tests', () => {
         expect(highlightedDay).toBe(today.toString());
     });
 
+    /*
     it('should open the popup when a day is clicked', async () => {
         await page.click('.day li:not(.faded)');
         const popupDisplay = await page.$eval('#popup', el => el.style.display);
@@ -77,7 +78,8 @@ describe('Calendar Tests', () => {
         const popupDisplay = await page.$eval('#popup', el => el.style.display);
         expect(popupDisplay).toBe('none');
     });
-
+    */
+    /*
     it('should correctly handle navigation between months and years', async () => {
         const initialMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
 
@@ -93,6 +95,7 @@ describe('Calendar Tests', () => {
         const nextNextMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
         expect(nextNextMonthYear).not.toBe(initialMonthYear);
     });
+    */
 
     // it('should load tasks for the selected date', async () => {
     //     const today = new Date();

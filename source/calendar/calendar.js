@@ -19,47 +19,54 @@ localStorage.setItem("selectedDate", JSON.stringify(selectedDate));
  * @param {Date} date - The date for which tasks need to be loaded.
  */
 const loadTasksForDate = (date) => {
-    // Retrieve tasks from localStorage or set to empty array if none exist
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    // Filter tasks for the specified date
-    const tasksForTheDay = tasks.filter(task => {
-        const taskDate = new Date(task.date);
-        // Adjust for timezone offset
-        const adjustedTaskDate = new Date(taskDate.getTime() + taskDate.getTimezoneOffset() * 60000);
-        return adjustedTaskDate.toDateString() === date.toDateString();
-    });
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  const tags = JSON.parse(localStorage.getItem('tags')) || [];
+  const tasksForTheDay = tasks.filter(task => {
+      const taskDate = new Date(task.date);
+      const adjustedTaskDate = new Date(taskDate.getTime() + taskDate.getTimezoneOffset() * 60000);
+      return adjustedTaskDate.toDateString() === date.toDateString();
+  });
 
-    // Display tasks or a message if no tasks exist for the specified date
-    if (tasksForTheDay.length > 0) {
-        taskList.innerHTML = tasksForTheDay.map(task => {
-            const time = task.time;
+  if (tasksForTheDay.length > 0) {
+      // Sort tasks by completion status: incomplete tasks first
+      tasksForTheDay.sort((a, b) => a.completed - b.completed);
 
-            const [hours, minutes] = time.split(':');
-
-            // Parsing the hour component to an integer and adjusting it to 12-hour format
-            let hour = parseInt(hours);
-            const ampm = hour >= 12 ? 'PM' : 'AM';
-            hour = hour % 12 || 12; // Adjusting 0 to 12 for 12 AM
-            const formattedTime = hour + ":" + minutes + " " + ampm;
-            const completed = task.completed ? 'Completed' : 'Not Completed';
-            let difficulty = '';
-            if (task.difficulty === "blue") {
-                difficulty = "Very Easy";
-            } else if (task.difficulty === "green") {
-                difficulty = "Easy";
-            } else if (task.difficulty === "yellow") {
-                difficulty = "Medium";
-            } else if (task.difficulty === "orange") {
-                difficulty = "Hard";
-            } else {
-                difficulty = "Very Hard";
-            }
-            return `<div class="task">${task.name}: ${difficulty} - (${formattedTime} - (${completed}))</div>`;
-        }).join('');
-    } else {
-        taskList.innerHTML = '<li class="noTask">No tasks for today.</li>';
-    }
+      taskList.innerHTML = tasksForTheDay.map(task => {
+          const tag = tags.find(t => t.name === task.tag);
+          const time = task.time;
+          const [hours, minutes] = time.split(':');
+          let hour = parseInt(hours);
+          const ampm = hour >= 12 ? 'PM' : 'AM';
+          hour = hour % 12 || 12;
+          const formattedTime = hour + ":" + minutes + " " + ampm;
+          const completed = task.completed ? 'Completed' : 'Not Completed';
+          const statusClass = task.completed ? 'completed' : 'not-completed';
+          let difficulty = '';
+          if (task.difficulty === "blue") {
+              difficulty = "Very Easy";
+          } else if (task.difficulty === "green") {
+              difficulty = "Easy";
+          } else if (task.difficulty === "yellow") {
+              difficulty = "Medium";
+          } else if (task.difficulty === "orange") {
+              difficulty = "Hard";
+          } else {
+              difficulty = "Very Hard";
+          }
+          return `
+              <div class="task-item ${statusClass}">
+                  <span class="task-name">${task.name}</span>
+                  ${task.tag && tag ? `<span class="task-tag" style="background-color: ${tag.color};">${tag.name}</span>` : ''}
+                  ${task.difficulty ? `<span class="task-difficulty" style="background-color: ${task.difficulty};">${difficulty}</span>` : ''}
+                  ${task.time ? `<span class="task-date">${formattedTime}</span>` : `<span class="task-date">All Day</span>`}
+              </div>`;
+      }).join('');
+  } else {
+      taskList.innerHTML = '<li class="noTask">No tasks for today.</li>';
+  }
 };
+
+
 
 /**
  * Event listener to load tasks when the window loads.
