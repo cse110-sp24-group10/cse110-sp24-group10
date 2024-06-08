@@ -163,22 +163,24 @@ header .icons span {
     justify-content: center;
 }
 
-/* Styles for the content inside the pop-up */
 .popup-content {
-    background-color: #f6eee3;
-    border: 1px solid #888;
-    padding: 20px;
-    width: 80%;
-    max-width: 640px;
-    border-radius: 15px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    max-height: 80vh;
-    overflow-y: auto;
+  background-color: #f6eee3;
+  border: 1px solid #888;
+  padding: 20px;
+  width: auto; /* Allows content to determine width */
+  max-width: none; /* Remove max-width constraint */
+  border-radius: 15px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: auto; /* Added to handle horizontal overflow */
 }
+
+
 
 /* Styles for the close button in the pop-up */
 .popup .close {
@@ -242,19 +244,113 @@ header .icons span {
     color: #654321;
 }
 
-/* Styles for individual task items */
-.task {
-    background-color: #e5decf;
-    border: 1px solid #888;
-    padding: 10px;
-    margin: 5px 0;
-    width: 100%;
-    max-width: 550px;
-    border-radius: 15px;
-    word-wrap: break-word;
-    white-space: pre-wrap;
-    box-sizing: border-box;
+.task-item {
+  display: flex;
+  align-items: center;
+  background-color: #e5decf;
+  border: 1px solid #888;
+  padding: 15px 30px; /* Increased padding */
+  margin: 10px 0; /* Increased margin */
+  width: auto;
+  flex-grow: 1; /* Allow the item to grow */
+  max-width: none; /* Remove max-width constraint */
+  border-radius: 15px;
+  word-wrap: break-word;
+  white-space: nowrap; /* Prevent line breaks */
+  box-sizing: border-box;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+.task-item > * {
+  margin-right: 20px; /* Increase spacing between elements */
+}
+
+.task-name {
+  flex-grow: 1;
+  font-size: 1.5rem;
+}
+
+.task-tag, .task-difficulty, .task-date {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 5px;
+}
+
+
+
+/* Styles for task status */
+.task-status {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #888;
+  margin-right: 10px;
+}
+
+.task-status.filled {
+  background-color: #888;
+}
+
+.task-status.unfilled {
+  background-color: transparent;
+}
+
+/* Styles for task name */
+.task-name {
+  flex-grow: 1;
+  font-size: 1.5rem;
+  margin-right: 50px;
+}
+
+/* Apply styles for completed tasks */
+.task-item.completed .task-name {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.task-item.completed {
+  background-color: #ccc;
+  color: #888;
+}
+
+.task-item.completed .task-tag,
+.task-item.completed .task-difficulty,
+.task-item.completed .task-date {
+  color: #888;
+}
+
+/* Styles for task tag */
+.task-tag {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* Styles for task difficulty */
+.task-difficulty {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* Styles for task date */
+.task-date {
+  color: black;
+  font-size: 1.2rem;
+}
+
+
+
 
 :root{
     --arrow-font-size: 1.5em;
