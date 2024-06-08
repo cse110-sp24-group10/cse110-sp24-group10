@@ -38,20 +38,18 @@ const loadTasksForDate = (date) => {
 
             // Parsing the hour component to an integer and adjusting it to 12-hour format
             let hour = parseInt(hours);
-            let minute = parseInt(minutes);
             const ampm = hour >= 12 ? 'PM' : 'AM';
             hour = hour % 12 || 12; // Adjusting 0 to 12 for 12 AM
-
-            const formattedTime = hour + ":" + minute + " " + ampm;
+            const formattedTime = hour + ":" + minutes + " " + ampm;
             const completed = task.completed ? 'Completed' : 'Not Completed';
             let difficulty = '';
-            if (task.tag === "blue") {
+            if (task.difficulty === "blue") {
                 difficulty = "Very Easy";
-            } else if (task.tag === "green") {
+            } else if (task.difficulty === "green") {
                 difficulty = "Easy";
-            } else if (task.tag === "yellow") {
+            } else if (task.difficulty === "yellow") {
                 difficulty = "Medium";
-            } else if (task.tag === "orange") {
+            } else if (task.difficulty === "orange") {
                 difficulty = "Hard";
             } else {
                 difficulty = "Very Hard";

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    const taskList = document.getElementById('task-list');   
-
+    let taskList = document.getElementById('task-list');
+    console.log(taskList);
     let currDate;
     let currDay;
     let currMonth;
@@ -53,26 +53,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     }
 
-    /*
-    function saveTasksToLocalStorage() {
+    function saveTasks() {
         const tasks = Array.from(taskList.children).map(task => {
             return {
                 name: task.querySelector('.task-name').textContent,
                 completed: task.querySelector('input[type="checkbox"]').checked,
                 date: task.querySelector('.task-date-input').value,
                 time: task.querySelector('.task-time-input').value,
-                tag: task.querySelector('.task-category select').value
+                difficulty: task.querySelector('.task-difficulty select').value,
+                tag: task.querySelector('.task-tag select').value
             };
         });
         localStorage.setItem('tasks', JSON.stringify(tasks));
-    } 
-    */
+    }
 
-    // TODO: FINISH WHEN TASK LIST IS DONE ON THE LOCAL STORAGE PART
     function loadTasks() {
-        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        console.log(tasks.length);
-        tasks.forEach(task => {
+        console.log(taskList);
+        Array.from(taskList.children).forEach(task => {
             const taskElement = createTaskElement(task.name, task.completed, task.date, task.time, task.tag);
             if (task.tag !== '') {
                 taskElement.classList.add(task.tag.toLowerCase());
@@ -84,14 +81,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     }
 
-    function createTaskElement(name = 'New Task', completed = false, date = '', time = '', tag = '') {
+    function createTaskElement(name = 'New Task', completed = false, date = '', time = '', difficulty = '', tag = '') {
         const li = document.createElement('li');
         li.className = 'task-item';
-    
+
+        const taskName = document.createElement('span');
+        taskName.className = 'task-name';
+        taskName.textContent = name;
+
         if (completed) {
             li.classList.add('completed');
         }
-    
+
         const checkbox = document.createElement('input');
         checkbox.checked = completed;
         checkbox.type = 'checkbox';
@@ -104,46 +105,44 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 task.completed = false;
                 task.innerHTML = task.innerText.replace('<s>', '').replace('</s>', '');
             }
+
+            saveTasks();
         });
-    
-        const taskColor = document.createElement('div');
-        taskColor.className = 'task-color';
-        taskColor.style.backgroundColor = tag;
-    
-        const taskName = document.createElement('span');
-        taskName.className = 'task-name';
-        taskName.textContent = name;
-    
-        const taskCategory = document.createElement('div');
-        taskCategory.className = 'task-category';
-        const categorySpan = document.createElement('span');
-        categorySpan.textContent = tag;
-        taskCategory.appendChild(categorySpan);
-    
-        const taskDateTime = document.createElement('div');
-        taskDateTime.className = 'task-date-time';
-    
+
         const dateInput = document.createElement('input');
         dateInput.type = 'date';
         dateInput.className = 'task-date-input';
         dateInput.value = date;
         dateInput.disabled = true;
-    
+
+        const taskDateTime = document.createElement('div');
+        taskDateTime.className = 'task-date-time';
+
         const timeInput = document.createElement('input');
         timeInput.type = 'time';
         timeInput.className = 'task-time-input';
         timeInput.value = time;
         timeInput.disabled = true;
-    
+
         taskDateTime.appendChild(dateInput);
         taskDateTime.appendChild(timeInput);
-    
+
+        const taskDiff = document.createElement('div');
+        taskDiff.className = 'task-difficulty';
+        taskDiff.textContent = difficulty;
+        /*
+        const taskCategory = document.createElement('div');
+        taskCategory.className = 'task-category';
+        const categorySpan = document.createElement('span');
+        categorySpan.textContent = tag;
+        taskCategory.appendChild(categorySpan);
+        */
+
         li.appendChild(checkbox);
-        li.appendChild(taskColor);
         li.appendChild(taskName);
         li.appendChild(taskCategory);
         li.appendChild(taskDateTime);
-    
+
         return li;
     }
 
@@ -320,10 +319,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         // Create a new style tag
         const style = document.createElement('style');
         style.textContent = `
-      .CodeMirror-activeline .CodeMirror-line {
-          background: ${activeLineColor} !important;
-      }
-  `;
+            .CodeMirror-activeline .CodeMirror-line {
+                background: ${activeLineColor} !important;
+            }`;
 
         // Remove the old style tag, if it exists
         const oldStyle = document.getElementById('active-line-style');
