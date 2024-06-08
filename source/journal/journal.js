@@ -55,7 +55,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 // leave the loop defined at line 46
                 return;
             }
-            if (!seenTags.has(task.name)) {
+            //console.log(seenTags);
+            if (!seenTags.has(task.tag)) {
                 seenTags.add(task.tag);
                 const currTag = document.createElement('span');
                 currTag.className = 'tag';
@@ -250,8 +251,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         htmlDate.textContent = currDateString;
     }
 
-
-    // TODO: COMBINE LOADTAGS() AND LOADTASKS() HERE
     function populatePage() {
         const allJournalData = localStorage.getItem('journal');
 
