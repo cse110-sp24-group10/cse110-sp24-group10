@@ -145,7 +145,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         
         const taskDiff = document.createElement('div');
         taskDiff.className = 'task-diff';
-        taskDiff.textContent = task.difficulty;
+        if(task.difficulty === "blue") {
+            taskDiff.textContent = "Very Easy";
+        } else if(task.difficulty === "green") {
+            taskDiff.textContent = "Easy";
+        } else if(task.difficulty === "yellow") {
+            taskDiff.textContent = "Medium";
+        } else if(task.difficulty === "orange") {
+            taskDiff.textContent = "Hard";
+        } else {
+            taskDiff.textContent = "Very Hard";
+        }
 
         const taskTime = document.createElement('input');
         taskTime.type = 'time';
