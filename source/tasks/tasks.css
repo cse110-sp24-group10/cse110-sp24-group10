@@ -42,7 +42,7 @@ body {
 .top-bar {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 10px;
 }
 
@@ -578,4 +578,9 @@ li {
   background-color: #dbc2a0;
   transform: translateY(0);
   color: #654321;
+}
+
+.buttons-group {
+  display: flex; /* Ensure the logo and date are inline */
+  align-items: center;
 }
