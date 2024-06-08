@@ -5,12 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.querySelector('.sidebar');
     const closeBtn = document.getElementById('close-sidebar');
     const bottomBar = document.querySelector('bottom-bar');
-
-    // Check local storage to keep the dark mode setting consistent across sessions
-    if (localStorage.getItem("darkMode") === "enabled") {
-        darkModeToggle.checked = true;
-        body.classList.add("dark-mode");
-    }
+    const tagList = document.getElementById('tag-list');
+    const addTagForm = document.getElementById('add-tag-form');
+    const newTagName = document.getElementById('new-tag-name');
+    const newTagColor = document.getElementById('new-tag-color');
 
     function saveTasksToLocalStorage() {
         const tasks = Array.from(taskList.children).map(task => {
@@ -19,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 completed: task.querySelector('input[type="checkbox"]').checked,
                 date: task.querySelector('.task-date-input').value,
                 time: task.querySelector('.task-time-input').value,
-                tag: task.querySelector('.task-category select').value
+                difficulty: task.querySelector('.task-difficulty select').value,
+                tag: task.querySelector('.task-tag select').value
             };
         });
         localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -28,18 +27,43 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadTasksFromLocalStorage() {
         const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         tasks.forEach(task => {
-            const taskElement = createTaskElement(task.name, task.completed, task.date, task.time, task.tag);
-            if (task.tag !== '') {
-                taskElement.classList.add(task.tag.toLowerCase());
-            }
-            if (task.completed) {
-                taskElement.classList.add('completed');
-            }
+            const taskElement = createTaskElement(task.name, task.completed, task.date, task.time, task.difficulty, task.tag);
             taskList.insertBefore(taskElement, taskList.firstChild);
         });
     }
 
+    function saveTagsToLocalStorage() {
+        const tags = Array.from(tagList.children).map(tagItem => {
+            return {
+                name: tagItem.querySelector('.tag-name').textContent,
+                color: tagItem.querySelector('.tag-color').style.backgroundColor
+            };
+        });
+        localStorage.setItem('tags', JSON.stringify(tags));
+    }
+
+    function loadTagsFromLocalStorage() {
+        const tags = JSON.parse(localStorage.getItem('tags')) || [];
+        tagList.innerHTML = ''; // Clear existing tags in the list
+        tags.forEach(tag => {
+            const tagElement = createTagElement(tag.name, tag.color);
+            tagList.appendChild(tagElement);
+        });
+        updateAllTaskTagSelects();
+    }
+
+    function updateAllTaskTagSelects() {
+        const tagSelects = document.querySelectorAll('.task-tag select');
+        tagSelects.forEach(select => {
+            const selectedValue = select.value;
+            select.innerHTML = ''; // Clear existing options
+            loadTagsIntoSelect(select);
+            select.value = selectedValue; // Re-set the previously selected value
+        });
+    }
+
     loadTasksFromLocalStorage();
+    loadTagsFromLocalStorage();
 
     sortBtn.addEventListener('click', () => {
         sidebar.classList.toggle('show-sidebar');
@@ -55,7 +79,48 @@ document.addEventListener('DOMContentLoaded', () => {
         saveTasksToLocalStorage();
     });
 
-    function createTaskElement(name = 'New Task', completed = false, date = '', time = '', tag = '') {
+    addTagForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const tagName = newTagName.value;
+        const tagColor = newTagColor.value;
+        const tagElement = createTagElement(tagName, tagColor);
+        tagList.appendChild(tagElement);
+        saveTagsToLocalStorage();
+        newTagName.value = '';
+        newTagColor.value = '#000000';
+        updateAllTaskTagSelects();
+    });
+
+    function createTagElement(name, color) {
+        const li = document.createElement('li');
+        li.className = 'tag-item';
+
+        const tagNameSpan = document.createElement('span');
+        tagNameSpan.className = 'tag-name';
+        tagNameSpan.textContent = name;
+
+        const tagColorDiv = document.createElement('div');
+        tagColorDiv.className = 'tag-color';
+        tagColorDiv.style.backgroundColor = color;
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-tag-btn';
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.addEventListener('click', () => {
+            li.remove();
+            saveTagsToLocalStorage();
+            resetTaskTags(name);
+            updateAllTaskTagSelects();
+        });
+
+        li.appendChild(tagColorDiv);
+        li.appendChild(tagNameSpan);
+        li.appendChild(deleteBtn);
+
+        return li;
+    }
+
+    function createTaskElement(name = 'New Task', completed = false, date = '', time = '', difficulty = '', tag = '') {
         const li = document.createElement('li');
         li.className = 'task-item';
         li.draggable = "true";
@@ -72,10 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
             saveTasksToLocalStorage();
         });
 
-        const taskColor = document.createElement('div');
-        taskColor.className = 'task-color';
-        taskColor.style.backgroundColor = tag;
-
         const taskName = document.createElement('span');
         taskName.className = 'task-name';
         taskName.contentEditable = true;
@@ -89,34 +150,62 @@ document.addEventListener('DOMContentLoaded', () => {
             taskName.style.color = '';
         });
 
-        const taskCategory = document.createElement('div');
-        taskCategory.className = 'task-category';
-        const categorySelect = document.createElement('select');
-        ['Blue-Very Easy', 'Green-Easy', 'Yellow-Medium', 'Orange-Hard', 'Red-Very Hard'].forEach(item => {
+        /* TASK TAG */
+
+        const taskTag = document.createElement('div');
+        taskTag.className = 'task-tag';
+
+        const tagSelect = document.createElement('select');
+        loadTagsIntoSelect(tagSelect);
+
+        tagSelect.value = tag;
+        const tags = JSON.parse(localStorage.getItem('tags')) || [];
+        const tagObject = tags.find(tagItem => tagItem.name === tag);
+        tagSelect.style.backgroundColor = tagObject ? tagObject.color : '';
+
+        taskTag.appendChild(tagSelect);
+
+        tagSelect.addEventListener('change', () => {
+            const selectedTag = tagSelect.value;
+            const tags = JSON.parse(localStorage.getItem('tags')) || [];
+            const tagObject = tags.find(tagItem => tagItem.name === selectedTag);
+            tagSelect.style.backgroundColor = tagObject ? tagObject.color : '';
+            saveTasksToLocalStorage();
+        });
+
+        tagSelect.addEventListener('click', () => {
+            const tags = JSON.parse(localStorage.getItem('tags')) || [];
+            if (tags.length === 0) {
+                document.getElementById('manage-tags-popup').style.display = 'flex';
+            }
+        });
+
+        /* TASK DIFFICULTY */
+
+        const taskDifficulty = document.createElement('div');
+        taskDifficulty.className = 'task-difficulty';
+
+        const difficultySelect = document.createElement('select');
+
+        ['blue-Very Easy', 'green-Easy', 'yellow-Medium', 'orange-Hard', 'red-Very Hard'].forEach(item => {
             const [color, difficulty] = item.split('-');
             const option = document.createElement('option');
             option.value = color.toLowerCase();
             option.textContent = difficulty;
-            categorySelect.appendChild(option);
+            difficultySelect.appendChild(option);
         });
-        taskCategory.appendChild(categorySelect);
 
-        categorySelect.addEventListener('change', () => {
-            taskColor.style.backgroundColor = categorySelect.value;
+        difficultySelect.value = difficulty;
+        difficultySelect.style.backgroundColor = difficulty;
 
-            li.classList.remove('red', 'orange', 'yellow', 'green', 'blue');
-            li.classList.add(categorySelect.value);
-            // categorySelect.style.display = 'none';
+        taskDifficulty.appendChild(difficultySelect);
+
+        difficultySelect.addEventListener('change', () => {
+            difficultySelect.style.backgroundColor = difficultySelect.value;
             saveTasksToLocalStorage();
         });
-        
-        categorySelect.style.display = 'block';
 
-        categorySelect.value = tag;
-
-        taskCategory.addEventListener('click', () => {
-            categorySelect.style.display = 'block';
-        });
+        /* TASK DATE AND TIME */
 
         const taskDateTime = document.createElement('div');
         taskDateTime.className = 'task-date-time';
@@ -143,6 +232,8 @@ document.addEventListener('DOMContentLoaded', () => {
             timeInput.style.display = 'block';
         });
 
+        /* TASK DRAGGING */
+
         li.addEventListener('mousedown', (e) => {
             li.draggable = true;
             li.classList.add('dragging');
@@ -153,6 +244,8 @@ document.addEventListener('DOMContentLoaded', () => {
             li.classList.remove('dragging');
         });
 
+        /* TASK DELETION */
+
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
         deleteBtn.textContent = 'X';
@@ -162,13 +255,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         li.appendChild(checkbox);
-        li.appendChild(taskColor);
         li.appendChild(taskName);
-        li.appendChild(taskCategory);
+        li.appendChild(taskTag);
+        li.appendChild(taskDifficulty);
         li.appendChild(taskDateTime);
         li.appendChild(deleteBtn);
 
         return li;
+    }
+
+    function loadTagsIntoSelect(selectElement) {
+        const tags = JSON.parse(localStorage.getItem('tags')) || [];
+        tags.forEach(tag => {
+            const option = document.createElement('option');
+            option.value = tag.name;
+            option.textContent = tag.name;
+            selectElement.appendChild(option);
+        });
+    }
+
+    function resetTaskTags(deletedTagName) {
+        const tasks = document.querySelectorAll('.task-item');
+        tasks.forEach(task => {
+            const tagSelect = task.querySelector('.task-tag select');
+            if (tagSelect.value === deletedTagName) {
+                tagSelect.value = '';
+                tagSelect.style.backgroundColor = '';
+            }
+        });
+        saveTasksToLocalStorage();
     }
 
     let draggedItem = null;
@@ -213,10 +328,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 return closest;
             }
         }, { offset: Number.NEGATIVE_INFINITY }).element;
-    };
+    }
 
     bottomBar.addEventListener('click', () => {
         saveTasksToLocalStorage();
+    });
+
+    document.getElementById('manage-tags-btn').addEventListener('click', function () {
+        document.getElementById('manage-tags-popup').style.display = 'flex';
+    });
+
+    document.getElementById('close-popup-btn').addEventListener('click', function () {
+        document.getElementById('manage-tags-popup').style.display = 'none';
+    });
+
+    window.addEventListener('click', function (event) {
+        const popup = document.getElementById('manage-tags-popup');
+        if (event.target === popup) {
+            popup.style.display = 'none';
+        }
     });
 });
 
@@ -291,9 +421,9 @@ function sortTasksByTag() {
     const tagColors = ['red', 'orange', 'yellow', 'green', 'blue'];
 
     tasksArray.sort((a, b) => {
-        const tagA = a.querySelector('.task-category select').value.toLowerCase();
-        const tagB = b.querySelector('.task-category select').value.toLowerCase();
-        
+        const tagA = a.querySelector('.task-difficulty select').value.toLowerCase();
+        const tagB = b.querySelector('.task-difficulty select').value.toLowerCase();
+
         if (tagColors.indexOf(tagA) > tagColors.indexOf(tagB)) return -1;
         if (tagColors.indexOf(tagA) < tagColors.indexOf(tagB)) return 1;
         return 0;
@@ -309,8 +439,8 @@ function sortTasksByTagDescending() {
     const tagColors = ['red', 'orange', 'yellow', 'green', 'blue'];
 
     tasksArray.sort((a, b) => {
-        const tagA = a.querySelector('.task-category select').value.toLowerCase();
-        const tagB = b.querySelector('.task-category select').value.toLowerCase();
+        const tagA = a.querySelector('.task-difficulty select').value.toLowerCase();
+        const tagB = b.querySelector('.task-difficulty select').value.toLowerCase();
 
         if (tagColors.indexOf(tagA) < tagColors.indexOf(tagB)) return -1;
         if (tagColors.indexOf(tagA) > tagColors.indexOf(tagB)) return 1;
@@ -326,7 +456,7 @@ function filterTasksByTag(tag) {
     const tasks = document.querySelectorAll('.task-item');
 
     tasks.forEach(task => {
-        const taskTag = task.querySelector('.task-category select').value.toLowerCase();
+        const taskTag = task.querySelector('.task-difficulty select').value.toLowerCase();
         if (taskTag === tag.toLowerCase() || tag === 'all') {
             task.style.display = 'flex';
         } else {

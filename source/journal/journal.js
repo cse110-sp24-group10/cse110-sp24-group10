@@ -5,18 +5,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let currYear;
     let currNumDays;
     let currDateFormatted;
-    const selectedDateStr = localStorage.getItem("selectedDate");
-    console.log(selectedDateStr);
+    const currDateStr = localStorage.getItem("selectedDate");
 
-    if (!selectedDateStr) {
+    if (!currDateStr) {
         currDate = new Date();
     } else {
-        console.log('IN ELSE');
-        currDate = new Date(JSON.parse(selectedDateStr));
-        console.log(currDate);
-        console.log(typeof(currDate));
+        currDate = new Date(JSON.parse(currDateStr));
     }
-    
+
     currDay = currDate.getDate();
     currMonth = currDate.getMonth();
     currYear = currDate.getFullYear();
@@ -34,98 +30,191 @@ document.addEventListener('DOMContentLoaded', (event) => {
         autoCloseTags: true,
         matchBrackets: true,
         scrollbarStyle: "native",
-        styleActiveLine: {nonEmpty: true},
+        styleActiveLine: { nonEmpty: true },
     });
 
     function loadTags() {
         const localTags = localStorage.getItem('tags');
         const parsedTags = JSON.parse(localTags);
-        
-        // TODO: IMPLEMENT IMPORTING ONLY TASKS THAT HAVE CURRENT DATE
-        // Check if there is any data in tags
+        let localTasks = localStorage.getItem('tasks');
+        let parsedLocalTasks = JSON.parse(localTasks);
+        let seenTags = new Set();
         if (!parsedTags) {
             return;
         }
 
-        parsedTasks.forEach(task => {
-            const currTag = document.createElement('span');
-            currTag.className = 'tag ' + task.tag; // tags are currently implemented as tag.<color>
-            currTag.textContent = task.tag;
-            document.getElementById('tags').appendChild(currTag);
+        parsedLocalTasks.forEach(task => {
+            // adjust for timezone offset of task.date to make sure it isnt a day behind (task.date being 2024-06-07 should evaluate to june 7th, not 6th) and make sure the time is 0
+            const taskDate = new Date(task.date);
+            const adjustedTaskDate = new Date(taskDate.getTime() + taskDate.getTimezoneOffset() * 60000);
+            const adjustedTaskDateFormatted = adjustedTaskDate.getMonth() + 1 + '/' + adjustedTaskDate.getDate() + '/' + adjustedTaskDate.getFullYear();
+            if (adjustedTaskDateFormatted != currDateFormatted) {
+                console.log(adjustedTaskDateFormatted);
+                console.log(currDateFormatted);
+                console.log("WRONG DATE");
+                // leave the loop defined at line 46
+                return;
+            }
+            if (!seenTags.has(task.name)) {
+                seenTags.add(task.tag);
+                const currTag = document.createElement('span');
+                currTag.className = 'tag';
+                parsedTags.forEach(tag => {
+                    if (task.tag === tag.name) {
+                        currTag.textContent = tag.name;
+                        currTag.style.backgroundColor = tag.color;
+                        document.getElementById('tags').appendChild(currTag);
+                    }
+                });
+            }
         });
     }
-    
-    // TODO: FINISH WHEN TASK LIST IS DONE ON THE LOCAL STORAGE PART
+
     function loadTasks() {
         let localTasks = localStorage.getItem('tasks');
-        let parsedTasks = JSON.parse(localTasks);
+        let parsedLocalTasks = JSON.parse(localTasks);
+        let htmlTasks = document.getElementById("task-list");
 
-        // Check if there are any tasks
-        if(!parsedTasks) {
-            return;
+        parsedLocalTasks.forEach(task => {
+            // adjust for timezone offset of task.date to make sure it isnt a day behind (task.date being 2024-06-07 should evaluate to june 7th, not 6th) and make sure the time is 0
+            const taskDate = new Date(task.date);
+            const adjustedTaskDate = new Date(taskDate.getTime() + taskDate.getTimezoneOffset() * 60000);
+            const adjustedTaskDateFormatted = adjustedTaskDate.getMonth() + 1 + '/' + adjustedTaskDate.getDate() + '/' + adjustedTaskDate.getFullYear();
+
+            if (adjustedTaskDateFormatted != currDateFormatted) {
+                console.log(adjustedTaskDateFormatted);
+                console.log(currDateFormatted);
+                console.log("WRONG DATE");
+                // leave the loop defined at line 46
+                return;
+            }
+
+            const taskElement = createTaskElement(task);
+            if (task.tag !== '') {
+                taskElement.classList.add(task.tag.toLowerCase());
+            }
+            if (task.completed) {
+                taskElement.classList.add('completed');
+            }
+            htmlTasks.appendChild(taskElement);
+        });
+    }
+
+    function createTaskElement(task) {
+        let localTasks = localStorage.getItem('tasks');
+        let parsedLocalTasks = JSON.parse(localTasks);
+
+        const li = document.createElement('li');
+        li.className = 'task-item';
+
+        const taskTagAndName = document.createElement('span');
+        taskTagAndName.className = 'task-name';
+        taskTagAndName.textContent = `[${task.tag}] - ${task.name}`;
+        
+        if (task.completed === true) {
+            li.classList.add('completed');
         }
 
-        parsedTasks.forEach(item => {
-            const currTask = document.createElement('div');
-            currTask.className = 'task';
-            currTask.textContet = item.task;
+        const checkbox = document.createElement('input');
+        checkbox.checked = task.completed;
+        checkbox.type = 'checkbox';
+        checkbox.addEventListener('change', () => {
+            li.classList.toggle('completed');
+            if (checkbox.checked) {
+                li.classList.add('completed');
+                // look for the task in localstorage and change the completed value to true and rewrite back to localstorage
+                parsedLocalTasks.forEach(localTask => {
+                    console.log(task.name + " vs " + localTask.name);
+                    if (task.name === localTask.name) {
+                        localTask.completed = true;
+                    }
+                });
+                
+            } else {
+                li.classList.remove('completed');
+                parsedLocalTasks.forEach(localTask => {
+                    if (task.name === localTask.name) {
+                        localTask.completed = false;
+                    }
+                });
+            }
+
+            localStorage.setItem('tasks', JSON.stringify(parsedLocalTasks));
         });
+        
+        const taskDiff = document.createElement('div');
+        taskDiff.className = 'task-diff';
+        taskDiff.textContent = task.difficulty;
+
+        const taskTime = document.createElement('input');
+        taskTime.type = 'time';
+        taskTime.className = 'task-time';
+        taskTime.value = task.time;
+        taskTime.disabled = true;
+
+        li.appendChild(checkbox);
+        li.appendChild(taskTagAndName);
+        
+        li.append(taskDiff);
+        li.append(taskTime);
+        
+        return li;
+        
     }
 
     function loadTexts() {
-      const localJournal = localStorage.getItem('journal');
-      const parsedJournal = JSON.parse(localJournal);
-      const language = document.getElementById('languageSelect').value;
-  
-      // Check if current day currently exists in localstorage
-      if (!parsedJournal || !parsedJournal[currDateFormatted]) {
-          editor.getDoc().setValue(getStartingComment(language));
-          return;
-      }
-  
-      document.getElementById('textBox').value = parsedJournal[currDateFormatted]["textValue"];
-      if (language === 'python') {
-          editor.getDoc().setValue(parsedJournal[currDateFormatted]["pythonCode"] || getStartingComment(language));
-      } else if (language === 'javascript') {
-          editor.getDoc().setValue(parsedJournal[currDateFormatted]["javascriptCode"] || getStartingComment(language));
-      } else if (language === 'text/x-c++src') {
-          editor.getDoc().setValue(parsedJournal[currDateFormatted]["cplusplusCode"] || getStartingComment(language));
-      }
-  
-      // Load the last saved time from local storage
-      const lastSaved = parsedJournal[currDateFormatted]["lastSaved"];
-      if (lastSaved) {
-          const lastSavedElement = document.getElementById('lastSaved');
-          lastSavedElement.textContent = `Last Saved: ${lastSaved}`;
-      }
-  }
+        const localJournal = localStorage.getItem('journal');
+        const parsedJournal = JSON.parse(localJournal);
+        const language = document.getElementById('languageSelect').value;
 
-    
+        // Check if current day currently exists in localstorage
+        if (!parsedJournal || !parsedJournal[currDateFormatted]) {
+            editor.getDoc().setValue(getStartingComment(language));
+            return;
+        }
+
+        document.getElementById('textBox').value = parsedJournal[currDateFormatted]["textValue"];
+        if (language === 'python') {
+            editor.getDoc().setValue(parsedJournal[currDateFormatted]["pythonCode"] || getStartingComment(language));
+        } else if (language === 'javascript') {
+            editor.getDoc().setValue(parsedJournal[currDateFormatted]["javascriptCode"] || getStartingComment(language));
+        } else if (language === 'text/x-c++src') {
+            editor.getDoc().setValue(parsedJournal[currDateFormatted]["cplusplusCode"] || getStartingComment(language));
+        }
+
+        // Load the last saved time from local storage
+        const lastSaved = parsedJournal[currDateFormatted]["lastSaved"];
+        if (lastSaved) {
+            const lastSavedElement = document.getElementById('lastSaved');
+            lastSavedElement.textContent = `Last Saved: ${lastSaved}`;
+        }
+    }
+
+
     /*
         FORMAT OF JOURNAL DATA IN LOCALSTORAGE
         journal: {
             date1: {
-                textValue: "text1",
-                pythonCode: "code python",
-                javascriptCode: "code javascript"
-                c++Code: "code c++"
-            }
+                textValue: string,
+                pythonCode: string,
+                javascriptCode: string,
+                c++Code: string
             
             date2: { 
-                textValue: "text2",
-                pythonCode: "code python",
-                javascriptCode: "code javascript"
-                c++Code: "code c++"
+                textValue: string,
+                pythonCode: string,
+                javascriptCode: string,
+                c++Code: string
             }
 
         }
         */
-      function saveToLocalStorage() {
+    function saveToLocalStorage() {
         const textVal = document.getElementById('textBox').value;
         let allJournalData = JSON.parse(localStorage.getItem('journal') || '{}'); // Initialize as an object
         const language = document.getElementById('languageSelect').value;
         const editorValue = editor.getValue();
-    
+
         // If the current date does not exist in the journal data, initialize it
         if (!allJournalData[currDateFormatted]) {
             allJournalData[currDateFormatted] = {
@@ -135,7 +224,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 cplusplusCode: ""
             };
         }
-    
+
         // Update the text value and the code for the currently selected language
         allJournalData[currDateFormatted].textValue = textVal;
         if (language === 'python') {
@@ -145,13 +234,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
         } else if (language === 'text/x-c++src') {
             allJournalData[currDateFormatted].cplusplusCode = editorValue;
         }
-    
+
         const now = new Date();
         const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }); // Format time in 12-hour format with AM/PM
         allJournalData[currDateFormatted].lastSaved = now.toLocaleDateString() + " " + timeString;
 
         localStorage.setItem('journal', JSON.stringify(allJournalData)); // Save new journal object to localstorage
-        console.log('Saved to local storage: ', allJournalData);
         const lastSaved = document.getElementById('lastSaved');
         lastSaved.textContent = `Last Saved: ${timeString}`;
     }
@@ -159,14 +247,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function updateDateText() {
         const htmlDate = document.getElementById('date'); // date in HTML, the one shown on the page
         const currDateString = currDate.toDateString();
-        htmlDate.textContent  = currDateString;
+        htmlDate.textContent = currDateString;
     }
 
-    
+
     // TODO: COMBINE LOADTAGS() AND LOADTASKS() HERE
     function populatePage() {
         const allJournalData = localStorage.getItem('journal');
-        
+
         updateDateText();
         // TODO: default all texts before repopulating
         document.getElementById('textBox').value = '';
@@ -174,7 +262,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         // deleting all tags and tasks before repopulating to make sure data doesn't bleed over into next pages
         document.getElementById('tags').innerHTML = '<h2>Tags:</h2>';
-        document.getElementById('tasks').innerHTML = '<h2>Tasks:</h2>';
+        document.getElementById('tasks').innerHTML = `<h2>Tasks:</h2><div class="task-list-container">
+        <div class="sortable-list">
+        <ul id="task-list"><!-- Task items will be appended here -->
+        </ul>
+        </div>
+        </div>`;
         loadTags();
         loadTasks();
         loadTexts();
@@ -183,9 +276,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     populatePage();
 
     // Event listener for codeButton to switch to code editor
-    document.getElementById('codeButton').addEventListener('click', function() {
-      document.getElementById('languageSelect').style.display = 'inline-block';
-      document.getElementById('themeSelect').style.display = 'inline-block';
+    document.getElementById('codeButton').addEventListener('click', function () {
+        document.getElementById('languageSelect').style.display = 'inline-block';
+        document.getElementById('themeSelect').style.display = 'inline-block';
         this.classList.add('active');
         document.getElementById('textButton').classList.remove('active');
         document.getElementById('editor').classList.add('active');
@@ -194,9 +287,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     // Event listener for textButton to switch to text textarea
-    document.getElementById('textButton').addEventListener('click', function() {
-      document.getElementById('languageSelect').style.display = 'none';
-      document.getElementById('themeSelect').style.display = 'none';
+    document.getElementById('textButton').addEventListener('click', function () {
+        document.getElementById('languageSelect').style.display = 'none';
+        document.getElementById('themeSelect').style.display = 'none';
         this.classList.add('active');
         document.getElementById('codeButton').classList.remove('active');
         document.getElementById('textBox').classList.add('active');
@@ -204,56 +297,55 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     function getStartingComment(language) {
-      switch (language) {
-          case 'javascript':
-              return '// Enter code here\n';
-          case 'python':
-              return '# Enter code here\n';
-          case 'text/x-c++src':
-              return '// Enter code here\n';
-          default:
-              return '';
-      }
-  }
+        switch (language) {
+            case 'javascript':
+                return '// Enter code here\n';
+            case 'python':
+                return '# Enter code here\n';
+            case 'text/x-c++src':
+                return '// Enter code here\n';
+            default:
+                return '';
+        }
+    }
 
-  document.getElementById('languageSelect').addEventListener('change', function() {
-    editor.setOption('mode', this.value);
-    editor.getDoc().setValue(getStartingComment(this.value));
-    loadTexts();
-  });
+    document.getElementById('languageSelect').addEventListener('change', function () {
+        editor.setOption('mode', this.value);
+        editor.getDoc().setValue(getStartingComment(this.value));
+        loadTexts();
+    });
 
-document.getElementById('themeSelect').addEventListener('change', function() {
-  editor.setOption('theme', this.value);
+    document.getElementById('themeSelect').addEventListener('change', function () {
+        editor.setOption('theme', this.value);
 
-  // Define the active line colors for each theme
-  const activeLineColors = {
-      default: '#F6EEE3',
-      monokai: '#49483E',
-      eclipse: '#E8F2FE',
-      // Add more themes as needed
-  };
+        // Define the active line colors for each theme
+        const activeLineColors = {
+            default: '#F6EEE3',
+            monokai: '#49483E',
+            eclipse: '#E8F2FE',
+            // Add more themes as needed
+        };
 
-  // Get the active line color for the current theme
-  const activeLineColor = activeLineColors[this.value];
+        // Get the active line color for the current theme
+        const activeLineColor = activeLineColors[this.value];
 
-  // Create a new style tag
-  const style = document.createElement('style');
-  style.textContent = `
-      .CodeMirror-activeline .CodeMirror-line {
-          background: ${activeLineColor} !important;
-      }
-  `;
+        // Create a new style tag
+        const style = document.createElement('style');
+        style.textContent = `
+            .CodeMirror-activeline .CodeMirror-line {
+                background: ${activeLineColor} !important;
+            }`;
 
-  // Remove the old style tag, if it exists
-  const oldStyle = document.getElementById('active-line-style');
-  if (oldStyle) {
-      oldStyle.remove();
-  }
+        // Remove the old style tag, if it exists
+        const oldStyle = document.getElementById('active-line-style');
+        if (oldStyle) {
+            oldStyle.remove();
+        }
 
-  // Add an id to the new style tag and append it to the document head
-  style.id = 'active-line-style';
-  document.head.appendChild(style);
-});
+        // Add an id to the new style tag and append it to the document head
+        style.id = 'active-line-style';
+        document.head.appendChild(style);
+    });
 
     document.getElementById('left-arrow').addEventListener('click', function () {
         //saveToLocalStorage();
@@ -268,8 +360,8 @@ document.getElementById('themeSelect').addEventListener('change', function() {
             currDay = new Date(currYear, currMonth + 1, 0).getDate();
         }
         currDate = new Date(currYear, currMonth, currDay);
-        currDateFormatted = currMonth + 1 + '/' + currDay + '/' + currYear;
-        
+        currDateFormatted = currMonth + 1 + '/' + currDay + '/' + currYear; 
+
         updateDateText();
         populatePage();
     });
@@ -288,14 +380,9 @@ document.getElementById('themeSelect').addEventListener('change', function() {
         }
         currDate = new Date(currYear, currMonth, currDay);
         currDateFormatted = currMonth + 1 + '/' + currDay + '/' + currYear;
-        
+
         updateDateText();
         populatePage();
-    });
-
-    document.getElementById('settings').addEventListener('click', function () {
-        console.log('SETTINGS CLICKED');
-        saveToLocalStorage();
     });
 
     document.getElementById('textBox').addEventListener('keyup', saveToLocalStorage);

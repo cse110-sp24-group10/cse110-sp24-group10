@@ -1,7 +1,15 @@
 /* Basic variables used for design*/
 :root{
+    /* Journal aspects for the page or journal itself */
+    /* Font sizes */
     --arrow-font-size: 1.5em;
+    --tags-and-task-size: 1.5em;
     --top-bar-size: 2em;
+    --title-date-font-size: 3em;
+    --dropdown-font-size: 10px;
+    --last-saved-font-size: 0.5em;
+    --footer-button-font-size: 1em;
+    /* Colors used */
     --palette-off-white: #F6EEE3;
     --palette-light-tan: #EEE7D7;
     --palette-light-grey: #E5DECF;
@@ -9,15 +17,77 @@
     --palette-brown: #D9BDA5;
     --palette-background: #dbc2a0;
     --palette-dark-brown: #c9a36f;
+    --notes-button-color: #e1e1e1;
+    --notes-button-hover-color: #d1d1d1;
+    --notes-button-clicked-color: #716f6f;
+    --last-saved-color: #dbc2a0;
+    --coding-background: #F6EEE3 !important;
+    --task-background-color: #f9f9f9;
+    --completed-task-text-color: #999;
+    --task-hover-color: #555;
+    --completed-task-background-color: #d3d3d3;
+    --palette-dark-dark-brown: #654321;
+    /* Margins and spacing */
     --header-margin-spacing: 40px;
+    --tag-title-margin: 20px;
+    --body-margins: 5%; 
+    --arrow-margin: 0 1px;
+    --top-bar-gap: 40px;
+    --right-arrow-spacing: 60px;
+    --arrow-line-height: 55px;
+    --tag-padding: 5px 2%;
+    --tag-margins-right: 5px;
+    --task-margins-bottom: 10px;
+    --objects-padding: 10px; /* Used for notes and tasks */
+    --notes-margins: 7%;
+    --dropdown-top: 15px;
+    --text-code-button-padding: 10px 20px;
+    --text-code-button-margins: 20px;
+    --textbox-padding: 10px;
+    --left-button-gap: 10px;
+    --last-saved-margin-left: 10px;
+    --last-saved-margin-top: -15px;
+    --last-saved-padding: 5px;
+    --footer-top-padding: 0.5%;
+    --footer-bottom-padding: 1.5%;
+    --footer-button-top-margin: 20px;
+    --footer-button-padding: 10px 5%;
+    --editor-padding: 300px;
+    --task-color-border-radius: 50%;
+    --task-color-margins: 10px;
+    --task-checkbox-margin-right: 10px;
+    --task-difficulty-padding: 10px;
+    /* Object sizing */
+    --arrow-height: 50px;
+    --arrow-width: 60px;
+    --arrow-border-radius: 50%;
+    --tag-border-radius: 5px;
+    --task-border: 1px solid #ddd;
+    --task-border-radius: 25px;
+    --note-box-border: 1px solid #ccc;
+    --notes-border-radius: 10px;
+    --dropdown-height: 30px;
+    --dropdown-width: 85px;
+    --language-select-right: 10px;
+    --theme-select-right: 100px;
+    --textbox-height: 200px;
+    --textbox-border: 1px solid black;
+    --notes-button-radius: 8px;
+    --last-saved-radius: 5px;
+    --footer-button-radius: 10px;
+    --task-color-sizing: 10px;
+    --task-times-width: 100px;
+    --task-checkbox-sizing: 20px;
+    --task-checkbox-border: 2px solid #ccc;
+    --task-checkbox-border-radius: 50%;
+
+    --notes-button-transition: background-color 0.3s ease;
+    --task-checkbox-transition: background-color 0.3s, border-color 0.3s;
+    --task-checkbox-focus:  0 0 0 3px rgba(0, 0, 0, 0.1);
+    
     /* Some math shit to get here i.e. -5/90 to get back to 100 but need to multiply by 100 to get -500%/90) */
     --undo-margin: calc(-500%/90);
-    --tag-red: #FFCCCC;
-    --tag-yellow: #FFFF99;
-    --tag-green: #CCFFCC;
-    --tag-blue: #99CCFF;
-    --tag-purple: #CC99FF;
-}
+}   
 
 /* Adding typewriter font */
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
@@ -29,21 +99,21 @@
 
 /* Overall styling for the page */
 body {
-    margin: 5%;
+    margin: var(--body-margins);
     background-color: var(--palette-background);
     height: 100%;
 }
 
 /* Header design */
 h1 {
-    font-size: 3em;
+    font-size: var(--title-date-font-size);
     display: inline;
 }
 
 /* Design for 'Tags:' and 'Task overview:' */
 h2 {
-    font-size: 1.5em;
-    margin-top: 20px;
+    font-size: var(--tags-and-task-size);
+    margin-top: var(--tag-title-margin);
 }
 
 /* The top bar for arrows and settings */
@@ -52,7 +122,7 @@ h2 {
     align-items: flex-end;
     float: right;
     font-size: var(--top-bar-size);
-    gap: 40px;
+    gap:var(--top-bar-gap);
 }
 
 /* turn cursor to pointer for all top bar elements */
@@ -60,15 +130,15 @@ h2 {
     cursor: pointer;
 }
 
-/* styling for top bar icons */
+/* styling for top bar arrows */
 .top-bar .nav-arrows{
-    height: 50px;
-    width: 60px;
-    margin: 0 1px;
+    height: var(--arrow-height);
+    width: var(--arrow-width);
+    margin: var(--arrow-margin);
     background: var(--palette-light-grey);
     text-align: center;
-    line-height: 55px;
-    border-radius: 50%;
+    line-height: var(--arrow-line-height);
+    border-radius: var(--arrow-border-radius);
 }
 
 /* Settings button positioning and interaction */
@@ -81,91 +151,79 @@ h2 {
 
 /* Sizing and spacing for the arrows in the top */
 .top-bar #right-arrow {
-    margin-right: 60px;
+    margin-right: var(--right-arrow-spacing);
     font-size: var(--arrow-font-size);
 }
+
+/* Sizing for left arrow in the top */
 .top-bar #left-arrow {
 
     font-size: var(--arrow-font-size);
 }
 
-/* temporary code for task list */
+/* Tags for given tasks for the day */
 .tag {
     display: inline-block;
-    padding: 5px 2%;
-    border-radius: 5px;
-    margin-right: 5px;
+    padding: var(--tag-padding);
+    border-radius: var(--tag-border-radius);
+    margin-right: var(--tag-margins-right);
     color: black;
+    background-color: white;
 }
 
-.red {
-    background-color: var(--tag-red)
-}
-
-.yellow {
-    background-color: var(--tag-yellow)
-}
-
-.green {
-    background-color: var(--tag-green)
-}
-
-.blue {
-    background-color: var(--tag-blue)
-}
-
-.purple {
-    background-color: var(--tag-purple)
-}
-
+/* Tasks for the day */
 .task {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
+    margin-bottom: var(--task-margins-bottom);
+    padding: var(--objects-padding);
+    border: var(--task-border);
 }
 
 /* Overall background of the notes not including text area */
 #notes-section {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-top: 7%;
-    margin-bottom: 7%;
-    border-radius: 10px;
+    border: var(--notes-border);
+    padding: var(--objects-padding);
+    margin-top: var(--notes-margins);
+    margin-bottom: var(--note-box-border);
+    border-radius: var(--notes-border-radius);
     background-color: var(--palette-off-white);
     position: relative;
 }
 
+/* Language select dropdown box for CodeMirror */
 .language-select {
   position: absolute;
-  font-size: 10px;
-  top: 15px;
-  right: 10px;
-  height: 30px;
-  width: 85px; /* Adjust this to make the dropdown smaller or larger */
+  font-size: var(--dropdown-font-size);
+  top: var(--dropdown-top);
+  right: var(--language-select-right);
+  height: var(--dropdown-height);
+  width: var(--dropdown-width); /* Adjust this to make the dropdown smaller or larger */
 }
 
+/* Theme select dropdown box for CodeMirror */
 .theme-select {
   position: absolute;
-  font-size: 10px;
-  top: 15px;
-  right: 100px;
-  height: 30px;
-  width: 85px; /* Adjust this to make the dropdown smaller or larger */
+  font-size: var(--dropdown-font-size);
+  top: var(--dropdown-top);
+  right: var(--theme-select-right);
+  height: var(--dropdown-height);
+  width: var(--dropdown-width); /* Adjust this to make the dropdown smaller or larger */
 }
 
 /* Textarea box for the notes and code */
 .textarea {
     width: 100%;
     background-color: var(--palette-off-white);
-    height: 200px;
-    border: 1px solid black;
+    height: var(--textbox-height);
+    border: var(--textbox-border);
     resize: none;
     display: none;
+    padding: var(--textbox-padding);
 }
 
-/* make current textbox active and visible*/
+
+/* Make current textbox active and visible*/
 .active {
     display: block;
 }
@@ -179,51 +237,47 @@ h2 {
 
 /* Styling for the Text and Code button */
 .tabs button {
-  padding: 10px 20px;
-  margin-right: 20px;
-  margin-bottom: 20px;
+  padding: var(--text-code-button-padding);
+  margin-right: var(--text-code-button-margins);
+  margin-bottom: var(--text-code-button-margins);
   cursor: pointer;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #e1e1e1;
-  transition: background-color 0.3s ease; /* Smooth transition */
+  border: var(--note-box-border);
+  border-radius: var(--notes-button-radius);
+  background-color: var(--notes-button-color);
+  transition: var(--notes-button-transition); /* Smooth transition if you hover over the buttons */
 }
 
 /* Darken button on hover */
 .tabs button:hover {
-  background-color: #d1d1d1;
+  background-color: var(--notes-button-hover-color);
 }
 
 /* Darken button when active */
 .tabs button.active {
-  background-color: #716f6f;
+  background-color: var(--notes-button-clicked-color);
   color: white
 }
 
+/* Text, Code button, and last saved */
 .left-side {
   display: flex;
   align-items: center;
-  gap: 10px; /* Adjust as needed */
+  gap: var(--left-button-gap);
 }
 
+/* Last saved section */
 #lastSaved {
-  font-size: 0.5em; /* Adjust as needed */
-  margin-left: 10px; /* Adjust as needed */
-  margin-top: -15px; /* Adjust as needed */
-  border: 1px solid #000; /* Adjust as needed */
-  padding: 5px; /* Adjust as needed */
-  border-radius: 5px; /* Adjust as needed */
-  background-color: #dbc2a0;
+  font-size: var(--last-saved-font-size);
+  margin-left: var(--last-saved-margin-left);
+  margin-top: var(--last-saved-margin-top);
+  border: var(--textbox-border);
+  padding: var(--last-saved-padding);
+  border-radius: var(--last-saved-radius);
+  background-color: var(--last-saved-color);
 }
 
 
-.tab.active {
-    background-color: #ccc;
-}
-
-
-/* footer bar making stick to the bottom and design */
-
+/* Footer bar making stick to the bottom and design */
 footer {
     position: fixed;
     left:0;
@@ -231,42 +285,146 @@ footer {
     overflow: hidden;
     width: 100%;
     background-color: var(--palette-dark-brown);
-    padding-top: 0.5%;
-    padding-bottom:1.5%;
+    padding-top: var(--footer-top-padding);
+    padding-bottom: var(--footer-bottom-padding);
     padding-left: auto;
 }
 
 /* Spacing the buttons out */
 .bottom-bar {
-    margin-top: 20px;
+    margin-top: var(--footer-button-top-margin);
     display: flex;
     justify-content: space-evenly;
 }
 
-/* Bottom but styling */
+/* Bottom button styling */
 .bottom-bar button {
-    padding: 10px 5%;
-    font-size: 1em;
+    padding: var(--footer-button-padding);
+    font-size: var(--footer-button-font-size);
     cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #e1e1e1;
+    border: var(--notes-box-border);
+    border-radius: var(--footer-button-radius);
+    background-color: var(--notes-button-color);
 }
 
-.textarea {
-    display: none;
-    padding: 10px;
-}
 
+/* Box around the coding area */
 #editor {
     display: none;
-    height: 300px; /* Adjust height as needed */
+    height: var(--editor-padding);
 }
 
+/* Makes the coding area be active */
 .textarea.active, #editor.active {
     display: block;
 }
 
+/* Coding block background */
 .CodeMirror-activeline .CodeMirror-line {
-  background: #F6EEE3 !important;
+  background: var(--coding-background);
+}
+
+/* Basic styling for the tasks */
+.task-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--task-margins-bottom);
+    padding: var(--objects-padding);
+    border: var(--task-border);
+    border-radius: var(--task-border-radius);
+    background-color: var(--task-background-color);
+}
+
+/* Styling for a completed tasks text */
+.task-item.completed .task-name {
+    text-decoration: line-through;
+    color: var(--completed-task-text-color); 
+}
+
+/* Styling when hovering over the task name */
+.task-name:hover {
+    color: var(--task-hover-color);
+}
+
+/* General styling for task name */
+.task-name {
+    flex-grow: 1;
+    cursor: pointer;
+}
+
+/* Hovering over delete button of a task styling */
+.task-item:hover .delete-btn {
+    display: block;
+}
+
+/* Styling for the difficulty/ color of tasklist*/
+.task-color {
+    width: var(--task-color-sizing);
+    height: var(--task-color-sizing);
+    border-radius: var(--task-color-border-radius);
+    margin-right: var(--task-color-margins);
+    margin-left: var(--task-color-margins);
+}
+
+/* Making the task have interaction when hovering over it to change the pointer */
+li {
+    cursor: grab;
+}
+
+/* Background color of tasks when they are completed */
+.task-item.completed {
+    background-color: var(--completed-task-background-color);
+}
+
+
+/* Styling for checkbox of tasklist */
+.task-item input[type="checkbox"] {
+    margin-right: var(--task-checkbox-margin-right);
+}
+
+/* Styling for tag */
+.task-category select {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+/* Styling for date and time inputs of tasklist*/
+.task-date,
+.task-time {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    width: var(--task-times-width);
+}
+
+/* Styling for task difficulty */
+.task-diff {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding-right: var(--task-difficulty-padding);
+}
+
+/* Styling for the tasklist checkbox button */
+.task-item input[type="checkbox"] {
+    appearance: none;
+    width: var(--task-checkbox-sizing);
+    height: var(--task-checkbox-sizing);
+    border: var(--task-checkbox-border);
+    border-radius: var(--task-border-radius);   /* Make the checkbox circular */
+    cursor: pointer;
+    outline: none;    /* Remove default focus outline */
+    transition: var(--task-checkbox-transition);
+    margin-right: var(--task-checkbox-margin-right);
+}
+
+/* Styling of the tasklist checkbox the same color as theme when clicked */
+.task-item input[type="checkbox"]:checked {
+    background-color: var(--palette-dark-dark-brown);
+    border-color: var(--palette-dark-dark-brown);
+}
+
+/* Focus outline styling for the tasklist checkbox */
+.task-item input[type="checkbox"]:focus {
+    box-shadow: var(--task-checkbox-focus);
 }

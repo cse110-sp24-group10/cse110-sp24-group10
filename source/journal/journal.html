@@ -29,10 +29,10 @@
 <body>
     <h1 id="date"></h1>
 
+    <!-- Nav arrows at the top, &lt is left arrow and &gt is right arrow -->
     <div class="top-bar">
         <span id="left-arrow" class="nav-arrows" tabindex="0"> &lt </span>
         <span id="right-arrow" class="nav-arrows" tabindex="0"> &gt </span>  
-        <img id="settings" src="./settingsCog-min.png" alt="⚙️" tabindex="0">   
     </div>
 
     <section id="tags">
@@ -41,33 +41,40 @@
     <!-- Once done put the task list here -->
     <section id="tasks">
         <h2>Tasks:</h2>
+        <div class="task-list-container">
+            <div class="sortable-list">
+                <ul id="task-list">
+                    <!-- Task items will be appended here -->
+                </ul>
+            </div>
+        </div>
     </section>
         
-    <!-- Journal section which we are working on below-->
+    <!-- Journal section -->
     <section id="notes-section">
         <div class="tabs">
-          <div class="left-side">
-            <button id="textButton">Text</button>
-            <button id="codeButton">Code</button>
-            <span id="lastSaved">Last Saved: Never</span>
-        </div>
-        <div class="right-side">
-          <select id="languageSelect" class="language-select" style="display: none;">
-              <option value="javascript">JavaScript</option>
-              <option value="python">Python</option>
-              <option value="text/x-c++src">C++</option>
-              <!-- Add more options as needed -->
-          </select>
-          <select id="themeSelect" class="theme-select" style="display: none;">
-              <option value="default">Default</option>
-              <option value="monokai">Monokai</option>
-              <option value="eclipse">Eclipse</option>
-              <!-- Add more options as needed -->
-          </select>
-      </div>
+            <!-- Text,Code button, and last saved -->
+            <div class="left-side">
+                <button id="textButton">Text</button>
+                <button id="codeButton">Code</button>
+                <span id="lastSaved">Last Saved: Never</span>
+            </div>
+            <!-- Language and theming for the editor -->
+            <div class="right-side">
+                <select id="languageSelect" class="language-select" style="display: none;">
+                    <option value="javascript">JavaScript</option>
+                    <option value="python">Python</option>
+                    <option value="text/x-c++src">C++</option>
+                </select>
+                <select id="themeSelect" class="theme-select" style="display: none;">
+                    <option value="default">Default</option>
+                    <option value="monokai">Monokai</option>
+                    <option value="eclipse">Eclipse</option>
+                </select>
+            </div>
         </div>
         
-
+        <!-- Two textboxes to edit -->
         <div id="editor"></div>
         <textarea id="textBox" class="textarea active" placeholder="Enter text here"></textarea>
     </section>
