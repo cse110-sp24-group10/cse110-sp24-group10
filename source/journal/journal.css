@@ -422,31 +422,6 @@ li {
     box-shadow: var(--task-checkbox-focus);
 }
 
-/*Mobile styling for arrows not overlapping with tags*/
-@media (max-width: 376px){
-    /* Sizing and spacing for the arrows in the top */
-.top-bar #right-arrow {
-    margin-left: 35px;
-    font-size: var(--arrow-font-size);
-}
-
-/* Sizing for left arrow in the top */
-.top-bar #left-arrow {
-    font-size: var(--arrow-font-size);
-}
-
-h2{
-    margin-top:50px;
-}
-
-}
-
-@media (max-width: 727px){
-    h2{
-        margin-top:50px;
-    }
-
-}
 /* Styled Top Bar with logo aligned */
 .logo-date-container {
     display: flex;
