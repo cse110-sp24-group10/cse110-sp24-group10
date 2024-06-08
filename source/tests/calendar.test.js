@@ -4,11 +4,6 @@ const { readFileSync } = require('fs');
 const path = require('path');
 const { TestWatcher } = require('jest');
 
-/**
- * @jest-environment jsdom
- */
-const { fireEvent, getByText, screen, waitFor } = require('@testing-library/dom');
-
 class LocalStorageMock {
     constructor() {
         this.store = {};
@@ -71,28 +66,17 @@ describe('Calendar Tests', () => {
         expect(highlightedDay).toBe(today.toString());
     });
 
-
-    /*
-  
     it('should open the popup when a day is clicked', async () => {
-      jest.setTimeout(10000);
-      // Click on a day element
-      await page.click('.day li:not(.faded)');
-
-      // Check that the popup is displayed
-      const popupDisplay = await page.$eval('#popup', el => getComputedStyle(el).display);
-      expect(popupDisplay).toBe('flex');
-  });
+        await page.click('.day li:not(.faded)');
+        const popupDisplay = await page.$eval('#popup', el => el.style.display);
+        expect(popupDisplay).toBe('flex');
+    });
 
     it('should close the popup when the close button is clicked', async () => {
-      await page.click('.day li:not(.faded)');
-      await page.waitForSelector('#popup', { visible: true }); // Ensure the popup is visible before closing
-      await page.click('.popup .close');
-      await page.waitForSelector('#popup', { hidden: true }); // Wait for the popup to be hidden
-      const popupDisplay = await page.$eval('#popup', el => getComputedStyle(el).display);
-      expect(popupDisplay).toBe('none');
-  });
-  
+        await page.click('.popup .close');
+        const popupDisplay = await page.$eval('#popup', el => el.style.display);
+        expect(popupDisplay).toBe('none');
+    });
 
     it('should correctly handle navigation between months and years', async () => {
         const initialMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
@@ -110,8 +94,6 @@ describe('Calendar Tests', () => {
         expect(nextNextMonthYear).not.toBe(initialMonthYear);
     });
 
-    */
-   
     // it('should load tasks for the selected date', async () => {
     //     const today = new Date();
     //     const day = ('0' + today.getDate()).slice(-2);
