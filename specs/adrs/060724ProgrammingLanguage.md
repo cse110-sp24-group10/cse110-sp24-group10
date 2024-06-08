@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-When planning for the project, we noticed that in the journal section, there were various programming languages one could write their code in. This would result in us requiring having a functionality which would require us to store code for each separate language. However, we need to decide how, if we decide to change from one programming language to another, to store the code already written for that section.
+When planning for the project, we noticed that in the journal section, there were various programming languages one could write their code in. This would result in us requiring to have a functionality which would require us to store code for each separate language. However, we need to decide how, if we decide to change from one programming language to another, to store the code already written for that section.
 
 ## Decision Drivers
 
