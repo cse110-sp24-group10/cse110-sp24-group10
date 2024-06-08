@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="shortcut icon" type="image/x-icon" href="./source/components/owl.ico">
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/admin/branding/favicon-32x32.png">
     <script type="module" src="../components/bottom-bar.js"></script>
 </head>
 <body>
@@ -23,9 +25,14 @@
     </div>
     <div class="task-list-container">
         <div class="top-bar"> <!-- Add task and Sort buttons-->
-            <button id="add-task-btn" class="circle-btn">+</button>
-            <button id="sort-btn" class="styled-btn">Sort</button>
-            <button id="manage-tags-btn" class="styled-btn">Manage Tags</button>
+            <div class="logo-box">
+              <img src="../components/vintageOwl.png" alt="Owl Logo" width="50px" height="75px" class="logo">
+            </div>
+            <div class="buttons-group">
+              <button id="add-task-btn" class="circle-btn">+</button>
+              <button id="sort-btn" class="styled-btn">Sort</button>
+              <button id="manage-tags-btn" class="styled-btn">Manage Tags</button>
+            </div>
         </div>
         <div class="sortable-list">
             <ul id="task-list">

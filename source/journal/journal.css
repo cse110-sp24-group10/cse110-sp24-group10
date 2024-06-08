@@ -447,3 +447,19 @@ h2{
     }
 
 }
+/* Styled Top Bar with logo aligned */
+.logo-date-container {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    justify-content: space-between; /* Place items at each end of the container */
+}
+
+.logoANDdate {
+    display: flex; /* Ensure the logo and date are inline */
+    align-items: center;
+}
+
+.logoANDdate #date{
+    padding-left: 15px;
+}
+  
