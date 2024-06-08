@@ -55,7 +55,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 // leave the loop defined at line 46
                 return;
             }
-            if (!seenTags.has(task.name)) {
+            //console.log(seenTags);
+            if (!seenTags.has(task.tag)) {
                 seenTags.add(task.tag);
                 const currTag = document.createElement('span');
                 currTag.className = 'tag';
@@ -144,7 +145,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
         
         const taskDiff = document.createElement('div');
         taskDiff.className = 'task-diff';
-        taskDiff.textContent = task.difficulty;
+        if(task.difficulty === "blue") {
+            taskDiff.textContent = "Very Easy";
+        } else if(task.difficulty === "green") {
+            taskDiff.textContent = "Easy";
+        } else if(task.difficulty === "yellow") {
+            taskDiff.textContent = "Medium";
+        } else if(task.difficulty === "orange") {
+            taskDiff.textContent = "Hard";
+        } else if (task.difficulty === "red") {
+            taskDiff.textContent = "Very Hard";
+        } else {
+            taskDiff.textContent = "None";
+        }
 
         const taskTime = document.createElement('input');
         taskTime.type = 'time';
@@ -250,8 +263,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         htmlDate.textContent = currDateString;
     }
 
-
-    // TODO: COMBINE LOADTAGS() AND LOADTASKS() HERE
     function populatePage() {
         const allJournalData = localStorage.getItem('journal');
 
