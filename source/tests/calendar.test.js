@@ -253,25 +253,12 @@ describe('Calendar Tests', () => {
 
     it('should transition from the last day of the month to the first day of the next month', async () => {
         await page.reload();
-    
-        // Wait for the month and year element to be visible
-        await page.waitForSelector('.monthANDyear');
         const initialMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
-    
+
         await page.click('#owlLogo');
-    
-        // Wait for the next button to be clickable and then click
-        await page.waitForSelector('#next');
         await page.click('#next');
-    
-        // Wait for the month and year to change
-        // await page.waitForFunction(
-        //     (initialMonthYear) => document.querySelector('.monthANDyear').innerText !== initialMonthYear,
-        //     {},
-        //     initialMonthYear
-        // );
-        const newMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
-        expect(newMonthYear).not.toBe(initialMonthYear);
+        const nextMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
+        expect(nextMonthYear).not.toBe(initialMonthYear);
     
         // Wait for the days to be visible and get the first day
         await page.waitForSelector('.day li:not(.faded-past)');
