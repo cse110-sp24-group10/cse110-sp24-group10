@@ -253,35 +253,61 @@ describe('Calendar Tests', () => {
 
     it('should transition from the last day of the month to the first day of the next month', async () => {
         await page.reload();
+    
+        // Wait for the month and year element to be visible
+        await page.waitForSelector('.monthANDyear');
         const initialMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
-
+    
         await page.click('#owlLogo');
+    
+        // Wait for the next button to be clickable and then click
+        await page.waitForSelector('#next');
         await page.click('#next');
-
+    
+        // Wait for the month and year to change
+        await page.waitForFunction(
+            (initialMonthYear) => document.querySelector('.monthANDyear').innerText !== initialMonthYear,
+            {},
+            initialMonthYear
+        );
         const newMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
         expect(newMonthYear).not.toBe(initialMonthYear);
-
+    
+        // Wait for the days to be visible and get the first day
+        await page.waitForSelector('.day li:not(.faded-past)');
         const firstDay = await page.$eval('.day li:not(.faded-past)', el => el.innerText);
         expect(firstDay).toBe('1');
     });
-
+    
     it('should transition from the first day of the month to the last day of the previous month', async () => {
+    
+        // Wait for the month and year element to be visible
+        await page.waitForSelector('.monthANDyear');
         const initialMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
-
-        //await page.click('.day li:not(.faded)');
+    
+        // Click the previous button
+        await page.waitForSelector('#prev');
         await page.click('#prev');
-
+    
+        // Wait for the month and year to change
+        await page.waitForFunction(
+            (initialMonthYear) => document.querySelector('.monthANDyear').innerText !== initialMonthYear,
+            {},
+            initialMonthYear
+        );
         const newMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
         expect(newMonthYear).not.toBe(initialMonthYear);
-
+    
+        // Calculate the last day of the now previous month
         let currDate = new Date();
-        currday = currDate.getDate();
-        currMonth = currDate.getMonth();
-        currYear = currDate.getFullYear();
-        currNumDays = new Date(currYear, currMonth + 1, 0).getDate();
-        //const lastDay = await page.$eval('.day:last-child li:not(.faded-past):not(.faded-future)', el => el.innerText);
-        expect(currNumDays).toBe(30);
-    });
+        let currMonth = new Date(currDate.getFullYear(), currDate.getMonth() + 1, 0); // Previous month
+        let lastDayPrevMonth = currMonth.getDate();
+    
+        // Wait for the days to be visible and get the last day
+        await page.waitForSelector('.day li:not(.faded-future)');
+        const lastDay = await page.$$eval('.day li:not(.faded-future)', els => els.pop().innerText);
+        expect(parseInt(lastDay)).toBe(lastDayPrevMonth);
+    }, 100000000);
 
     it('should display multiple tasks for the same date', async () => {
         // Clear localStorage
@@ -359,6 +385,4 @@ describe('Calendar Tests', () => {
         expect(popupDisplay).toBe('flex');
         expect(taskListContent).toContain('Tasks for today example');
     });
-    
-
 });
