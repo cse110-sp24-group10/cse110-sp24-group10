@@ -155,7 +155,10 @@ const createCalendar = () => {
 };
 createCalendar();
 
-// Event listeners for month navigation icons
+/**
+ * Event listeners for month navigation icons.
+ * Adds click event listeners to the toggle icons for navigating months.
+ */
 toggleIcons.forEach(icon => {
     icon.addEventListener("click", () => {
         // If previous button is clicked, decrement the month; otherwise, increment the month
@@ -176,12 +179,92 @@ toggleIcons.forEach(icon => {
     });
 });
 
-// Event listener for Add Task button
+/**
+ * Event listener for the "Add Task" button.
+ * Redirects to the tasks page to add a new task.
+ */
 addTaskBtn.addEventListener("click", () => {
     window.location.href = "../tasks/tasks.html"; // Redirect to the tasks page to add a new task
 });
 
-// Event listener for Journal Link button
+/**
+ * Event listener for the "Journal Link" button.
+ * Redirects to the journal page.
+ */
 journalLinkBtn.addEventListener("click", () => {
     window.location.href = "../journal/journal.html"; // Redirect to the journal page
 });
+
+/**
+ * JavaScript code for keyboard accessibility and navigation.
+ * Handles keyboard navigation within the calendar.
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    const days = document.querySelectorAll('.calendar .day li'); // Select all calendar days
+    let focusedIndex = -1; // Variable to track the currently focused day
+
+    /**
+     * Function to handle keyboard navigation.
+     * @param {KeyboardEvent} event - The keyboard event.
+     */
+    function handleKeyNavigation(event) {
+        switch(event.key) {
+            case 'ArrowRight': // Move focus to the next day
+                if (focusedIndex < days.length - 1) {
+                    focusedIndex++;
+                    days[focusedIndex].focus();
+                }
+                break;
+            case 'ArrowLeft': // Move focus to the previous day
+                if (focusedIndex > 0) {
+                    focusedIndex--;
+                    days[focusedIndex].focus();
+                }
+                break;
+            case 'ArrowDown': // Move focus to the day below
+                if (focusedIndex + 7 < days.length) {
+                    focusedIndex += 7;
+                    days[focusedIndex].focus();
+                }
+                break;
+            case 'ArrowUp': // Move focus to the day above
+                if (focusedIndex - 7 >= 0) {
+                    focusedIndex -= 7;
+                    days[focusedIndex].focus();
+                }
+                break;
+            case 'Enter': // Open the popup for the focused day
+                if (focusedIndex >= 0) {
+                    days[focusedIndex].click();
+                }
+                break;
+            case 'Tab': // Allow tabbing through focusable elements
+                if (event.shiftKey && focusedIndex === 0) {
+                    focusedIndex = -1;
+                } else if (!event.shiftKey && focusedIndex === days.length - 1) {
+                    focusedIndex = -1;
+                }
+                break;
+        }
+    }
+
+    // Add tabindex and aria roles to make days focusable
+    days.forEach((day, index) => {
+        day.setAttribute('tabindex', '0');
+        day.setAttribute('role', 'button');
+        day.addEventListener('focus', () => focusedIndex = index); // Update focusedIndex when a day gets focus
+    });
+
+    // Event listener for keyboard navigation
+    document.addEventListener('keydown', handleKeyNavigation);
+});
+
+/* 
+ * Added keyboard navigation support using arrow keys and enter key
+ * - ArrowRight: Move focus to the next day
+ * - ArrowLeft: Move focus to the previous day
+ * - ArrowDown: Move focus to the day below
+ * - ArrowUp: Move focus to the day above
+ * - Enter: Open the popup for the focused day
+ * - Tab: Allow tabbing through focusable elements
+ */

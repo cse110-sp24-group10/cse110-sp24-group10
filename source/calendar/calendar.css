@@ -398,3 +398,115 @@ header .icons span {
   border-radius: 50%; /* Rounded corners */
   font-size: 1.75rem; /* Font size */
 }
+
+/* Mobile styles */
+@media (max-width: 768px) { /* Start of mobile styles */
+    .container {
+        width: 95%; /* Adjusted width for mobile responsiveness */
+    }
+
+    header .monthANDyear {
+        font-size: 2rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    header .icons span {
+        height: 40px; /* Adjusted height for mobile responsiveness */
+        width: 40px; /* Adjusted width for mobile responsiveness */
+        font-size: 1.5rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    .calendar {
+        padding: 20px; /* Adjusted padding for mobile responsiveness */
+    }
+
+    .calendar ul li {
+        font-size: 1.2rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    .calendar .week li {
+        font-size: 1.5rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    .calendar .day li {
+        font-size: 1.5rem; /* Adjusted font size for mobile responsiveness */
+        margin-top: 40px; /* Adjusted margin for mobile responsiveness */
+    }
+
+    .popup-content {
+        padding: 15px; /* Adjusted padding for mobile responsiveness */
+    }
+
+    .popup h2 {
+        font-size: 1.5rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    .popup ul li {
+        font-size: 1.2rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    .styled-btn {
+        padding: 8px 16px; /* Adjusted padding for mobile responsiveness */
+        font-size: 1rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    .task-item {
+        padding: 10px 20px; /* Adjusted padding for mobile responsiveness */
+    }
+
+    .task-name {
+        font-size: 1.2rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    .task-tag, .task-difficulty, .task-date {
+        font-size: 1rem; /* Adjusted font size for mobile responsiveness */
+    }
+}
+
+@media (max-width: 480px) { /* Start of smaller mobile styles */
+    .calendar ul li {
+        font-size: 1rem; /* Adjusted font size for smaller screens */
+    }
+
+    .calendar .week li {
+        font-size: 1.2rem; /* Adjusted font size for smaller screens */
+    }
+
+    .calendar .day li {
+        font-size: 1.2rem; /* Adjusted font size for smaller screens */
+        margin-top: 30px; /* Adjusted margin for smaller screens */
+    }
+
+    .popup-content {
+        padding: 10px; /* Adjusted padding for smaller screens */
+    }
+
+    .popup h2 {
+        font-size: 1.2rem; /* Adjusted font size for smaller screens */
+    }
+
+    .popup ul li {
+        font-size: 1rem; /* Adjusted font size for smaller screens */
+    }
+
+    .styled-btn {
+        padding: 6px 12px; /* Adjusted padding for smaller screens */
+        font-size: 0.9rem; /* Adjusted font size for smaller screens */
+    }
+
+    .task-item {
+        padding: 8px 15px; /* Adjusted padding for smaller screens */
+    }
+
+    .task-name {
+        font-size: 1rem; /* Adjusted font size for smaller screens */
+    }
+
+    .task-tag, .task-difficulty, .task-date {
+        font-size: 0.9rem; /* Adjusted font size for smaller screens */
+    }
+}
+
+.calendar .day li:focus {
+    outline: 2px solid #654321;
+    outline-offset: 4px;
+}
