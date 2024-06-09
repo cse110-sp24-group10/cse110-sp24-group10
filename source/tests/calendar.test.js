@@ -257,6 +257,7 @@ describe('Calendar Tests', () => {
 
         await page.click('#owlLogo');
         await page.click('#next');
+        await new Promise(resolve => setTimeout(resolve, 5000));
         const nextMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
         expect(nextMonthYear).not.toBe(initialMonthYear);
     
