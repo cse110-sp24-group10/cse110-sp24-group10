@@ -265,11 +265,11 @@ describe('Calendar Tests', () => {
         await page.click('#next');
     
         // Wait for the month and year to change
-        await page.waitForFunction(
-            (initialMonthYear) => document.querySelector('.monthANDyear').innerText !== initialMonthYear,
-            {},
-            initialMonthYear
-        );
+        // await page.waitForFunction(
+        //     (initialMonthYear) => document.querySelector('.monthANDyear').innerText !== initialMonthYear,
+        //     {},
+        //     initialMonthYear
+        // );
         const newMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
         expect(newMonthYear).not.toBe(initialMonthYear);
     
@@ -290,11 +290,11 @@ describe('Calendar Tests', () => {
         await page.click('#prev');
     
         // Wait for the month and year to change
-        await page.waitForFunction(
-            (initialMonthYear) => document.querySelector('.monthANDyear').innerText !== initialMonthYear,
-            {},
-            initialMonthYear
-        );
+        // await page.waitForFunction(
+        //     (initialMonthYear) => document.querySelector('.monthANDyear').innerText !== initialMonthYear,
+        //     {},
+        //     initialMonthYear
+        // );
         const newMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
         expect(newMonthYear).not.toBe(initialMonthYear);
     
