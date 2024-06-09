@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', (event) => {
+    console.log("IN JS");
     let currDate;
     let currDay;
     let currMonth;
@@ -49,13 +50,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const adjustedTaskDate = new Date(taskDate.getTime() + taskDate.getTimezoneOffset() * 60000);
             const adjustedTaskDateFormatted = adjustedTaskDate.getMonth() + 1 + '/' + adjustedTaskDate.getDate() + '/' + adjustedTaskDate.getFullYear();
             if (adjustedTaskDateFormatted != currDateFormatted) {
-                console.log(adjustedTaskDateFormatted);
-                console.log(currDateFormatted);
-                console.log("WRONG DATE");
-                // leave the loop defined at line 46
                 return;
             }
-            //console.log(seenTags);
             if (!seenTags.has(task.tag)) {
                 seenTags.add(task.tag);
                 const currTag = document.createElement('span');
@@ -83,10 +79,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const adjustedTaskDateFormatted = adjustedTaskDate.getMonth() + 1 + '/' + adjustedTaskDate.getDate() + '/' + adjustedTaskDate.getFullYear();
 
             if (adjustedTaskDateFormatted != currDateFormatted) {
-                console.log(adjustedTaskDateFormatted);
-                console.log(currDateFormatted);
-                console.log("WRONG DATE");
-                // leave the loop defined at line 46
                 return;
             }
 
@@ -145,7 +137,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         
         const taskDiff = document.createElement('div');
         taskDiff.className = 'task-diff';
-        taskDiff.textContent = task.difficulty;
+        if(task.difficulty === "blue") {
+            taskDiff.textContent = "Very Easy";
+        } else if(task.difficulty === "green") {
+            taskDiff.textContent = "Easy";
+        } else if(task.difficulty === "yellow") {
+            taskDiff.textContent = "Medium";
+        } else if(task.difficulty === "orange") {
+            taskDiff.textContent = "Hard";
+        } else {
+            taskDiff.textContent = "Very Hard";
+        }
 
         const taskTime = document.createElement('input');
         taskTime.type = 'time';
@@ -296,6 +298,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     function getStartingComment(language) {
+        console.log("CHANGING COMMENT");
         switch (language) {
             case 'javascript':
                 return '// Enter code here\n';
@@ -309,11 +312,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     document.getElementById('languageSelect').addEventListener('change', function () {
+        console.log("CHANGING LANGUAGE");
         editor.setOption('mode', this.value);
         editor.getDoc().setValue(getStartingComment(this.value));
         loadTexts();
     });
-
+    
     document.getElementById('themeSelect').addEventListener('change', function () {
         editor.setOption('theme', this.value);
 
@@ -367,6 +371,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
     document.getElementById('right-arrow').addEventListener('click', function () {
+
         // increment date by 1. check for month and year changes and adjust variables accordingly
         currDay++;
         if (currDay > currNumDays) {
