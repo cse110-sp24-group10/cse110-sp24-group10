@@ -307,7 +307,7 @@ describe('Calendar Tests', () => {
         await page.waitForSelector('.day li:not(.faded-future)');
         const lastDay = await page.$$eval('.day li:not(.faded-future)', els => els.pop().innerText);
         expect(parseInt(lastDay)).toBe(lastDayPrevMonth);
-    }, 100000000);
+    });
 
     it('should display multiple tasks for the same date', async () => {
         // Clear localStorage
