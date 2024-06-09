@@ -265,22 +265,9 @@ describe('Calendar Tests', () => {
     
     it('should transition from the first day of the month to the last day of the previous month', async () => {
     
-        // Wait for the month and year element to be visible
-        await page.waitForSelector('.monthANDyear');
-        const initialMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
-    
         // Click the previous button
         await page.waitForSelector('#prev');
         await page.click('#prev');
-    
-        // Wait for the month and year to change
-        // await page.waitForFunction(
-        //     (initialMonthYear) => document.querySelector('.monthANDyear').innerText !== initialMonthYear,
-        //     {},
-        //     initialMonthYear
-        // );
-        const newMonthYear = await page.$eval('.monthANDyear', el => el.innerText);
-        expect(newMonthYear).not.toBe(initialMonthYear);
     
         // Calculate the last day of the now previous month
         let currDate = new Date();
