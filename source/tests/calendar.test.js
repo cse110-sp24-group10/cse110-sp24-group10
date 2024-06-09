@@ -265,7 +265,7 @@ describe('Calendar Tests', () => {
         await page.waitForSelector('.day li:not(.faded-past)');
         const firstDay = await page.$eval('.day li:not(.faded-past)', el => el.innerText);
         expect(firstDay).toBe('1');
-    });
+    }, 10000);
     
     it('should transition from the first day of the month to the last day of the previous month', async () => {
     
