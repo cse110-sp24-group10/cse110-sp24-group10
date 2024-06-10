@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     function loadTags() {
+      console.log("Loading tags");
         const localTags = localStorage.getItem('tags');
         const parsedTags = JSON.parse(localTags);
         let localTasks = localStorage.getItem('tasks');
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function loadTasks() {
+      console.log("Loading tasks");
         let localTasks = localStorage.getItem('tasks');
         let parsedLocalTasks = JSON.parse(localTasks);
         let htmlTasks = document.getElementById("task-list");
@@ -166,6 +168,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function loadTexts() {
+      console.log("Loading texts");
         const localJournal = localStorage.getItem('journal');
         const parsedJournal = JSON.parse(localJournal);
         const language = document.getElementById('languageSelect').value;
@@ -213,6 +216,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
         */
     function saveToLocalStorage() {
+      console.log("Saving to local storage");
         const textVal = document.getElementById('textBox').value;
         let allJournalData = JSON.parse(localStorage.getItem('journal') || '{}'); // Initialize as an object
         const language = document.getElementById('languageSelect').value;
@@ -312,9 +316,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     document.getElementById('languageSelect').addEventListener('change', function () {
-        console.log("CHANGING LANGUAGE");
+      console.log("Language change event triggered");
         editor.setOption('mode', this.value);
         editor.getDoc().setValue(getStartingComment(this.value));
+        console.log("Editor mode set to:", editor.getOption('mode'));
         loadTexts();
     });
     

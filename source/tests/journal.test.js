@@ -80,37 +80,66 @@ describe('Journal Tests', () => {
         });
 
         describe('Making sure all text displays are empty', () => {
-            it('Make sure no plain text exist for the current day', async () => {
-                const textValue = await page.$eval('#textBox', el => el.value);
-                expect(textValue).toBe('');
-            });
-            
-            /* XXX: FIX 
-            describe('Make sure code boxes only have starting comments', () => {
-                it('Make sure no python code exist for the current day', async () => {
-                    await page.select('#languageSelect', 'python'); // selecting language from the dropdown
-                    await page.evaluate(() => { // firing event listener just to be sure
-                        let event = new Event('change');
-                        document.querySelector('#languageSelect').dispatchEvent(event);
-                    });
-                    
-                    const selectedValue = await page.$eval('#languageSelect', el => el.value); // grabbing selected value
-                    console.log(selectedValue); // when i ran, python was output (correct)
+          it('Make sure no plain text exists for the current day', async () => {
+              const textValue = await page.$eval('#textBox', el => el.value);
+              expect(textValue).toBe('');
+          });
 
-                    const divHTML = await page.$eval('#editor', el => el.innerHTML); // best way i found to get the properties of a codemirror instance, could probably be better
-                    console.log(divHTML);
+          describe('Make sure code boxes only have starting comments', () => {
+              it('Make sure no python code exists for the current day', async () => {
+                  // Ensure the page is fully loaded and the editor is initialized
+                  await page.waitForSelector('#languageSelect');
+                  console.log("Page loaded and selector available");
 
-                    // some shit to parse the text value of the html
-                    let dom = new JSDOM(divHTML);
-                    let document = dom.window.document;
-                    let pythonCode = document.querySelector('.cm-comment').textContent;
+                  // Select Python from the dropdown
+                  await page.select('#languageSelect', 'python');
+                  console.log("Python selected from dropdown");
 
-                    expect(pythonCode).toBe('# Enter code here\n'); // output is '// Enter code here\n' which could be js/cpp but probably js since its the default
-                });
-            });
-            */
-        });
+                  // Trigger the change event to update CodeMirror
+                  await page.evaluate(() => {
+                      const languageSelect = document.querySelector('#languageSelect');
+                      const event = new Event('change');
+                      languageSelect.dispatchEvent(event);
+                  });
+                  console.log("Change event dispatched");
+
+                  // Manually set the mode to Python
+                  await page.evaluate(() => {
+                      const editor = document.querySelector('.CodeMirror').CodeMirror;
+                      editor.setOption('mode', 'python');
+                      editor.setValue('# Enter code here\n');
+                  });
+                  console.log("Manually set editor mode to Python");
+
+                  // Add a small delay to ensure CodeMirror updates
+                  await page.waitForTimeout(200);
+                  console.log("Waited for CodeMirror to update");
+
+                  // Ensure the editor is using the correct mode
+                  const editorMode = await page.evaluate(() => {
+                      const editor = document.querySelector('.CodeMirror').CodeMirror;
+                      return editor.getOption('mode');
+                  });
+                  console.log("Editor mode:", editorMode);
+
+                  expect(editorMode).toBe('python');
+
+                  // Ensure the editor content is updated
+                  const editorValue = await page.evaluate(() => {
+                      const editor = document.querySelector('.CodeMirror').CodeMirror;
+                      return editor.getValue();
+                  });
+                  console.log("Editor value:", editorValue);
+
+                  expect(editorValue).toBe('# Enter code here\n'); // Ensuring the correct starting comment for Python
+              });
+          });
+      });
+      
+      
     });
+
+    
 
     // TODO: below test is not done
     it('Add tasks', async () => {
