@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const newTagName = document.getElementById('new-tag-name');
     const newTagColor = document.getElementById('new-tag-color');
 
+    /**
+     * Save the list of tasks to local storage.
+     */
     function saveTasksToLocalStorage() {
         const tasks = Array.from(taskList.children).map(task => {
             return {
@@ -24,6 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
+    /**
+     * Load the list of tasks from local storage.
+     */
     function loadTasksFromLocalStorage() {
         const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         tasks.forEach(task => {
@@ -32,6 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /**
+     * Save the list of tags to local storage.
+     */
     function saveTagsToLocalStorage() {
         const tags = Array.from(tagList.children).map(tagItem => {
             return {
@@ -42,6 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('tags', JSON.stringify(tags));
     }
 
+     /**
+     * Load the list of tags from local storage.
+     */
     function loadTagsFromLocalStorage() {
         const tags = JSON.parse(localStorage.getItem('tags')) || [];
         tagList.innerHTML = ''; // Clear existing tags in the list
@@ -52,6 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAllTaskTagSelects();
     }
 
+    /**
+     * Update all task tag selects with the current list of tags.
+     */
     function updateAllTaskTagSelects() {
         const tagSelects = document.querySelectorAll('.task-tag select');
         tagSelects.forEach(select => {
@@ -91,6 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAllTaskTagSelects();
     });
 
+    /**
+     * Create a tag element.
+     * @param {string} name - The name of the tag.
+     * @param {string} color - The color of the tag.
+     * @returns {HTMLElement} The tag element.
+     */
     function createTagElement(name, color) {
         const li = document.createElement('li');
         li.className = 'tag-item';
@@ -120,6 +141,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return li;
     }
 
+    /**
+     * Create a task element.
+     * @param {string} name - The name of the task.
+     * @param {boolean} completed - The completion status of the task.
+     * @param {string} date - The due date of the task.
+     * @param {string} time - The due time of the task.
+     * @param {string} difficulty - The difficulty of the task.
+     * @param {string} tag - The tag associated with the task.
+     * @returns {HTMLElement} The task element.
+     */
     function createTaskElement(name = 'New Task', completed = false, date = '', time = '', difficulty = '', tag = '') {
         const li = document.createElement('li');
         li.className = 'task-item';
@@ -264,6 +295,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return li;
     }
 
+    /**
+     * Load tags into the given select element.
+     * @param {HTMLSelectElement} selectElement - The select element to load tags into.
+     */
     function loadTagsIntoSelect(selectElement) {
         const tags = JSON.parse(localStorage.getItem('tags')) || [];
         tags.forEach(tag => {
@@ -274,6 +309,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+      /**
+     * Reset the task tags to 'Untagged' if the tag is deleted.
+     * @param {string} deletedTagName - The name of the deleted tag.
+     */
     function resetTaskTags(deletedTagName) {
         const tasks = document.querySelectorAll('.task-item');
         tasks.forEach(task => {
@@ -317,6 +356,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    /**
+    * Gets the closest draggable element after the specified y-coordinate.
+    *
+    * @param {HTMLElement} container - The container element holding the draggable elements.
+    * @param {number} y - The y-coordinate to compare against.
+    * @returns {HTMLElement} - The closest draggable element after the y-coordinate.
+    */
     function getDragAfterElement(container, y) {
         const draggableElements = [...container.querySelectorAll('li:not(.dragging)')];
         return draggableElements.reduce((closest, child) => {
@@ -351,6 +397,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Sorting functions
+
+/**
+ * Sorts the tasks by their names in ascending order.
+ */
 function sortTasksByName() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
@@ -368,6 +418,9 @@ function sortTasksByName() {
     tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
+/**
+ * Sorts the tasks by their names in descending order.
+ */
 function sortTasksByNameDescending() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
@@ -385,6 +438,9 @@ function sortTasksByNameDescending() {
     tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
+/**
+ * Sorts the tasks by their date and time in ascending order.
+ */
 function sortTasksByDate() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
@@ -400,6 +456,9 @@ function sortTasksByDate() {
     tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
+/**
+ * Sorts the tasks by their date and time in descending order.
+ */
 function sortTasksByDateDescending() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
@@ -415,6 +474,9 @@ function sortTasksByDateDescending() {
     tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
+/**
+ * Sorts the tasks by their tags in ascending order.
+ */
 function sortTasksByTag() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
@@ -433,6 +495,9 @@ function sortTasksByTag() {
     tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
+/**
+ * Sorts the tasks by their tags in descending order.
+ */
 function sortTasksByTagDescending() {
     const tasks = document.querySelectorAll('.task-item');
     const tasksArray = Array.from(tasks);
@@ -451,7 +516,11 @@ function sortTasksByTagDescending() {
     tasksArray.forEach(task => document.getElementById('task-list').appendChild(task));
 }
 
-// Sort functions
+/**
+ * Filters the tasks based on the specified tag.
+ *
+ * @param {string} tag - The tag to filter tasks by.
+ */
 function filterTasksByTag(tag) {
     const tasks = document.querySelectorAll('.task-item');
 

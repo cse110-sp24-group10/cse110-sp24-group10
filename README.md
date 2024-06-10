@@ -17,5 +17,8 @@ This is where we did our brainstorming, wireframing, and Sprint planning for our
 ### CodeMirror
 We implemented our Journal using CodeMirror, allowing for support in Javascript, Python, and C++.
 
-### Testing with Jest 
-We completed unit testing using Jest. 
+## CI/CD
+- Using Github Actions
+- Testing with Jest 
+- Check code quality with Codacy
+- Use of JSDoc
