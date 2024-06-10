@@ -29,7 +29,7 @@
 <nav >
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addDayClickEvent">addDayClickEvent</a></li><li><a href="global.html#createCalendar">createCalendar</a></li><li><a href="global.html#loadTasksForDate">loadTasksForDate</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addDayClickEvent">addDayClickEvent</a></li><li><a href="global.html#createCalendar">createCalendar</a></li><li><a href="global.html#filterTasksByTag">filterTasksByTag</a></li><li><a href="global.html#loadTasksForDate">loadTasksForDate</a></li><li><a href="global.html#sortTasksByDate">sortTasksByDate</a></li><li><a href="global.html#sortTasksByDateDescending">sortTasksByDateDescending</a></li><li><a href="global.html#sortTasksByName">sortTasksByName</a></li><li><a href="global.html#sortTasksByNameDescending">sortTasksByNameDescending</a></li><li><a href="global.html#sortTasksByTag">sortTasksByTag</a></li><li><a href="global.html#sortTasksByTagDescending">sortTasksByTagDescending</a></li></ul>
     
 </nav>
 
@@ -146,7 +146,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="calendar.js.html">calendar.js</a>, <a href="calendar.js.html#line85">line 85</a>
+        <a href="calendar_calendar.js.html">calendar/calendar.js</a>, <a href="calendar_calendar.js.html#line85">line 85</a>
     </li></ul></dd>
     
 
@@ -232,7 +232,7 @@ Dynamically updates the days displayed based on the current month and year.</p><
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="calendar.js.html">calendar.js</a>, <a href="calendar.js.html#line127">line 127</a>
+        <a href="calendar_calendar.js.html">calendar/calendar.js</a>, <a href="calendar_calendar.js.html#line127">line 127</a>
     </li></ul></dd>
     
 
@@ -301,6 +301,141 @@ Dynamically updates the days displayed based on the current month and year.</p><
 
     
 
+    <h4 class="name" id="filterTasksByTag"><span class="type-signature"></span>filterTasksByTag<span class="signature">(tag)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Filters the tasks based on the specified tag.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tasks_tasks.js.html">tasks/tasks.js</a>, <a href="tasks_tasks.js.html#line545">line 545</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tag</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The tag to filter tasks by.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id="loadTasksForDate"><span class="type-signature"></span>loadTasksForDate<span class="signature">(date)</span><span class="type-signature"></span></h4>
 
     
@@ -317,7 +452,7 @@ Dynamically updates the days displayed based on the current month and year.</p><
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="calendar.js.html">calendar.js</a>, <a href="calendar.js.html#line21">line 21</a>
+        <a href="calendar_calendar.js.html">calendar/calendar.js</a>, <a href="calendar_calendar.js.html#line21">line 21</a>
     </li></ul></dd>
     
 
@@ -432,6 +567,516 @@ Dynamically updates the days displayed based on the current month and year.</p><
 
 
         
+            
+
+    
+
+    <h4 class="name" id="sortTasksByDate"><span class="type-signature"></span>sortTasksByDate<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Sorts the tasks by their date and time in ascending order.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tasks_tasks.js.html">tasks/tasks.js</a>, <a href="tasks_tasks.js.html#line465">line 465</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="sortTasksByDateDescending"><span class="type-signature"></span>sortTasksByDateDescending<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Sorts the tasks by their date and time in descending order.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tasks_tasks.js.html">tasks/tasks.js</a>, <a href="tasks_tasks.js.html#line483">line 483</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="sortTasksByName"><span class="type-signature"></span>sortTasksByName<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Sorts the tasks by their names in ascending order.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tasks_tasks.js.html">tasks/tasks.js</a>, <a href="tasks_tasks.js.html#line425">line 425</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="sortTasksByNameDescending"><span class="type-signature"></span>sortTasksByNameDescending<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Sorts the tasks by their names in descending order.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tasks_tasks.js.html">tasks/tasks.js</a>, <a href="tasks_tasks.js.html#line445">line 445</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="sortTasksByTag"><span class="type-signature"></span>sortTasksByTag<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Sorts the tasks by their tags in ascending order.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tasks_tasks.js.html">tasks/tasks.js</a>, <a href="tasks_tasks.js.html#line501">line 501</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="sortTasksByTagDescending"><span class="type-signature"></span>sortTasksByTagDescending<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Sorts the tasks by their tags in descending order.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tasks_tasks.js.html">tasks/tasks.js</a>, <a href="tasks_tasks.js.html#line522">line 522</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
     
 
     
@@ -451,7 +1096,7 @@ Dynamically updates the days displayed based on the current month and year.</p><
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Sat Jun 08 2024 14:01:40 GMT-0700 (Pacific Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Sun Jun 09 2024 21:48:08 GMT-0700 (Pacific Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
