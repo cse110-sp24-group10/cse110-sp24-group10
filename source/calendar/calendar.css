@@ -163,22 +163,24 @@ header .icons span {
     justify-content: center;
 }
 
-/* Styles for the content inside the pop-up */
 .popup-content {
-    background-color: #f6eee3;
-    border: 1px solid #888;
-    padding: 20px;
-    width: 80%;
-    max-width: 640px;
-    border-radius: 15px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    max-height: 80vh;
-    overflow-y: auto;
+  background-color: #f6eee3;
+  border: 1px solid #888;
+  padding: 20px;
+  width: auto; /* Allows content to determine width */
+  max-width: none; /* Remove max-width constraint */
+  border-radius: 15px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: auto; /* Added to handle horizontal overflow */
 }
+
+
 
 /* Styles for the close button in the pop-up */
 .popup .close {
@@ -242,18 +244,109 @@ header .icons span {
     color: #654321;
 }
 
-/* Styles for individual task items */
-.task {
-    background-color: #e5decf;
-    border: 1px solid #888;
-    padding: 10px;
-    margin: 5px 0;
-    width: 100%;
-    max-width: 550px;
-    border-radius: 15px;
-    word-wrap: break-word;
-    white-space: pre-wrap;
-    box-sizing: border-box;
+.task-item {
+  display: flex;
+  align-items: center;
+  background-color: #e5decf;
+  border: 1px solid #888;
+  padding: 15px 30px; /* Increased padding */
+  margin: 10px 0; /* Increased margin */
+  width: auto;
+  flex-grow: 1; /* Allow the item to grow */
+  max-width: none; /* Remove max-width constraint */
+  border-radius: 15px;
+  word-wrap: break-word;
+  white-space: nowrap; /* Prevent line breaks */
+  box-sizing: border-box;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.task-item > * {
+  margin-right: 20px; /* Increase spacing between elements */
+}
+
+.task-name {
+  flex-grow: 1;
+  font-size: 1.5rem;
+}
+
+.task-tag, .task-difficulty, .task-date {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 5px;
+}
+
+
+
+/* Styles for task status */
+.task-status {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #888;
+  margin-right: 10px;
+}
+
+.task-status.filled {
+  background-color: #888;
+}
+
+.task-status.unfilled {
+  background-color: transparent;
+}
+
+/* Styles for task name */
+.task-name {
+  flex-grow: 1;
+  font-size: 1.5rem;
+  margin-right: 50px;
+}
+
+/* Apply styles for completed tasks */
+.task-item.completed .task-name {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.task-item.completed {
+  background-color: #ccc;
+  color: #888;
+}
+
+.task-item.completed .task-tag,
+.task-item.completed .task-difficulty,
+.task-item.completed .task-date {
+  color: #888;
+}
+
+/* Styles for task tag */
+.task-tag {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* Styles for task difficulty */
+.task-difficulty {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* Styles for task date */
+.task-date {
+  color: black;
+  font-size: 1.2rem;
 }
 
 :root{
@@ -269,4 +362,151 @@ header .icons span {
     --header-margin-spacing: 40px;
     /* Some math shit to get here i.e. -5/90 to get back to 100 but need to multiply by 100 to get -500%/90) */
     --undo-margin: calc(-500%/90)
+}
+/* header style update for added logo */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align items to the start */
+  padding: 35px 40px 15px; /* Adjust padding as needed */
+}
+
+header img {
+  margin-right: 10px; /* Space between the logo and the month/year text */
+}
+
+header .monthANDyear {
+  font-size: 3rem; /* Font size */
+  font-weight: 500;
+  margin-left: 10px; /* Space between the logo and the text */
+}
+
+header .icons {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Push icons to the far right */
+}
+
+header .icons span {
+  height: 50px; /* Height of the icons */
+  width: 60px; /* Width of the icons */
+  margin: 0 1px; /* Space between the icons */
+  background: #e5decf; /* Background color */
+  text-align: center; /* Center text inside the icons */
+  cursor: pointer; /* Cursor style */
+  line-height: 50px; /* Vertical alignment of text */
+  border-radius: 50%; /* Rounded corners */
+  font-size: 1.75rem; /* Font size */
+}
+
+/* Mobile styles */
+@media (max-width: 768px) { /* Start of mobile styles */
+    .container {
+        width: 95%; /* Adjusted width for mobile responsiveness */
+    }
+
+    header .monthANDyear {
+        font-size: 2rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    header .icons span {
+        height: 40px; /* Adjusted height for mobile responsiveness */
+        width: 40px; /* Adjusted width for mobile responsiveness */
+        font-size: 1.5rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    .calendar {
+        padding: 20px; /* Adjusted padding for mobile responsiveness */
+    }
+
+    .calendar ul li {
+        font-size: 1.2rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    .calendar .week li {
+        font-size: 1.5rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    .calendar .day li {
+        font-size: 1.5rem; /* Adjusted font size for mobile responsiveness */
+        margin-top: 40px; /* Adjusted margin for mobile responsiveness */
+    }
+
+    .popup-content {
+        padding: 15px; /* Adjusted padding for mobile responsiveness */
+    }
+
+    .popup h2 {
+        font-size: 1.5rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    .popup ul li {
+        font-size: 1.2rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    .styled-btn {
+        padding: 8px 16px; /* Adjusted padding for mobile responsiveness */
+        font-size: 1rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    .task-item {
+        padding: 10px 20px; /* Adjusted padding for mobile responsiveness */
+    }
+
+    .task-name {
+        font-size: 1.2rem; /* Adjusted font size for mobile responsiveness */
+    }
+
+    .task-tag, .task-difficulty, .task-date {
+        font-size: 1rem; /* Adjusted font size for mobile responsiveness */
+    }
+}
+
+@media (max-width: 480px) { /* Start of smaller mobile styles */
+    .calendar ul li {
+        font-size: 1rem; /* Adjusted font size for smaller screens */
+    }
+
+    .calendar .week li {
+        font-size: 1.2rem; /* Adjusted font size for smaller screens */
+    }
+
+    .calendar .day li {
+        font-size: 1.2rem; /* Adjusted font size for smaller screens */
+        margin-top: 30px; /* Adjusted margin for smaller screens */
+    }
+
+    .popup-content {
+        padding: 10px; /* Adjusted padding for smaller screens */
+    }
+
+    .popup h2 {
+        font-size: 1.2rem; /* Adjusted font size for smaller screens */
+    }
+
+    .popup ul li {
+        font-size: 1rem; /* Adjusted font size for smaller screens */
+    }
+
+    .styled-btn {
+        padding: 6px 12px; /* Adjusted padding for smaller screens */
+        font-size: 0.9rem; /* Adjusted font size for smaller screens */
+    }
+
+    .task-item {
+        padding: 8px 15px; /* Adjusted padding for smaller screens */
+    }
+
+    .task-name {
+        font-size: 1rem; /* Adjusted font size for smaller screens */
+    }
+
+    .task-tag, .task-difficulty, .task-date {
+        font-size: 0.9rem; /* Adjusted font size for smaller screens */
+    }
+}
+
+.calendar .day li:focus {
+    outline: 2px solid #654321;
+    outline-offset: 4px;
 }

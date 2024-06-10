@@ -102,6 +102,7 @@ body {
     margin: var(--body-margins);
     background-color: var(--palette-background);
     height: 100%;
+    padding-bottom: 50px;
 }
 
 /* Header design */
@@ -139,13 +140,6 @@ h2 {
     text-align: center;
     line-height: var(--arrow-line-height);
     border-radius: var(--arrow-border-radius);
-}
-
-/* Settings button positioning and interaction */
-#settings {
-    width: var(--arrow-font-size);
-    float: right;
-    cursor: pointer;
 }
 
 
@@ -428,3 +422,20 @@ li {
 .task-item input[type="checkbox"]:focus {
     box-shadow: var(--task-checkbox-focus);
 }
+
+/* Styled Top Bar with logo aligned */
+.logo-date-container {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    justify-content: space-between; /* Place items at each end of the container */
+}
+
+.logoANDdate {
+    display: flex; /* Ensure the logo and date are inline */
+    align-items: center;
+}
+
+.logoANDdate #date{
+    padding-left: 15px;
+}
+  

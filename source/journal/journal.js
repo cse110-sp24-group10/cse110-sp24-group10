@@ -147,8 +147,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
             taskDiff.textContent = "Medium";
         } else if(task.difficulty === "orange") {
             taskDiff.textContent = "Hard";
-        } else {
+        } else if (task.difficulty === "red") {
             taskDiff.textContent = "Very Hard";
+        } else {
+            taskDiff.textContent = "None";
         }
 
         const taskTime = document.createElement('input');
