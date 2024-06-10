@@ -1,3 +1,7 @@
+/**
+ * Handles the initialization and loading of the page content once the DOM is fully loaded.
+ * @param {Event} event - The DOMContentLoaded event.
+ */
 document.addEventListener('DOMContentLoaded', (event) => {
     console.log("IN JS");
     let currDate;
@@ -20,7 +24,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     currNumDays = new Date(currYear, currMonth + 1, 0).getDate();
     currDateFormatted = currMonth + 1 + '/' + currDay + '/' + currYear;
 
-    // Create a CodeMirror instance with additional features
+    /**
+     * Create a CodeMirror instance with additional features.
+     * @type {CodeMirror.Editor}
+     */
     const editor = CodeMirror(document.getElementById('editor'), {
         value: getStartingComment(document.getElementById('languageSelect').value),
         mode: document.getElementById('languageSelect').value,
@@ -34,6 +41,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
         styleActiveLine: { nonEmpty: true },
     });
 
+
+    /**
+     * Load tags from localStorage and display them.
+     */
     function loadTags() {
       console.log("Loading tags");
         const localTags = localStorage.getItem('tags');
@@ -68,6 +79,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     }
 
+    /**
+     * Load tasks from localStorage and display them.
+     */
     function loadTasks() {
       console.log("Loading tasks");
         let localTasks = localStorage.getItem('tasks');
@@ -95,6 +109,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     }
 
+    /**
+     * Create a task element for the task list.
+     * @param {Object} task - The task object.
+     * @param {string} task.name - The name of the task.
+     * @param {string} task.tag - The tag of the task.
+     * @param {boolean} task.completed - The completion status of the task.
+     * @param {string} task.difficulty - The difficulty of the task.
+     * @param {string} task.time - The time of the task.
+     * @returns {HTMLLIElement} The created task element.
+     */
     function createTaskElement(task) {
         let localTasks = localStorage.getItem('tasks');
         let parsedLocalTasks = JSON.parse(localTasks);
@@ -169,6 +193,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         
     }
 
+    /**
+     * Load texts from localStorage and display them in the editor.
+     */
     function loadTexts() {
       console.log("Loading texts");
         const localJournal = localStorage.getItem('journal');
@@ -217,6 +244,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         }
         */
+
+    /**
+     * Save the current text and code to localStorage.
+     */
     function saveToLocalStorage() {
       console.log("Saving to local storage");
         const textVal = document.getElementById('textBox').value;
@@ -253,12 +284,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
         lastSaved.textContent = `Last Saved: ${timeString}`;
     }
 
+    /**
+     * Update the displayed date text.
+     */
     function updateDateText() {
         const htmlDate = document.getElementById('date'); // date in HTML, the one shown on the page
         const currDateString = currDate.toDateString();
         htmlDate.textContent = currDateString;
     }
 
+    /**
+     * Populate the page with tasks, tags, and texts.
+     */
     function populatePage() {
         const allJournalData = localStorage.getItem('journal');
 
@@ -282,7 +319,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     populatePage();
 
-    // Event listener for codeButton to switch to code editor
+    /**
+     * Event listener for the "Code" button to switch to the code editor.
+     */
     document.getElementById('codeButton').addEventListener('click', function () {
         document.getElementById('languageSelect').style.display = 'inline-block';
         document.getElementById('themeSelect').style.display = 'inline-block';
@@ -293,7 +332,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById('textBox').classList.remove('active');
     });
 
-    // Event listener for textButton to switch to text textarea
+    /**
+     * Event listener for the "Text" button to switch to the text textarea.
+     */
     document.getElementById('textButton').addEventListener('click', function () {
         document.getElementById('languageSelect').style.display = 'none';
         document.getElementById('themeSelect').style.display = 'none';
@@ -303,6 +344,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById('editor').classList.remove('active');
     });
 
+    /**
+     * Get the starting comment for the specified language.
+     * @param {string} language - The programming language.
+     * @returns {string} The starting comment for the language.
+     */
     function getStartingComment(language) {
         console.log("CHANGING COMMENT");
         switch (language) {
@@ -317,6 +363,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
+    /**
+     * Event listener for changing the language in the editor.
+     */
     document.getElementById('languageSelect').addEventListener('change', function () {
       console.log("Language change event triggered");
         editor.setOption('mode', this.value);
@@ -325,6 +374,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         loadTexts();
     });
     
+    /**
+     * Event listener for changing the theme in the editor.
+     */
     document.getElementById('themeSelect').addEventListener('change', function () {
         editor.setOption('theme', this.value);
 
@@ -333,7 +385,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             default: '#F6EEE3',
             monokai: '#49483E',
             eclipse: '#E8F2FE',
-            // Add more themes as needed
         };
 
         // Get the active line color for the current theme
@@ -357,6 +408,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         document.head.appendChild(style);
     });
 
+    /**
+     * Event listener for the left arrow button to navigate to the previous day.
+     */
     document.getElementById('left-arrow').addEventListener('click', function () {
         //saveToLocalStorage();
         // decrement date by 1. check for month and year changes and adjust variables accordingly
@@ -377,6 +431,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
 
+    /**
+     * Event listener for the right arrow button to navigate to the next day.
+     */
     document.getElementById('right-arrow').addEventListener('click', function () {
 
         // increment date by 1. check for month and year changes and adjust variables accordingly
@@ -396,7 +453,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
         populatePage();
     });
 
+    /**
+     * Event listener for the text area to save data to localStorage on keyup.
+     */
     document.getElementById('textBox').addEventListener('keyup', saveToLocalStorage);
 
+    /**
+     * Event listener for the editor to save data to localStorage on keyup.
+     */
     document.getElementById('editor').addEventListener('keyup', saveToLocalStorage);
 });
