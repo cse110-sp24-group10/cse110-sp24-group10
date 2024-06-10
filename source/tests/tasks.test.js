@@ -69,15 +69,20 @@ describe('Task List Tests', () => {
     });
 
     it('Should save new task to local storage', async () => {
-        await page.click('#add-task-btn');
-        await page.type('.task-name', 'New Task');
+      // Clear local storage
+      await page.evaluate(() => localStorage.clear());
+      await page.click('#add-task-btn');
+      
+      // Clear the task name before typing
+      await page.$eval('.task-name', el => el.textContent = '');
+      await page.type('.task-name', 'New Task');
 
-        // Save the task by triggering a blur event
-        await page.$eval('.task-name', el => el.blur());
+      // Save the task by triggering a blur event
+      await page.$eval('.task-name', el => el.blur());
 
-        const storedTasks = await page.evaluate(() => JSON.parse(localStorage.getItem('tasks')));
-        expect(storedTasks).toEqual(expect.arrayContaining([{ name: 'New Task', completed: false, date: '', time: '', difficulty: '', tag: '' }]));
-    });
+      const storedTasks = await page.evaluate(() => JSON.parse(localStorage.getItem('tasks')));
+      expect(storedTasks).toEqual(expect.arrayContaining([{ name: 'New Task', completed: false, date: '', time: '', difficulty: '', tag: '' }]));
+  });
 
     it('Should load tags from local storage', async () => {
         await page.evaluate(() => {
@@ -164,9 +169,6 @@ describe('Task List Tests', () => {
           taskNameElement.textContent = 'Updated Task';
           taskNameElement.blur();
       });
-
-      //log the task name
-      console.log(await page.evaluate(() => document.querySelector('.task-name').textContent));
     
       await page.evaluate(() => {
           const taskNameElement = document.querySelector('.task-name');

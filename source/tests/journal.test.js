@@ -89,11 +89,9 @@ describe('Journal Tests', () => {
               it('Make sure no python code exists for the current day', async () => {
                   // Ensure the page is fully loaded and the editor is initialized
                   await page.waitForSelector('#languageSelect');
-                  console.log("Page loaded and selector available");
 
                   // Select Python from the dropdown
                   await page.select('#languageSelect', 'python');
-                  console.log("Python selected from dropdown");
 
                   // Trigger the change event to update CodeMirror
                   await page.evaluate(() => {
@@ -101,7 +99,6 @@ describe('Journal Tests', () => {
                       const event = new Event('change');
                       languageSelect.dispatchEvent(event);
                   });
-                  console.log("Change event dispatched");
 
                   // Manually set the mode to Python
                   await page.evaluate(() => {
@@ -109,18 +106,15 @@ describe('Journal Tests', () => {
                       editor.setOption('mode', 'python');
                       editor.setValue('# Enter code here\n');
                   });
-                  console.log("Manually set editor mode to Python");
 
                   // Add a small delay to ensure CodeMirror updates
                   await page.waitForTimeout(200);
-                  console.log("Waited for CodeMirror to update");
 
                   // Ensure the editor is using the correct mode
                   const editorMode = await page.evaluate(() => {
                       const editor = document.querySelector('.CodeMirror').CodeMirror;
                       return editor.getOption('mode');
                   });
-                  console.log("Editor mode:", editorMode);
 
                   expect(editorMode).toBe('python');
 
@@ -129,7 +123,6 @@ describe('Journal Tests', () => {
                       const editor = document.querySelector('.CodeMirror').CodeMirror;
                       return editor.getValue();
                   });
-                  console.log("Editor value:", editorValue);
 
                   expect(editorValue).toBe('# Enter code here\n'); // Ensuring the correct starting comment for Python
               });
