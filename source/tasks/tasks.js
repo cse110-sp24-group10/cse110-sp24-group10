@@ -180,6 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
         taskName.addEventListener('mouseout', () => {
             taskName.style.color = '';
         });
+        
+
+        taskName.addEventListener('blur', () => {
+          saveTasksToLocalStorage();
+        });
 
         /* TASK TAG */
 
@@ -262,6 +267,22 @@ document.addEventListener('DOMContentLoaded', () => {
         timeInput.addEventListener('focus', () => {
             timeInput.style.display = 'block';
         });
+
+        dateInput.addEventListener('input', () => {
+          saveTasksToLocalStorage();
+      });
+
+      timeInput.addEventListener('input', () => {
+          saveTasksToLocalStorage();
+      });
+
+      dateInput.addEventListener('change', () => {
+          saveTasksToLocalStorage();
+      });
+
+      timeInput.addEventListener('change', () => {
+          saveTasksToLocalStorage();
+      });
 
         /* TASK DRAGGING */
 
