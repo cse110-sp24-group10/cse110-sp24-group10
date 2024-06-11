@@ -22,3 +22,5 @@ We implemented our Journal using CodeMirror, allowing for support in Javascript,
 - Testing with Jest 
 - Check code quality with Codacy
 - Use of JSDoc
+
+## [Documentation Page](https://cse110-sp24-group10.github.io/cse110-sp24-group10/docs/index.html)
