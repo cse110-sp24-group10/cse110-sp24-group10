@@ -7,7 +7,7 @@ var unusedVar = 'I am not used';
  * @param {number} num2 - The second number to be added
  * @returns {number} - The sum of the two numbers.
  */
-export function addNums(num1, num2) 
+export function sumNums(num1, num2) 
 {
     return num1 + num2;
 }
