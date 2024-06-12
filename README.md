@@ -26,3 +26,5 @@ We implemented our Journal using CodeMirror, allowing for support in Javascript,
 ## [Documentation Page](https://cse110-sp24-group10.github.io/cse110-sp24-group10/docs/index.html)
 
 ## [Private Video Link](https://youtu.be/jil93pX_WXA)
+
+## [Public Video Link](https://youtu.be/1mOfTKn51P4)
